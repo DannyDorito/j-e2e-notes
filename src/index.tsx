@@ -1,17 +1,22 @@
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import './index.css';
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from 'react-router-dom';
-import Notes from './components/Notes';
 import { StyledEngineProvider } from '@mui/material/styles';
+import Notes from './pages/Notes';
+import Login from './pages/Login';
+import './index.css';
 
 const router = createBrowserRouter(
-  createRoutesFromElements(<Route path='/' element={<Notes />} />),
+  createRoutesFromElements(
+    <Route path='/' element={<Login />}>
+      <Route path='/notes' element={<Notes />} />
+    </Route>,
+  ),
 );
 
 ReactDOM.createRoot(document.getElementById('root') as Element).render(

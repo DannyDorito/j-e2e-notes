@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NoteClass } from '../classes/NoteClass';
 import { v4 as uuidv4 } from 'uuid';
 import { testNotes } from '../helpers/TestHelper';
-import DraggableNote from './DraggableNote';
+import DraggableNote from '../components/DraggableNote';
 import Box from '@mui/material/Box/Box';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import IconButton from '@mui/material/IconButton/IconButton';
