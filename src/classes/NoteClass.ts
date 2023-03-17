@@ -1,7 +1,6 @@
-import { randomColour } from "../helpers/RandomColour";
+import { randomColour } from '../helpers/RandomColour';
 
-export class NoteClass
-{
+export class NoteClass {
   content: string;
   id: string;
   deleted: boolean;
@@ -12,12 +11,7 @@ export class NoteClass
   backgroundColour: string;
   edit: boolean;
 
-  constructor(
-    content: string,
-    id: string,
-    createdAt: string
-  )
-  {
+  constructor(content: string, id: string, createdAt: string) {
     this.content = content;
     this.id = id;
     this.deleted = false;
