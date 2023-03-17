@@ -1,31 +1,48 @@
-import { NoteClass } from "../classes/NoteClass";
-import Draggable, { } from "react-draggable";
-import { Card } from "@mui/material";
-import Button from "@mui/material/Button/Button";
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import Typography from "@mui/material/Typography/Typography";
 import { useState } from "react";
+import { NoteClass } from "../classes/NoteClass";
+import Draggable from "react-draggable";
+import Typography from "@mui/material/Typography/Typography";
+import Card from "@mui/material/Card/Card";
+import IconButton from "@mui/material/IconButton/IconButton";
+import TextField from "@mui/material/TextField/TextField";
+import SaveIcon from '@mui/icons-material/Save';
+import EditIcon from '@mui/icons-material/Edit';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import './css/DraggableNote.css';
 
-const DraggableNote = ( { note }: { note: NoteClass } ) =>
+const DraggableNote = ( { note, deleteNote, editNote }: { note: NoteClass, deleteNote: any, editNote: any } ) =>
 {
-  const [ x, setX ] = useState( note.currentX );
-  const [ y, setY ] = useState( note.currentY );
-  const handleStop = ( event: any, dragElement: any ) =>
+  const [ currentX, setX ] = useState<number>( note.currentX );
+  const [ currentY, setY ] = useState<number>( note.currentY );
+
+  const [ content, setContent ] = useState<string>( note.content );
+
+  const handleStop = ( _event: any, dragElement: any ) =>
   {
     setX( dragElement.x )
     setY( dragElement.y )
-    note.currentX = x;
-    note.currentY = y;
+    note.currentX = currentX;
+    note.currentY = currentY;
   };
+
+  const updateContent = ( content: string ) =>
+  {
+    setContent( content );
+    note.content = content;
+  };
+
   return (
-    <>
-      <Draggable position={{ x: x, y: y }} onStop={handleStop} disabled={note.deleted}>
-        <Card style={{ width: "40%", color: "#ffffff" }}>
-          <Button ><RemoveCircleOutlineIcon key={`${ note.id }-remove`} /></Button>
-          <Typography style={{ color: "black" }}>{note.content}</Typography>
-        </Card>
-      </Draggable>
-    </>
+    <Draggable position={{ x: currentX, y: currentY }} onStop={handleStop} disabled={note.edit}>
+      <Card className="draggable-card" style={{ backgroundColor: note.backgroundColour }}>
+        <IconButton onClick={deleteNote}>
+          <RemoveCircleOutlineIcon />
+        </IconButton>
+        <IconButton onClick={editNote}>
+          {note.edit ? <SaveIcon /> : <EditIcon />}
+        </IconButton>
+        {note.edit ? <TextField value={content} variant="outlined" onChange={( event ) => updateContent( event.target.value )} /> : <Typography>{content}</Typography>}
+      </Card>
+    </Draggable >
   );
 }
 
