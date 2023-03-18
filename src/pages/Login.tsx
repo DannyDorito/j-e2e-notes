@@ -12,13 +12,15 @@ const Login = () => {
 
   if (!authenticated) {
     return (
-      <Box
-        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        alignItems='center'
-        justifyContent='center'
-      >
-        <Button onClick={authenticate}>Login</Button>
-      </Box>
+      <>
+        <Box
+          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          alignItems='center'
+          justifyContent='center'
+        >
+          <Button onClick={authenticate}>Login</Button>
+        </Box>
+      </>
     );
   } else {
     return <Notes />;

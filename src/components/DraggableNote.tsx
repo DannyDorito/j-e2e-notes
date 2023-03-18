@@ -5,12 +5,12 @@ import Card from '@mui/material/Card/Card';
 import Box from '@mui/material/Box/Box';
 import IconButton from '@mui/material/IconButton/IconButton';
 import TextField from '@mui/material/TextField/TextField';
-import SaveIcon from '@mui/icons-material/Save';
-import EditIcon from '@mui/icons-material/Edit';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import './css/DraggableNote.css';
 
-const DraggableNote = ( {
+const DraggableNote = ({
   note,
   deleteNote,
   editNote,
@@ -18,24 +18,21 @@ const DraggableNote = ( {
   note: NoteClass;
   deleteNote: MouseEventHandler<HTMLButtonElement> | undefined;
   editNote: MouseEventHandler<HTMLButtonElement> | undefined;
-} ) =>
-{
-  const [ currentX, setX ] = useState<number>( note.currentX );
-  const [ currentY, setY ] = useState<number>( note.currentY );
+}) => {
+  const [currentX, setX] = useState<number>(note.currentX);
+  const [currentY, setY] = useState<number>(note.currentY);
 
-  const [ content, setContent ] = useState<string>( note.content );
+  const [content, setContent] = useState<string>(note.content);
 
-  const handleStop = ( _event: DraggableEvent, dragElement: DraggableData ) =>
-  {
-    setX( dragElement.x );
-    setY( dragElement.y );
+  const handleStop = (_event: DraggableEvent, dragElement: DraggableData) => {
+    setX(dragElement.x);
+    setY(dragElement.y);
     note.currentX = currentX;
     note.currentY = currentY;
   };
 
-  const updateContent = ( content: string ) =>
-  {
-    setContent( content );
+  const updateContent = (content: string) => {
+    setContent(content);
     note.content = content;
   };
 
@@ -51,18 +48,21 @@ const DraggableNote = ( {
           fullWidth={true}
           placeholder={'New Note'}
           type={'text'}
-          onChange={( event ) => updateContent( event.target.value )}
+          onChange={(event) => updateContent(event.target.value)}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
+            '& .MuiInputBase-input.Mui-disabled': {
+              WebkitTextFillColor: "#000000",
+            }
           }}
         />
         <Box className='draggable-box'>
           <IconButton className='draggable-button' onClick={editNote}>
-            {note.edit ? <SaveIcon /> : <EditIcon />}
+            {note.edit ? <SaveTwoToneIcon /> : <EditTwoToneIcon />}
           </IconButton>
           <IconButton className='draggable-button' onClick={deleteNote}>
-            <RemoveCircleOutlineIcon />
+            <DeleteForeverTwoToneIcon />
           </IconButton>
         </Box>
       </Card>
