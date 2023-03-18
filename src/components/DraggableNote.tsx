@@ -53,8 +53,8 @@ const DraggableNote = ({
             display: 'flex',
             justifyContent: 'space-between',
             '& .MuiInputBase-input.Mui-disabled': {
-              WebkitTextFillColor: "#000000",
-            }
+              WebkitTextFillColor: '#000000',
+            },
           }}
         />
         <Box className='draggable-box'>
