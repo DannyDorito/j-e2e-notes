@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+.draggable-box {
+  display: flex;
+  justify-content: space-between;
+}
+
 .draggable-button {
   padding: 0;
 }
