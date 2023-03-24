@@ -1,34 +1,26 @@
 import { useEffect, useState } from 'react';
 import { NoteClass } from '../classes/NoteClass';
 import { v4 as uuidv4 } from 'uuid';
-import { testNotes } from '../helpers/TestHelper';
+import { useLocalStorage } from 'usehooks-ts';
+import { NotificationClass } from '../classes/NotificationClass';
+import CustomNotification from '../components/CustomNotification';
 import DraggableNote from '../components/DraggableNote';
 import Box from '@mui/material/Box/Box';
 import IconButton from '@mui/material/IconButton/IconButton';
-import Snackbar from '@mui/material/Snackbar/Snackbar';
-import Alert from '@mui/material/Alert/Alert';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
+import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import './css/Notes.css';
 
 const Notes = () => {
-  const [notes, setNotes] = useState<NoteClass[]>(testNotes);
-
-  const [alertOpen, setAlertOpen] = useState<boolean>(false);
-  const [alertContent, setAlertContent] = useState<string>('');
-  const [alertSeverity, setAlertSeverity] = useState<'error' | 'warning' | 'info' | 'success'>(
-    'info',
-  );
+  const [notes, setNotes] = useLocalStorage<NoteClass[]>('notes', []);
+  const [notifications, setNotifications] = useState<NotificationClass[]>([]);
+  const addNotification = (notification: NotificationClass) => {
+    setNotifications((notifications) => [...notifications, notification]);
+  };
 
   useEffect(() => {
-    setAlert('Successfully Logged In!', 'success');
+    addNotification(new NotificationClass(5000, 'success', 'Successfully Logged in!'));
   }, []);
-
-  const setAlert = (content: string, severity: 'error' | 'warning' | 'info' | 'success') => {
-    setAlertOpen(false);
-    setAlertContent(content);
-    setAlertSeverity(severity);
-    setAlertOpen(true);
-  };
 
   const deleteNote = (id: string) => {
     setNotes(
@@ -42,7 +34,7 @@ const Notes = () => {
           : note,
       ),
     );
-    setAlert('Successfully Deleted Note!', 'success');
+    addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Note!'))
   };
 
   const editNote = (id: string) => {
@@ -59,9 +51,13 @@ const Notes = () => {
   };
 
   const addNote = () => {
-    setNotes((notes) => [...notes, new NoteClass('', uuidv4(), new Date().toUTCString())]);
-    setAlert('Successfully Created Note!', 'success');
+    setNotes((notes) => [...notes, new NoteClass('', uuidv4(), new Date().toUTCString(), 20, 20)]);
+    addNotification(new NotificationClass(5000, 'success', 'Successfully Created Note!'))
   };
+
+  const saveNotes = () => {
+    setNotes((notes) => [...notes]);
+  }
 
   return (
     <>
@@ -78,20 +74,21 @@ const Notes = () => {
           ))}
         <IconButton
           size={'large'}
-          style={{ position: 'fixed', bottom: 0, right: 0 }}
+          style={{ position: 'fixed', bottom: 15, right: 15 }}
           onClick={addNote}
         >
           <AddCircleTwoToneIcon />
         </IconButton>
-        <Snackbar autoHideDuration={5000} open={alertOpen} onClose={() => setAlertOpen(false)}>
-          <Alert
-            severity={alertSeverity}
-            onClose={() => setAlertOpen(false)}
-            sx={{ width: '100%' }}
-          >
-            {alertContent}
-          </Alert>
-        </Snackbar>
+        <IconButton
+          size={'large'}
+          style={{ position: 'fixed', bottom: 15, right: 55 }}
+          onClick={saveNotes}
+        >
+          <SaveTwoToneIcon />
+        </IconButton>
+        {notifications.map((notification, index) => (
+          <CustomNotification props={notification} key={`notification-${index}`} />
+        ))}
       </Box>
     </>
   );

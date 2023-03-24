@@ -11,13 +11,13 @@ export class NoteClass {
   backgroundColour: string;
   edit: boolean;
 
-  constructor(content: string, id: string, createdAt: string) {
+  constructor(content: string, id: string, createdAt: string, currentX: number, currentY: number) {
     this.content = content;
     this.id = id;
     this.deleted = false;
     this.createdAt = createdAt;
-    this.currentX = 0;
-    this.currentY = 0;
+    this.currentX = currentX;
+    this.currentY = currentY;
     this.backgroundColour = randomColour();
     this.edit = false;
   }
