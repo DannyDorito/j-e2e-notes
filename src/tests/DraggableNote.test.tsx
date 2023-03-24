@@ -11,7 +11,7 @@ describe('When the page is rendered', () => {
       uuidv4(),
       new Date().toUTCString(),
       20,
-      20
+      20,
     );
     render(<DraggableNote note={testNote} deleteNote={undefined} editNote={undefined} />);
 

@@ -9,9 +9,10 @@ import Box from '@mui/material/Box/Box';
 import IconButton from '@mui/material/IconButton/IconButton';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
+import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import './css/Notes.css';
 
-const Notes = () => {
+const Notes = ({ deauthenticate }: { deauthenticate: () => void}) => {
   const [notes, setNotes] = useLocalStorage<NoteClass[]>('notes', []);
   const [notifications, setNotifications] = useState<NotificationClass[]>([]);
   const addNotification = (notification: NotificationClass) => {
@@ -19,7 +20,7 @@ const Notes = () => {
   };
 
   useEffect(() => {
-    addNotification(new NotificationClass(5000, 'success', 'Successfully Logged in!'));
+    addNotification(new NotificationClass(5000, 'success', 'Successfully Logged In!'));
   }, []);
 
   const deleteNote = (id: string) => {
@@ -34,7 +35,7 @@ const Notes = () => {
           : note,
       ),
     );
-    addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Note!'))
+    addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Note!'));
   };
 
   const editNote = (id: string) => {
@@ -52,12 +53,12 @@ const Notes = () => {
 
   const addNote = () => {
     setNotes((notes) => [...notes, new NoteClass('', uuidv4(), new Date().toUTCString(), 20, 20)]);
-    addNotification(new NotificationClass(5000, 'success', 'Successfully Created Note!'))
+    addNotification(new NotificationClass(5000, 'success', 'Successfully Created Note!'));
   };
 
   const saveNotes = () => {
     setNotes((notes) => [...notes]);
-  }
+  };
 
   return (
     <>
@@ -74,17 +75,24 @@ const Notes = () => {
           ))}
         <IconButton
           size={'large'}
-          style={{ position: 'fixed', bottom: 15, right: 15 }}
+          style={{ position: 'fixed', bottom: 20, right: 20 }}
           onClick={addNote}
         >
           <AddCircleTwoToneIcon />
         </IconButton>
         <IconButton
           size={'large'}
-          style={{ position: 'fixed', bottom: 15, right: 55 }}
+          style={{ position: 'fixed', bottom: 20, right: 70 }}
           onClick={saveNotes}
         >
           <SaveTwoToneIcon />
+        </IconButton>
+        <IconButton
+          size={'large'}
+          style={{ position: 'fixed', bottom: 20, right: 120 }}
+          onClick={deauthenticate}
+        >
+          <LogoutTwoToneIcon />
         </IconButton>
         {notifications.map((notification, index) => (
           <CustomNotification props={notification} key={`notification-${index}`} />

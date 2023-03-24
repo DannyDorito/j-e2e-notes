@@ -14,7 +14,7 @@ import './index.css';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Login />}>
-      <Route path='/notes' element={<Notes />} />
+      <Route path='/notes' element={<Notes deauthenticate={() => undefined} />} />
     </Route>,
   ),
 );
