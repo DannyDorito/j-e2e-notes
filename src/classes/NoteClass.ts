@@ -9,6 +9,7 @@ export class NoteClass {
   currentX: number;
   currentY: number;
   backgroundColour: string;
+  textColour: string;
   edit: boolean;
 
   constructor(content: string, id: string, createdAt: string, currentX: number, currentY: number) {
@@ -18,7 +19,9 @@ export class NoteClass {
     this.createdAt = createdAt;
     this.currentX = currentX;
     this.currentY = currentY;
-    this.backgroundColour = randomColour();
+    const colour = randomColour();
+    this.backgroundColour = colour.backgroundColour;
+    this.textColour = colour.textColour;
     this.edit = false;
   }
 }

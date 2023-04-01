@@ -6,17 +6,22 @@ import {
   NIL as NIL_UUID,
 } from 'uuid';
 import { NotificationClass } from '../classes/NotificationClass';
-import Notes from './Notes';
+import NotesBoard from './NotesBoard';
 import CustomNotification from '../components/CustomNotification';
 import Box from '@mui/material/Box/Box';
 import IconButton from '@mui/material/IconButton/IconButton';
 import Typography from '@mui/material/Typography/Typography';
 import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
 import './css/Login.css';
+import { primary, white } from '../helpers/ThemeProvider';
+import { UserClass } from '../classes/UserClass';
+import { useLocalStorage } from 'usehooks-ts';
 
 const Login = () => {
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
-  const [userUUID, setUserUUID] = useState<string>(NIL_UUID);
+  const [person, setPerson] = useLocalStorage<UserClass>(
+    'user',
+    new UserClass('', NIL_UUID, false),
+  );
 
   const [notifications, setNotifications] = useState<NotificationClass[]>([]);
   const addNotification = (notification: NotificationClass) => {
@@ -24,23 +29,19 @@ const Login = () => {
   };
 
   const authenticate = () => {
-    setAuthenticated(true);
-    setUserUUID(uuidv4());
-    return true;
+    setPerson(new UserClass('John', uuidv4(), true));
   };
 
-  const deauthenticate = ()=> {
-    setAuthenticated(false);
-    setUserUUID(NIL_UUID);
+  const deauthenticate = () => {
+    setPerson(new UserClass('', NIL_UUID, false));
     addNotification(new NotificationClass(5000, 'success', 'Successfully Logged Out!'));
-    return true;
   };
 
   const validUUID = (uuid: string) => {
     return uuid !== NIL_UUID && uuidValidate(uuid) && uuidVersion(uuid) === 4;
   };
 
-  if (!authenticated && !validUUID(userUUID)) {
+  if (!person.authenticated && !validUUID(person.uuid)) {
     return (
       <>
         <Box
@@ -49,11 +50,12 @@ const Login = () => {
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: '100vh',
+            backgroundColor: white,
           }}
           alignItems='center'
           justifyContent='center'
         >
-          <IconButton size={'large'} onClick={authenticate}>
+          <IconButton size='large' sx={{ color: primary }} onClick={authenticate}>
             <LoginTwoToneIcon />
             <Typography variant='body1'>Login</Typography>
           </IconButton>
@@ -64,7 +66,7 @@ const Login = () => {
       </>
     );
   } else {
-    return <Notes deauthenticate={deauthenticate} />;
+    return <NotesBoard deauthenticate={deauthenticate} />;
   }
 };
 

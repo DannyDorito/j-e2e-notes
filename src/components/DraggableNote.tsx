@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField/TextField';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
+import ColorLensTwoToneIcon from '@mui/icons-material/ColorLensTwoTone';
 import './css/DraggableNote.css';
 
 const DraggableNote = ({
@@ -46,22 +47,38 @@ const DraggableNote = ({
           multiline={true}
           disabled={!note.edit}
           fullWidth={true}
-          placeholder={'New Note'}
-          type={'text'}
+          placeholder='New Note'
+          type='text'
           onChange={(event) => updateContent(event.target.value)}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
             '& .MuiInputBase-input.Mui-disabled': {
-              WebkitTextFillColor: '#000000',
+              WebkitTextFillColor: note.textColour,
             },
+            WebkitTextFillColor: note.textColour,
           }}
         />
         <Box className='draggable-box'>
-          <IconButton className='draggable-button' onClick={editNote}>
+          <IconButton
+            className='draggable-button'
+            onClick={deleteNote}
+            sx={{ color: note.textColour }}
+          >
+            <ColorLensTwoToneIcon />
+          </IconButton>
+          <IconButton
+            className='draggable-button'
+            onClick={editNote}
+            sx={{ color: note.textColour }}
+          >
             {note.edit ? <SaveTwoToneIcon /> : <EditTwoToneIcon />}
           </IconButton>
-          <IconButton className='draggable-button' onClick={deleteNote}>
+          <IconButton
+            className='draggable-button'
+            onClick={deleteNote}
+            sx={{ color: note.textColour }}
+          >
             <DeleteForeverTwoToneIcon />
           </IconButton>
         </Box>

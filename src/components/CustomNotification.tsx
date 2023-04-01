@@ -18,7 +18,9 @@ const CustomNotification = ({ props }: { props: NotificationClass }) => {
       <Alert
         severity={notificationSeverity}
         onClose={() => setNotificationOpen(false)}
-        sx={{ width: '100%' }}
+        sx={{
+          width: '100%',
+        }}
       >
         {alertContent}
       </Alert>

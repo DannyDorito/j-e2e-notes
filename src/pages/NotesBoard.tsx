@@ -3,8 +3,10 @@ import { NoteClass } from '../classes/NoteClass';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
+import { primary, white } from '../helpers/ThemeProvider';
 import CustomNotification from '../components/CustomNotification';
 import DraggableNote from '../components/DraggableNote';
+import NoteMenu from './Menu';
 import Box from '@mui/material/Box/Box';
 import IconButton from '@mui/material/IconButton/IconButton';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
@@ -12,7 +14,7 @@ import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import './css/Notes.css';
 
-const Notes = ({ deauthenticate }: { deauthenticate: () => void}) => {
+const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
   const [notes, setNotes] = useLocalStorage<NoteClass[]>('notes', []);
   const [notifications, setNotifications] = useState<NotificationClass[]>([]);
   const addNotification = (notification: NotificationClass) => {
@@ -58,11 +60,13 @@ const Notes = ({ deauthenticate }: { deauthenticate: () => void}) => {
 
   const saveNotes = () => {
     setNotes((notes) => [...notes]);
+    addNotification(new NotificationClass(5000, 'success', 'Successfully Saved Note!'));
   };
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <NoteMenu />
+      <Box sx={{ flexGrow: 1, backgroundColor: white }}>
         {notes
           .filter((note) => !note.deleted)
           .map((note) => (
@@ -74,23 +78,23 @@ const Notes = ({ deauthenticate }: { deauthenticate: () => void}) => {
             ></DraggableNote>
           ))}
         <IconButton
-          size={'large'}
-          style={{ position: 'fixed', bottom: 20, right: 20 }}
+          size='large'
           onClick={addNote}
+          sx={{ color: primary, position: 'fixed', bottom: 20, right: 20 }}
         >
           <AddCircleTwoToneIcon />
         </IconButton>
         <IconButton
-          size={'large'}
-          style={{ position: 'fixed', bottom: 20, right: 70 }}
+          size='large'
           onClick={saveNotes}
+          sx={{ color: primary, position: 'fixed', bottom: 20, right: 70 }}
         >
           <SaveTwoToneIcon />
         </IconButton>
         <IconButton
-          size={'large'}
-          style={{ position: 'fixed', bottom: 20, right: 120 }}
+          size='large'
           onClick={deauthenticate}
+          sx={{ color: primary, position: 'fixed', bottom: 20, right: 120 }}
         >
           <LogoutTwoToneIcon />
         </IconButton>
@@ -102,4 +106,4 @@ const Notes = ({ deauthenticate }: { deauthenticate: () => void}) => {
   );
 };
 
-export default Notes;
+export default NotesBoard;

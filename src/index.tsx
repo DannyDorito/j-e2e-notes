@@ -7,14 +7,14 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
-import Notes from './pages/Notes';
+import NotesBoard from './pages/NotesBoard';
 import Login from './pages/Login';
 import './index.css';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Login />}>
-      <Route path='/notes' element={<Notes deauthenticate={() => undefined} />} />
+      <Route path='/notes' element={<NotesBoard deauthenticate={() => undefined} />} />
     </Route>,
   ),
 );
