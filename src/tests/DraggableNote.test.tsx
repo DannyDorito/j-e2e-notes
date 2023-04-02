@@ -7,6 +7,7 @@ import DraggableNote from '../components/DraggableNote';
 describe('When the page is rendered', () => {
   it('should render <DraggableNote /> TSX component', async () => {
     const testNote: NoteClass = new NoteClass(
+      'title',
       'this is a test note',
       uuidv4(),
       new Date().toUTCString(),

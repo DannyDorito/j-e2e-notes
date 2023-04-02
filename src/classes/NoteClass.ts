@@ -1,6 +1,8 @@
 import { randomColour } from '../helpers/RandomColour';
+import { ColourClass } from './ColourClass';
 
 export class NoteClass {
+  title: string;
   content: string;
   id: string;
   deleted: boolean;
@@ -8,11 +10,18 @@ export class NoteClass {
   createdAt: string;
   currentX: number;
   currentY: number;
-  backgroundColour: string;
-  textColour: string;
+  colours: ColourClass;
   edit: boolean;
 
-  constructor(content: string, id: string, createdAt: string, currentX: number, currentY: number) {
+  constructor(
+    title: string,
+    content: string,
+    id: string,
+    createdAt: string,
+    currentX: number,
+    currentY: number,
+  ) {
+    this.title = title;
     this.content = content;
     this.id = id;
     this.deleted = false;
@@ -20,8 +29,7 @@ export class NoteClass {
     this.currentX = currentX;
     this.currentY = currentY;
     const colour = randomColour();
-    this.backgroundColour = colour.backgroundColour;
-    this.textColour = colour.textColour;
+    this.colours = new ColourClass(colour.backgroundColour, colour.textColour);
     this.edit = false;
   }
 }

@@ -54,7 +54,10 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
   };
 
   const addNote = () => {
-    setNotes((notes) => [...notes, new NoteClass('', uuidv4(), new Date().toUTCString(), 20, 20)]);
+    setNotes((notes) => [
+      ...notes,
+      new NoteClass('', '', uuidv4(), new Date().toUTCString(), 20, 20),
+    ]);
     addNotification(new NotificationClass(5000, 'success', 'Successfully Created Note!'));
   };
 

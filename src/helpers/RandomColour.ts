@@ -1,6 +1,7 @@
+import { ColourClass } from '../classes/ColourClass';
 import { black, white } from './ThemeProvider';
 
-const colourList = [
+export const ColourList: ColourClass[] = [
   { backgroundColour: '#E9B44C', textColour: black },
   { backgroundColour: '#C6DEA6', textColour: black },
   { backgroundColour: '#1E2D24', textColour: white },
@@ -12,6 +13,8 @@ const colourList = [
 ];
 
 export const randomColour = () => {
-  const seed = Math.floor(Math.random() * colourList.length);
-  return colourList[seed];
+  const min = Math.ceil(0);
+  const max = Math.floor(ColourList.length - 1);
+  const seed = Math.floor(Math.random() * (max - min) + min);
+  return ColourList[seed];
 };
