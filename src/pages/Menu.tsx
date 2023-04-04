@@ -21,7 +21,7 @@ const pages: string[] = [];
 const NoteMenu = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [person, setPerson] = useLocalStorage<UserClass>(
+  const [person] = useLocalStorage<UserClass>(
     'user',
     new UserClass('', NIL_UUID, false),
   );

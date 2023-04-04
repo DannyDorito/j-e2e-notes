@@ -5,7 +5,6 @@ export class NoteClass {
   title: string;
   content: string;
   id: string;
-  deleted: boolean;
   deletedAt: string | undefined;
   createdAt: string;
   currentX: number;
@@ -24,7 +23,6 @@ export class NoteClass {
     this.title = title;
     this.content = content;
     this.id = id;
-    this.deleted = false;
     this.createdAt = createdAt;
     this.currentX = currentX;
     this.currentY = currentY;

@@ -12,6 +12,7 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import ColorLensTwoToneIcon from '@mui/icons-material/ColorLensTwoTone';
 import './css/DraggableNote.css';
+import { NotificationClass } from '../classes/NotificationClass';
 
 const DraggableNote = ({
   note,
@@ -28,7 +29,7 @@ const DraggableNote = ({
   const [title, setTitle] = useState<string>(note.title);
   const [content, setContent] = useState<string>(note.content);
 
-  const [color, setColour] = useState<ColourClass>(note.colours);
+  const [colour, setColour] = useState<ColourClass>(note.colours);
   const [showColourPallet, setShowColourPallet] = useState<boolean>(false);
 
   const handleStop = (_event: DraggableEvent, dragElement: DraggableData) => {
@@ -48,9 +49,10 @@ const DraggableNote = ({
     note.content = content;
   };
 
-  const updateColourPallet = (colour: ColourClass) => {
-    setColour(new ColourClass(color.backgroundColour, color.textColour));
-    note.colours = colour;
+  const updateColourPallet = (backgroundColour: string, textColour: string) => {
+    const updatedColour = new ColourClass(backgroundColour, textColour);
+    setColour(updatedColour);
+    note.colours = updatedColour;
   };
 
   const toggleColourPallet = () => {
@@ -58,14 +60,18 @@ const DraggableNote = ({
   };
 
   return (
-    <Draggable position={{ x: currentX, y: currentY }} onStop={handleStop} disabled={note.edit}>
+    <Draggable
+      position={{ x: currentX, y: currentY }}
+      onStop={handleStop}
+      disabled={note.edit || showColourPallet}
+    >
       <Card className='draggable-card' style={{ backgroundColor: note.colours.backgroundColour }}>
         <TextField
           value={title}
           variant='standard'
           margin='none'
           multiline={false}
-          disabled={!note.edit}
+          disabled={!note.edit || showColourPallet}
           fullWidth={true}
           placeholder='Title'
           type='text'
@@ -121,7 +127,9 @@ const DraggableNote = ({
             <DeleteForeverTwoToneIcon />
           </IconButton>
         </Box>
-        {showColourPallet && <ColourPallet updateColourPallet={updateColourPallet} />}
+        {showColourPallet && (
+          <ColourPallet updateColourPallet={updateColourPallet} currentColour={colour} />
+        )}
       </Card>
     </Draggable>
   );

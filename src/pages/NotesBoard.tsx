@@ -17,6 +17,7 @@ import './css/Notes.css';
 const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
   const [notes, setNotes] = useLocalStorage<NoteClass[]>('notes', []);
   const [notifications, setNotifications] = useState<NotificationClass[]>([]);
+
   const addNotification = (notification: NotificationClass) => {
     setNotifications((notifications) => [...notifications, notification]);
   };
@@ -31,7 +32,6 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
         note.id === id
           ? {
               ...note,
-              deleted: true,
               deletedAt: new Date().toUTCString(),
             }
           : note,
@@ -69,9 +69,9 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
   return (
     <>
       <NoteMenu />
-      <Box sx={{ flexGrow: 1, backgroundColor: white }}>
+      <Box sx={{ flexGrow: 1, backgroundColor: white, height: '94vh' }}>
         {notes
-          .filter((note) => !note.deleted)
+          .filter((note) => !note.deletedAt)
           .map((note) => (
             <DraggableNote
               note={note}
