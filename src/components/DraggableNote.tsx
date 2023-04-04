@@ -7,12 +7,12 @@ import Card from '@mui/material/Card/Card';
 import Box from '@mui/material/Box/Box';
 import IconButton from '@mui/material/IconButton/IconButton';
 import TextField from '@mui/material/TextField/TextField';
+import FilledInput from '@mui/material/FilledInput';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import ColorLensTwoToneIcon from '@mui/icons-material/ColorLensTwoTone';
 import './css/DraggableNote.css';
-import { NotificationClass } from '../classes/NotificationClass';
 
 const DraggableNote = ({
   note,
@@ -85,23 +85,26 @@ const DraggableNote = ({
             WebkitTextFillColor: note.colours.textColour,
           }}
         />
-        <TextField
+        <FilledInput
           value={content}
-          variant='standard'
           margin='none'
           multiline={true}
           disabled={!note.edit}
           fullWidth={true}
           placeholder='Contents'
           type='text'
+          minRows={10}
           onChange={(event) => updateContent(event.target.value)}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
             '& .MuiInputBase-input.Mui-disabled': {
               WebkitTextFillColor: note.colours.textColour,
+              backgroundColor: note.colours.backgroundColour
             },
             WebkitTextFillColor: note.colours.textColour,
+            padding: 0,
+            backgroundColor: note.colours.backgroundColour
           }}
         />
         <Box className='draggable-box'>

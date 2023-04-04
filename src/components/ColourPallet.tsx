@@ -1,5 +1,6 @@
 import { ColourList } from '../helpers/RandomColour';
 import { ColourClass } from '../classes/ColourClass';
+import { error } from '../helpers/ThemeProvider';
 import Box from '@mui/material/Box/Box';
 
 const ColourPallet = ({
@@ -23,7 +24,7 @@ const ColourPallet = ({
               border: 2,
               borderColor:
                 colour.backgroundColour === currentColour.backgroundColour
-                  ? 'red'
+                  ? error
                   : colour.textColour,
               borderRadius: 1,
             }}
