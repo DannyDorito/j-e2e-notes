@@ -14,6 +14,7 @@ import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import InvertColorsTwoToneIcon from '@mui/icons-material/InvertColorsTwoTone';
 import InvertColorsOffTwoToneIcon from '@mui/icons-material/InvertColorsOffTwoTone';
 import './css/DraggableNote.css';
+import Tooltip from '@mui/material/Tooltip/Tooltip';
 
 const DraggableNote = ({
   note,
@@ -50,8 +51,8 @@ const DraggableNote = ({
     note.content = content;
   };
 
-  const updateColourPallet = (backgroundColour: string, textColour: string) => {
-    const updatedColour = new ColourClass(backgroundColour, textColour);
+  const updateColourPallet = (backgroundColour: string, textColour: string, isCustom: boolean) => {
+    const updatedColour = new ColourClass(backgroundColour, textColour, isCustom);
     setColour(updatedColour);
     note.colours = updatedColour;
   };
@@ -81,9 +82,9 @@ const DraggableNote = ({
             display: 'flex',
             justifyContent: 'space-between',
             '& .MuiInputBase-input.Mui-disabled': {
-              WebkitTextFillColor: note.colours.textColour,
+              WebkitTextFillColor: note.colours.accentColour,
             },
-            WebkitTextFillColor: note.colours.textColour,
+            WebkitTextFillColor: note.colours.accentColour,
           }}
         />
         <FilledInput
@@ -100,36 +101,42 @@ const DraggableNote = ({
             display: 'flex',
             justifyContent: 'space-between',
             '& .MuiInputBase-input.Mui-disabled': {
-              WebkitTextFillColor: note.colours.textColour,
+              WebkitTextFillColor: note.colours.accentColour,
               backgroundColor: note.colours.backgroundColour,
             },
-            WebkitTextFillColor: note.colours.textColour,
+            WebkitTextFillColor: note.colours.accentColour,
             padding: 0,
             backgroundColor: note.colours.backgroundColour,
           }}
         />
         <Box className='draggable-box' sx={{ marginTop: 1 }}>
-          <IconButton
-            className='draggable-button'
-            onClick={toggleColourPallet}
-            sx={{ color: note.colours.textColour }}
-          >
-            {showColourPallet ? <InvertColorsOffTwoToneIcon /> : <InvertColorsTwoToneIcon />}
-          </IconButton>
-          <IconButton
-            className='draggable-button'
-            onClick={editNote}
-            sx={{ color: note.colours.textColour }}
-          >
-            {note.edit ? <SaveTwoToneIcon /> : <EditTwoToneIcon />}
-          </IconButton>
-          <IconButton
-            className='draggable-button'
-            onClick={deleteNote}
-            sx={{ color: note.colours.textColour }}
-          >
-            <DeleteForeverTwoToneIcon />
-          </IconButton>
+          <Tooltip title={showColourPallet ? 'Save Colour Change' : 'Change Note Colour'}>
+            <IconButton
+              className='draggable-button'
+              onClick={toggleColourPallet}
+              sx={{ color: note.colours.accentColour }}
+            >
+              {showColourPallet ? <InvertColorsOffTwoToneIcon /> : <InvertColorsTwoToneIcon />}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={note.edit ? 'Save Note' : 'Edit Note'}>
+            <IconButton
+              className='draggable-button'
+              onClick={editNote}
+              sx={{ color: note.colours.accentColour }}
+            >
+              {note.edit ? <SaveTwoToneIcon /> : <EditTwoToneIcon />}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Delete Note'>
+            <IconButton
+              className='draggable-button'
+              onClick={deleteNote}
+              sx={{ color: note.colours.accentColour }}
+            >
+              <DeleteForeverTwoToneIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
         {showColourPallet && (
           <ColourPallet updateColourPallet={updateColourPallet} currentColour={colour} />

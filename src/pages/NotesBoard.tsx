@@ -13,6 +13,7 @@ import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import './css/Notes.css';
+import Tooltip from '@mui/material/Tooltip/Tooltip';
 
 const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
   const [notes, setNotes] = useLocalStorage<NoteClass[]>('notes', []);
@@ -80,27 +81,36 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
               editNote={() => editNote(note.id)}
             ></DraggableNote>
           ))}
-        <IconButton
-          size='large'
-          onClick={addNote}
-          sx={{ color: primary, position: 'fixed', bottom: 20, right: 20 }}
-        >
-          <AddCircleTwoToneIcon />
-        </IconButton>
-        <IconButton
-          size='large'
-          onClick={saveNotes}
-          sx={{ color: primary, position: 'fixed', bottom: 20, right: 70 }}
-        >
-          <SaveTwoToneIcon />
-        </IconButton>
-        <IconButton
-          size='large'
-          onClick={deauthenticate}
-          sx={{ color: primary, position: 'fixed', bottom: 20, right: 120 }}
-        >
-          <LogoutTwoToneIcon />
-        </IconButton>
+        <Tooltip title='Add New Note'>
+          <IconButton
+            size='large'
+            onClick={addNote}
+            sx={{ color: primary, position: 'fixed', bottom: 20, right: 20 }}
+          >
+            <AddCircleTwoToneIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title='Save Notes'>
+          <IconButton
+            size='large'
+            onClick={saveNotes}
+            sx={{ color: primary, position: 'fixed', bottom: 20, right: 70 }}
+          >
+            <SaveTwoToneIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title='Logout'>
+          <IconButton
+            size='large'
+            onClick={deauthenticate}
+            sx={{ color: primary, position: 'fixed', bottom: 20, right: 120 }}
+          >
+            <LogoutTwoToneIcon />
+          </IconButton>
+        </Tooltip>
+
         {notifications.map((notification, index) => (
           <CustomNotification props={notification} key={`notification-${index}`} />
         ))}

@@ -27,7 +27,7 @@ export class NoteClass {
     this.currentX = currentX;
     this.currentY = currentY;
     const colour = randomColour();
-    this.colours = new ColourClass(colour.backgroundColour, colour.textColour);
+    this.colours = new ColourClass(colour.backgroundColour, colour.accentColour, colour.isCustom);
     this.edit = false;
   }
 }

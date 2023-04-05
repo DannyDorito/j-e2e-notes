@@ -1,9 +1,11 @@
 export class ColourClass {
   backgroundColour: string;
-  textColour: string;
+  accentColour: string;
+  isCustom: boolean;
 
-  constructor(backgroundColour: string, textColour: string) {
+  constructor(backgroundColour: string, textColour: string, isCustom: boolean) {
     this.backgroundColour = backgroundColour;
-    this.textColour = textColour;
+    this.accentColour = textColour;
+    this.isCustom = isCustom;
   }
 }
