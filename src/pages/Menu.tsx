@@ -21,10 +21,7 @@ const pages: string[] = [];
 const NoteMenu = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [person] = useLocalStorage<UserClass>(
-    'user',
-    new UserClass('', NIL_UUID, false),
-  );
+  const [person] = useLocalStorage<UserClass>('user', new UserClass('', NIL_UUID, false));
 
   const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget);

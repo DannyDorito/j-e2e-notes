@@ -11,7 +11,8 @@ import FilledInput from '@mui/material/FilledInput';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
-import ColorLensTwoToneIcon from '@mui/icons-material/ColorLensTwoTone';
+import InvertColorsTwoToneIcon from '@mui/icons-material/InvertColorsTwoTone';
+import InvertColorsOffTwoToneIcon from '@mui/icons-material/InvertColorsOffTwoTone';
 import './css/DraggableNote.css';
 
 const DraggableNote = ({
@@ -100,20 +101,20 @@ const DraggableNote = ({
             justifyContent: 'space-between',
             '& .MuiInputBase-input.Mui-disabled': {
               WebkitTextFillColor: note.colours.textColour,
-              backgroundColor: note.colours.backgroundColour
+              backgroundColor: note.colours.backgroundColour,
             },
             WebkitTextFillColor: note.colours.textColour,
             padding: 0,
-            backgroundColor: note.colours.backgroundColour
+            backgroundColor: note.colours.backgroundColour,
           }}
         />
-        <Box className='draggable-box'>
+        <Box className='draggable-box' sx={{ marginTop: 1 }}>
           <IconButton
             className='draggable-button'
             onClick={toggleColourPallet}
             sx={{ color: note.colours.textColour }}
           >
-            <ColorLensTwoToneIcon />
+            {showColourPallet ? <InvertColorsOffTwoToneIcon /> : <InvertColorsTwoToneIcon />}
           </IconButton>
           <IconButton
             className='draggable-button'
