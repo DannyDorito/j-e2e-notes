@@ -6,14 +6,14 @@ import { NotificationClass } from '../classes/NotificationClass';
 import { primary, white } from '../helpers/ThemeProvider';
 import CustomNotification from '../components/CustomNotification';
 import DraggableNote from '../components/DraggableNote';
-import NoteMenu from './Menu';
+import NoteMenu from './NoteMenu';
 import Box from '@mui/material/Box/Box';
+import Tooltip from '@mui/material/Tooltip/Tooltip';
 import IconButton from '@mui/material/IconButton/IconButton';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import './css/Notes.css';
-import Tooltip from '@mui/material/Tooltip/Tooltip';
 
 const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
   const [notes, setNotes] = useLocalStorage<NoteClass[]>('notes', []);
@@ -61,8 +61,8 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
         x: 20,
         y: 20,
         z: 1,
-        width: 300,
-        height: 300,
+        width: '300px',
+        height: '300px',
       }),
     ]);
     addNotification(new NotificationClass(5000, 'success', 'Successfully Created Note!'));

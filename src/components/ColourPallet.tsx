@@ -12,7 +12,7 @@ const ColourPallet = ({
   updateColourPallet,
   currentColour,
 }: {
-  updateColourPallet: any;
+  updateColourPallet: (backgroundColour: string, accentColour: string, isCustom: boolean) => void;
   currentColour: ColourInterface;
 }) => {
   const [customColour, setCustomColour] = useState<string>('#fff');

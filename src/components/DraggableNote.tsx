@@ -1,7 +1,8 @@
-import { MouseEventHandler, Ref, useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import { NoteClass } from '../classes/NoteClass';
 import { ColourInterface } from '../classes/ColourInterface';
-import { Rnd } from 'react-rnd';
+import { DraggableData, Rnd, ResizableDelta, Position, RndDragEvent } from 'react-rnd';
+import { ResizeDirection } from 're-resizable';
 import ColourPallet from './ColourPallet';
 import Card from '@mui/material/Card/Card';
 import Box from '@mui/material/Box/Box';
@@ -15,7 +16,6 @@ import InvertColorsTwoToneIcon from '@mui/icons-material/InvertColorsTwoTone';
 import InvertColorsOffTwoToneIcon from '@mui/icons-material/InvertColorsOffTwoTone';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
 import './css/DraggableNote.css';
-import { red } from '@mui/material/colors';
 
 const DraggableNote = ({
   note,
@@ -26,7 +26,7 @@ const DraggableNote = ({
   deleteNote: MouseEventHandler<HTMLButtonElement> | undefined;
   editNote: MouseEventHandler<HTMLButtonElement> | undefined;
 }) => {
-  let rnd: any;
+  let rnd: Rnd | null;
   const [Z, setZ] = useState<number>(note.position.z);
 
   const [title, setTitle] = useState<string>(note.title);
@@ -35,14 +35,14 @@ const DraggableNote = ({
   const [colour, setColour] = useState<ColourInterface>(note.colours);
   const [showColourPallet, setShowColourPallet] = useState<boolean>(false);
 
-  const onDragStop = (e: any, d: any) => {
-    rnd.updatePosition({ x: d.lastX, y: d.lastY });
+  const onDragStop = (_event: RndDragEvent, d: DraggableData) => {
+    rnd?.updatePosition({ x: d.lastX, y: d.lastY });
     note.position.x = d.x;
     note.position.y = d.y;
   };
 
-  const onResizeStop = (e: any, direction: any, ref: any, delta: any, position: any) => {
-    rnd.updateSize({ width: ref.style.width, height: ref.style.height, ...position });
+  const onResizeStop = (_event: MouseEvent | TouchEvent, _direction: ResizeDirection, ref: HTMLElement, _delta: ResizableDelta, position: Position) => {
+    rnd?.updateSize({ width: ref.style.width, height: ref.style.height, ...position });
     note.position.width = ref.style.width;
     note.position.height = ref.style.height;
   };
@@ -81,8 +81,8 @@ const DraggableNote = ({
   };
 
   useEffect(() => {
-    rnd.updatePosition({ x: note.position.x, y: note.position.y });
-    rnd.updateSize({ width: note.position.width, height: note.position.height });
+    rnd?.updatePosition({ x: note.position.x, y: note.position.y });
+    rnd?.updateSize({ width: note.position.width, height: note.position.height });
   }, []);
 
   return (
@@ -99,9 +99,9 @@ const DraggableNote = ({
         rnd = c;
       }}
       disableDragging={note.edit || showColourPallet}
-      style={{ zIndex: Z, borderColor: '#000fff', borderRadius: 3  }}
+      style={{ zIndex: Z, borderColor: '#000fff' }}
     >
-      <Card className='draggable-card' style={{ backgroundColor: note.colours.backgroundColour, borderColor: '#000fff !important', borderRadius: 3 }}>
+      <Card className='draggable-card' style={{ backgroundColor: note.colours.backgroundColour }}>
         <TextField
           value={title}
           variant='standard'

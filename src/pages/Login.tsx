@@ -6,16 +6,17 @@ import {
   NIL as NIL_UUID,
 } from 'uuid';
 import { NotificationClass } from '../classes/NotificationClass';
+import { primary, white } from '../helpers/ThemeProvider';
+import { UserClass } from '../classes/UserClass';
+import { useLocalStorage } from 'usehooks-ts';
 import NotesBoard from './NotesBoard';
 import CustomNotification from '../components/CustomNotification';
 import Box from '@mui/material/Box/Box';
 import IconButton from '@mui/material/IconButton/IconButton';
 import Typography from '@mui/material/Typography/Typography';
 import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
+
 import './css/Login.css';
-import { primary, white } from '../helpers/ThemeProvider';
-import { UserClass } from '../classes/UserClass';
-import { useLocalStorage } from 'usehooks-ts';
 
 const Login = () => {
   const [person, setPerson] = useLocalStorage<UserClass>(
