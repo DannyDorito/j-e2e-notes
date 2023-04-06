@@ -1,5 +1,6 @@
 import { randomColour } from '../helpers/RandomColour';
 import { ColourInterface } from './ColourInterface';
+import { LabelInterface } from './LabelInterface';
 import { PositionInterface } from './PositionInterface';
 export class NoteClass {
   title: string;
@@ -10,6 +11,7 @@ export class NoteClass {
   position: PositionInterface;
   colours: ColourInterface;
   edit: boolean;
+  labels: LabelInterface[];
 
   constructor(
     title: string,
@@ -17,18 +19,15 @@ export class NoteClass {
     id: string,
     createdAt: string,
     position: PositionInterface,
+    labels: LabelInterface[],
   ) {
     this.title = title;
     this.content = content;
     this.id = id;
     this.createdAt = createdAt;
     this.position = position;
-    const colour = randomColour();
-    this.colours = {
-      backgroundColour: colour.backgroundColour,
-      accentColour: colour.accentColour,
-      isCustom: colour.isCustom,
-    };
+    this.colours = randomColour();
     this.edit = false;
+    this.labels = labels;
   }
 }

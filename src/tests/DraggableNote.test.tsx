@@ -12,6 +12,7 @@ describe('When the page is rendered', () => {
       uuidv4(),
       new Date().toUTCString(),
       { x: 20, y: 20, z: 1, width: '100px', height: '100px' },
+      [],
     );
     render(<DraggableNote note={testNote} deleteNote={undefined} editNote={undefined} />);
 

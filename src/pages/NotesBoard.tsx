@@ -6,7 +6,7 @@ import { NotificationClass } from '../classes/NotificationClass';
 import { primary, white } from '../helpers/ThemeProvider';
 import CustomNotification from '../components/CustomNotification';
 import DraggableNote from '../components/DraggableNote';
-import NoteMenu from './NoteMenu';
+// import NoteMenu from './NoteMenu';
 import Box from '@mui/material/Box/Box';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
 import IconButton from '@mui/material/IconButton/IconButton';
@@ -57,13 +57,27 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
   const addNote = () => {
     setNotes((notes) => [
       ...notes,
-      new NoteClass('', '', uuidv4(), new Date().toUTCString(), {
-        x: 20,
-        y: 20,
-        z: 1,
-        width: '300px',
-        height: '300px',
-      }),
+      new NoteClass(
+        '',
+        '',
+        uuidv4(),
+        new Date().toUTCString(),
+        {
+          x: 20,
+          y: 20,
+          z: 1,
+          width: '300px',
+          height: '300px',
+        },
+        [
+          { name: 'test', id: '001' },
+          { name: 'test', id: '002' },
+          { name: 'test', id: '003' },
+          { name: 'test', id: '004' },
+          { name: 'test', id: '005' },
+          { name: 'test', id: '006' },
+        ],
+      ),
     ]);
     addNotification(new NotificationClass(5000, 'success', 'Successfully Created Note!'));
   };
@@ -75,8 +89,8 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
 
   return (
     <>
-      <NoteMenu />
-      <Box sx={{ flexGrow: 1, backgroundColor: white, height: '94vh' }}>
+      {/* <NoteMenu /> */}
+      <Box sx={{ flexGrow: 1, backgroundColor: white, height: '100vh' }}>
         {notes
           .filter((note) => !note.deletedAt)
           .map((note) => (

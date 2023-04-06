@@ -9,11 +9,12 @@ import {
 import { StyledEngineProvider } from '@mui/material/styles';
 import NotesBoard from './pages/NotesBoard';
 import Login from './pages/Login';
+import Error from './pages/Error';
 import './index.css';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<Login />}>
+    <Route path='/' element={<Login />} errorElement={<Error />}>
       <Route path='/notes' element={<NotesBoard deauthenticate={() => undefined} />} />
     </Route>,
   ),

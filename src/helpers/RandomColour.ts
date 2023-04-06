@@ -2,14 +2,14 @@ import { ColourInterface } from '../classes/ColourInterface';
 import { black, white } from './ThemeProvider';
 
 export const ColourList: ColourInterface[] = [
-  { backgroundColour: '#E9B44C', accentColour: black, isCustom: false },
-  { backgroundColour: '#C6DEA6', accentColour: black, isCustom: false },
-  { backgroundColour: '#1E2D24', accentColour: white, isCustom: false },
-  { backgroundColour: '#001B2E', accentColour: white, isCustom: false },
-  { backgroundColour: '#226F54', accentColour: white, isCustom: false },
-  { backgroundColour: '#DA2C38', accentColour: white, isCustom: false },
-  { backgroundColour: '#FF8CC6', accentColour: black, isCustom: false },
-  { backgroundColour: '#EC9A29', accentColour: black, isCustom: false },
+  { primary: '#E9B44C', secondary: '#e9b54c', accent: black, isCustom: false },
+  { primary: '#C6DEA6', secondary: '#afd182', accent: black, isCustom: false },
+  { primary: '#4d725e', secondary: '#456252', accent: white, isCustom: false },
+  { primary: '#001B2E', secondary: '#122e45', accent: white, isCustom: false },
+  { primary: '#226F54', secondary: '#18533a', accent: white, isCustom: false },
+  { primary: '#DA2C38', secondary: '#f55258', accent: white, isCustom: false },
+  { primary: '#FF8CC6', secondary: '#febadd', accent: black, isCustom: false },
+  { primary: '#EC9A29', secondary: '#efb932', accent: black, isCustom: false },
 ];
 
 export const randomColour = () => {

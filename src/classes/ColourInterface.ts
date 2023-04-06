@@ -1,5 +1,6 @@
 export interface ColourInterface {
-  backgroundColour: string;
-  accentColour: string;
+  primary: string;
+  secondary: string;
+  accent: string;
   isCustom: boolean;
 }

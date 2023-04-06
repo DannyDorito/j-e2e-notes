@@ -12,7 +12,12 @@ const ColourPallet = ({
   updateColourPallet,
   currentColour,
 }: {
-  updateColourPallet: (backgroundColour: string, accentColour: string, isCustom: boolean) => void;
+  updateColourPallet: (
+    primary: string,
+    secondary: string,
+    accent: string,
+    isCustom: boolean,
+  ) => void;
   currentColour: ColourInterface;
 }) => {
   const [customColour, setCustomColour] = useState<string>('#fff');
@@ -23,7 +28,7 @@ const ColourPallet = ({
   };
 
   const saveCustomColour = () => {
-    updateColourPallet(customColour, '#fff', true);
+    updateColourPallet(customColour, '#fff', '#fff', true);
     updateShowHexColourPicker();
   };
 
@@ -33,22 +38,21 @@ const ColourPallet = ({
         sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 1 }}
       >
         {ColourList.map((colour, index) => (
-          <Tooltip title={colour.backgroundColour} key={`colour-${index}-tooltip`}>
+          <Tooltip title={colour.primary} key={`colour-${index}-tooltip`}>
             <Box
               key={`colour-${index}-box`}
               onClick={() =>
-                updateColourPallet(colour.backgroundColour, colour.accentColour, colour.isCustom)
+                updateColourPallet(colour.primary, colour.secondary, colour.accent, colour.isCustom)
               }
               sx={{
                 height: 30,
                 width: 30,
-                backgroundColor: colour.backgroundColour,
+                backgroundColor: colour.primary,
                 border: 2.25,
                 borderColor:
-                  colour.backgroundColour === currentColour.backgroundColour &&
-                  !currentColour.isCustom
+                  colour.primary === currentColour.primary && !currentColour.isCustom
                     ? error
-                    : colour.accentColour,
+                    : colour.accent,
                 borderRadius: 1,
                 cursor: 'pointer',
               }}
@@ -62,9 +66,9 @@ const ColourPallet = ({
             sx={{
               height: 30,
               width: 30,
-              backgroundColor: currentColour.isCustom ? currentColour.backgroundColour : black,
+              backgroundColor: currentColour.isCustom ? currentColour.primary : black,
               border: 2.25,
-              borderColor: currentColour.isCustom ? error : currentColour.accentColour,
+              borderColor: currentColour.isCustom ? error : currentColour.accent,
               borderRadius: 1,
               cursor: 'pointer',
             }}
@@ -77,7 +81,7 @@ const ColourPallet = ({
               <IconButton
                 className='draggable-button'
                 onClick={saveCustomColour}
-                sx={{ color: currentColour.accentColour }}
+                sx={{ color: currentColour.accent }}
               >
                 <SaveTwoToneIcon />
               </IconButton>
