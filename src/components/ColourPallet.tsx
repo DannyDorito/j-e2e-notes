@@ -1,5 +1,5 @@
 import { ColourList } from '../helpers/RandomColour';
-import { ColourClass } from '../classes/ColourClass';
+import { ColourInterface } from '../classes/ColourInterface';
 import { useState } from 'react';
 import { black, error } from '../helpers/ThemeProvider';
 import { HexColorPicker as HexColourPicker } from 'react-colorful';
@@ -13,7 +13,7 @@ const ColourPallet = ({
   currentColour,
 }: {
   updateColourPallet: any;
-  currentColour: ColourClass;
+  currentColour: ColourInterface;
 }) => {
   const [customColour, setCustomColour] = useState<string>('#fff');
   const [showHexColourPicker, setShowHexColourPicker] = useState<boolean>(false);

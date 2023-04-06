@@ -1,7 +1,7 @@
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, Ref, useEffect, useState } from 'react';
 import { NoteClass } from '../classes/NoteClass';
-import { ColourClass } from '../classes/ColourClass';
-import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import { ColourInterface } from '../classes/ColourInterface';
+import { Rnd } from 'react-rnd';
 import ColourPallet from './ColourPallet';
 import Card from '@mui/material/Card/Card';
 import Box from '@mui/material/Box/Box';
@@ -13,8 +13,9 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import InvertColorsTwoToneIcon from '@mui/icons-material/InvertColorsTwoTone';
 import InvertColorsOffTwoToneIcon from '@mui/icons-material/InvertColorsOffTwoTone';
-import './css/DraggableNote.css';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
+import './css/DraggableNote.css';
+import { red } from '@mui/material/colors';
 
 const DraggableNote = ({
   note,
@@ -25,20 +26,25 @@ const DraggableNote = ({
   deleteNote: MouseEventHandler<HTMLButtonElement> | undefined;
   editNote: MouseEventHandler<HTMLButtonElement> | undefined;
 }) => {
-  const [currentX, setX] = useState<number>(note.currentX);
-  const [currentY, setY] = useState<number>(note.currentY);
+  let rnd: any;
+  const [Z, setZ] = useState<number>(note.position.z);
 
   const [title, setTitle] = useState<string>(note.title);
   const [content, setContent] = useState<string>(note.content);
 
-  const [colour, setColour] = useState<ColourClass>(note.colours);
+  const [colour, setColour] = useState<ColourInterface>(note.colours);
   const [showColourPallet, setShowColourPallet] = useState<boolean>(false);
 
-  const handleStop = (_event: DraggableEvent, dragElement: DraggableData) => {
-    setX(dragElement.x);
-    setY(dragElement.y);
-    note.currentX = currentX;
-    note.currentY = currentY;
+  const onDragStop = (e: any, d: any) => {
+    rnd.updatePosition({ x: d.lastX, y: d.lastY });
+    note.position.x = d.x;
+    note.position.y = d.y;
+  };
+
+  const onResizeStop = (e: any, direction: any, ref: any, delta: any, position: any) => {
+    rnd.updateSize({ width: ref.style.width, height: ref.style.height, ...position });
+    note.position.width = ref.style.width;
+    note.position.height = ref.style.height;
   };
 
   const updateTitle = (title: string) => {
@@ -51,23 +57,51 @@ const DraggableNote = ({
     note.content = content;
   };
 
-  const updateColourPallet = (backgroundColour: string, textColour: string, isCustom: boolean) => {
-    const updatedColour = new ColourClass(backgroundColour, textColour, isCustom);
+  const updateColourPallet = (
+    backgroundColour: string,
+    accentColour: string,
+    isCustom: boolean,
+  ) => {
+    const updatedColour: ColourInterface = {
+      backgroundColour: backgroundColour,
+      accentColour: accentColour,
+      isCustom: isCustom,
+    };
     setColour(updatedColour);
     note.colours = updatedColour;
   };
 
+  const updateZIndex = () => {
+    setZ(Z + 10);
+  };
+
   const toggleColourPallet = () => {
+    updateZIndex;
     setShowColourPallet(!showColourPallet);
   };
 
+  useEffect(() => {
+    rnd.updatePosition({ x: note.position.x, y: note.position.y });
+    rnd.updateSize({ width: note.position.width, height: note.position.height });
+  }, []);
+
   return (
-    <Draggable
-      position={{ x: currentX, y: currentY }}
-      onStop={handleStop}
-      disabled={note.edit || showColourPallet}
+    <Rnd
+      onResizeStart={updateZIndex}
+      onDragStart={updateZIndex}
+      onDragStop={(e, d) => onDragStop(e, d)}
+      onResizeStop={(e, direction, ref, delta, position) =>
+        onResizeStop(e, direction, ref, delta, position)
+      }
+      resizeGrid={[0.0001, 0.0001]}
+      dragGrid={[0.0001, 0.0001]}
+      ref={(c) => {
+        rnd = c;
+      }}
+      disableDragging={note.edit || showColourPallet}
+      style={{ zIndex: Z, borderColor: '#000fff', borderRadius: 3  }}
     >
-      <Card className='draggable-card' style={{ backgroundColor: note.colours.backgroundColour }}>
+      <Card className='draggable-card' style={{ backgroundColor: note.colours.backgroundColour, borderColor: '#000fff !important', borderRadius: 3 }}>
         <TextField
           value={title}
           variant='standard'
@@ -142,7 +176,7 @@ const DraggableNote = ({
           <ColourPallet updateColourPallet={updateColourPallet} currentColour={colour} />
         )}
       </Card>
-    </Draggable>
+    </Rnd>
   );
 };
 

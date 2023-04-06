@@ -1,7 +1,7 @@
-import { ColourClass } from '../classes/ColourClass';
+import { ColourInterface } from '../classes/ColourInterface';
 import { black, white } from './ThemeProvider';
 
-export const ColourList: ColourClass[] = [
+export const ColourList: ColourInterface[] = [
   { backgroundColour: '#E9B44C', accentColour: black, isCustom: false },
   { backgroundColour: '#C6DEA6', accentColour: black, isCustom: false },
   { backgroundColour: '#1E2D24', accentColour: white, isCustom: false },

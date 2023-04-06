@@ -11,8 +11,7 @@ describe('When the page is rendered', () => {
       'this is a test note',
       uuidv4(),
       new Date().toUTCString(),
-      20,
-      20,
+      { x: 20, y: 20, z: 1, width: 100, height: 100 },
     );
     render(<DraggableNote note={testNote} deleteNote={undefined} editNote={undefined} />);
 
