@@ -12,10 +12,12 @@ import Login from './pages/Login';
 import Error from './pages/Error';
 import './index.css';
 
+const deauthenticate = () => undefined;
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Login />} errorElement={<Error />}>
-      <Route path='/notes' element={<NotesBoard deauthenticate={() => undefined} />} />
+      <Route path='/notes' element={<NotesBoard props={{ deauthenticate: deauthenticate }} />} />
     </Route>,
   ),
 );

@@ -18,7 +18,6 @@ import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 const pages: string[] = [];
 
 const NoteMenu = () => {
-
   const [person] = useLocalStorage<UserClass>('user', new UserClass('', NIL_UUID, false, []));
 
   return (
@@ -68,10 +67,7 @@ const NoteMenu = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
+              <Button key={page} sx={{ my: 2, color: 'white', display: 'block' }}>
                 {page}
               </Button>
             ))}

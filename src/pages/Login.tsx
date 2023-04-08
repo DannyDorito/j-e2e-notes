@@ -9,12 +9,12 @@ import { NotificationClass } from '../classes/NotificationClass';
 import { primary, white } from '../helpers/ThemeProvider';
 import { UserClass } from '../classes/UserClass';
 import { useLocalStorage } from 'usehooks-ts';
+import { Box, IconButton, Typography } from '@mui/material';
 import NotesBoard from './NotesBoard';
 import CustomNotification from '../components/CustomNotification';
 import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
 
 import './css/Login.css';
-import { Box, IconButton, Typography } from '@mui/material';
 
 const Login = () => {
   const [person, setPerson] = useLocalStorage<UserClass>(
@@ -65,7 +65,7 @@ const Login = () => {
       </>
     );
   } else {
-    return <NotesBoard deauthenticate={deauthenticate} />;
+    return <NotesBoard props={{ deauthenticate: deauthenticate }} />;
   }
 };
 

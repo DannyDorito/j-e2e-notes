@@ -1,9 +1,9 @@
-import { MouseEventHandler, useEffect, useState } from 'react';
-import { NoteClass } from '../classes/NoteClass';
+import { useEffect, useState } from 'react';
 import { ColourInterface } from '../classes/ColourInterface';
 import { DraggableData, Rnd, ResizableDelta, Position, RndDragEvent } from 'react-rnd';
 import { ResizeDirection } from 're-resizable';
 import { Card, Stack, Chip, TextField, FilledInput, Box, Tooltip, IconButton } from '@mui/material';
+import { DraggableNotesProps } from '../props/DraggableNoteProps';
 import ColourPallet from './ColourPallet';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
@@ -13,28 +13,20 @@ import InvertColorsOffTwoToneIcon from '@mui/icons-material/InvertColorsOffTwoTo
 import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
 import './css/DraggableNote.css';
 
-const DraggableNote = ({
-  note,
-  deleteNote,
-  editNote,
-}: {
-  note: NoteClass;
-  deleteNote: MouseEventHandler<HTMLButtonElement> | undefined;
-  editNote: MouseEventHandler<HTMLButtonElement> | undefined;
-}) => {
+const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   let rnd: Rnd | null;
-  const [Z, setZ] = useState<number>(note.position.z);
+  const [Z, setZ] = useState<number>(props.note.position.z);
 
-  const [title, setTitle] = useState<string>(note.title);
-  const [content, setContent] = useState<string>(note.content);
+  const [title, setTitle] = useState<string>(props.note.title);
+  const [content, setContent] = useState<string>(props.note.content);
 
-  const [colour, setColour] = useState<ColourInterface>(note.colours);
+  const [colour, setColour] = useState<ColourInterface>(props.note.colours);
   const [showColourPallet, setShowColourPallet] = useState<boolean>(false);
 
   const onDragStop = (_event: RndDragEvent, d: DraggableData) => {
     rnd?.updatePosition({ x: d.lastX, y: d.lastY });
-    note.position.x = d.x;
-    note.position.y = d.y;
+    props.note.position.x = d.x;
+    props.note.position.y = d.y;
   };
 
   const onResizeStop = (
@@ -45,18 +37,18 @@ const DraggableNote = ({
     position: Position,
   ) => {
     rnd?.updateSize({ width: ref.style.width, height: ref.style.height, ...position });
-    note.position.width = ref.style.width;
-    note.position.height = ref.style.height;
+    props.note.position.width = ref.style.width;
+    props.note.position.height = ref.style.height;
   };
 
   const updateTitle = (title: string) => {
     setTitle(title);
-    note.title = title;
+    props.note.title = title;
   };
 
   const updateContent = (content: string) => {
     setContent(content);
-    note.content = content;
+    props.note.content = content;
   };
 
   const updateColourPallet = (
@@ -72,7 +64,7 @@ const DraggableNote = ({
       isCustom: isCustom,
     };
     setColour(updatedColour);
-    note.colours = updatedColour;
+    props.note.colours = updatedColour;
   };
 
   const updateZIndex = () => {
@@ -85,8 +77,8 @@ const DraggableNote = ({
   };
 
   useEffect(() => {
-    rnd?.updatePosition({ x: note.position.x, y: note.position.y });
-    rnd?.updateSize({ width: note.position.width, height: note.position.height });
+    rnd?.updatePosition({ x: props.note.position.x, y: props.note.position.y });
+    rnd?.updateSize({ width: props.note.position.width, height: props.note.position.height });
   }, []);
 
   return (
@@ -102,10 +94,10 @@ const DraggableNote = ({
       ref={(c) => {
         rnd = c;
       }}
-      disableDragging={note.edit || showColourPallet}
+      disableDragging={props.note.edit || showColourPallet}
       style={{ zIndex: Z, borderColor: '#000fff' }}
     >
-      <Card className='draggable-card' style={{ backgroundColor: note.colours.primary }}>
+      <Card className='draggable-card' style={{ backgroundColor: props.note.colours.primary }}>
         <Stack
           direction='row'
           spacing={0.5}
@@ -113,12 +105,15 @@ const DraggableNote = ({
           alignItems='center'
           sx={{ flexWrap: 'wrap' }}
         >
-          {note.labels.map((label, index) => (
+          {props.note.labels.map((label, index) => (
             <Chip
               label={label.name}
               key={`label-${index}`}
               onDelete={() => console.log('delete label')}
-              sx={{ backgroundColor: note.colours.secondary, color: note.colours.accent }}
+              sx={{
+                backgroundColor: props.note.colours.secondary,
+                color: props.note.colours.accent,
+              }}
             />
           ))}
         </Stack>
@@ -128,7 +123,7 @@ const DraggableNote = ({
           variant='standard'
           margin='none'
           multiline={false}
-          disabled={!note.edit || showColourPallet}
+          disabled={!props.note.edit || showColourPallet}
           fullWidth={true}
           placeholder='Title'
           type='text'
@@ -137,16 +132,16 @@ const DraggableNote = ({
             display: 'flex',
             justifyContent: 'space-between',
             '& .MuiInputBase-input.Mui-disabled': {
-              WebkitTextFillColor: note.colours.accent,
+              WebkitTextFillColor: props.note.colours.accent,
             },
-            WebkitTextFillColor: note.colours.accent,
+            WebkitTextFillColor: props.note.colours.accent,
           }}
         />
         <FilledInput
           value={content}
           margin='none'
           multiline={true}
-          disabled={!note.edit}
+          disabled={!props.note.edit}
           fullWidth={true}
           placeholder='Contents'
           type='text'
@@ -156,12 +151,12 @@ const DraggableNote = ({
             display: 'flex',
             justifyContent: 'space-between',
             '& .MuiInputBase-input.Mui-disabled': {
-              WebkitTextFillColor: note.colours.accent,
-              backgroundColor: note.colours.primary,
+              WebkitTextFillColor: props.note.colours.accent,
+              backgroundColor: props.note.colours.primary,
             },
-            WebkitTextFillColor: note.colours.accent,
+            WebkitTextFillColor: props.note.colours.accent,
             padding: 0,
-            backgroundColor: note.colours.primary,
+            backgroundColor: props.note.colours.primary,
           }}
         />
         <Box className='draggable-box' sx={{ marginTop: 1 }}>
@@ -169,25 +164,25 @@ const DraggableNote = ({
             <IconButton
               className='draggable-button'
               onClick={toggleColourPallet}
-              sx={{ color: note.colours.accent }}
+              sx={{ color: props.note.colours.accent }}
             >
               {showColourPallet ? <InvertColorsOffTwoToneIcon /> : <InvertColorsTwoToneIcon />}
             </IconButton>
           </Tooltip>
-          <Tooltip title={note.edit ? 'Save Note' : 'Edit Note'}>
+          <Tooltip title={props.note.edit ? 'Save Note' : 'Edit Note'}>
             <IconButton
               className='draggable-button'
-              onClick={editNote}
-              sx={{ color: note.colours.accent }}
+              onClick={props.editNote}
+              sx={{ color: props.note.colours.accent }}
             >
-              {note.edit ? <SaveTwoToneIcon /> : <EditTwoToneIcon />}
+              {props.note.edit ? <SaveTwoToneIcon /> : <EditTwoToneIcon />}
             </IconButton>
           </Tooltip>
           <Tooltip title='Add Label'>
             <IconButton
               className='draggable-button'
               onClick={() => console.log('add label')}
-              sx={{ color: note.colours.accent }}
+              sx={{ color: props.note.colours.accent }}
             >
               <LabelTwoToneIcon />
             </IconButton>
@@ -195,15 +190,15 @@ const DraggableNote = ({
           <Tooltip title='Delete Note'>
             <IconButton
               className='draggable-button'
-              onClick={deleteNote}
-              sx={{ color: note.colours.accent }}
+              onClick={props.deleteNote}
+              sx={{ color: props.note.colours.accent }}
             >
               <DeleteForeverTwoToneIcon />
             </IconButton>
           </Tooltip>
         </Box>
         {showColourPallet && (
-          <ColourPallet updateColourPallet={updateColourPallet} currentColour={colour} />
+          <ColourPallet props={{ updateColourPallet: updateColourPallet, currentColour: colour }} />
         )}
       </Card>
     </Rnd>

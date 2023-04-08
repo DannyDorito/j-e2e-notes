@@ -4,23 +4,22 @@ import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
 import { primary, white } from '../helpers/ThemeProvider';
+import { UserClass } from '../classes/UserClass';
+import { NotesBoardProps } from '../props/NotesBoardProps';
+import { NIL as NIL_UUID } from 'uuid';
+import { Box, Tooltip } from '@mui/material';
 import CustomNotification from '../components/CustomNotification';
 import DraggableNote from '../components/DraggableNote';
-import { UserClass } from '../classes/UserClass';
-import { NIL as NIL_UUID } from 'uuid';
-import { Box, List, ListItem, Modal, TextField, Typography } from '@mui/material';
 import NoteMenu from './NoteMenu';
-import Tooltip from '@mui/material/Tooltip/Tooltip';
+import AddLabelModal from '../components/AddLabelModal';
 import IconButton from '@mui/material/IconButton/IconButton';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import './css/Notes.css';
 
-const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
+const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
   const [person, setPerson] = useLocalStorage<UserClass>(
     'user',
     new UserClass('', NIL_UUID, false, []),
@@ -109,9 +108,18 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
 
   const removeLabel = (id: string) => {
     const updatedPerson = person;
-    updatedPerson.labels.filter((label) => label.id === id);
-    setPerson(updatedPerson);
-    addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Label!'));
+    const labelsInUse =
+      notes.length > 0
+        ? notes.map((note) => note.labels.filter((label) => label.id === id))[0]
+        : [];
+
+    if (labelsInUse.length > 0) {
+      addNotification(new NotificationClass(5000, 'error', 'Label Currently In Use!'));
+    } else {
+      updatedPerson.labels = updatedPerson.labels.filter((label) => label.id !== id);
+      setPerson(updatedPerson);
+      addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Label!'));
+    }
   };
 
   const closeLabelModal = () => {
@@ -128,10 +136,12 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
           .filter((note) => !note.deletedAt)
           .map((note) => (
             <DraggableNote
-              note={note}
               key={note.id}
-              deleteNote={() => deleteNote(note.id)}
-              editNote={() => editNote(note.id)}
+              props={{
+                note: note,
+                deleteNote: () => deleteNote(note.id),
+                editNote: () => editNote(note.id),
+              }}
             ></DraggableNote>
           ))}
         <Tooltip title='Add New Note'>
@@ -167,7 +177,7 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
         <Tooltip title='Logout'>
           <IconButton
             size='large'
-            onClick={deauthenticate}
+            onClick={props.deauthenticate}
             sx={{ color: primary, position: 'fixed', bottom: 20, right: 170 }}
           >
             <LogoutTwoToneIcon />
@@ -178,56 +188,18 @@ const NotesBoard = ({ deauthenticate }: { deauthenticate: () => void }) => {
           <CustomNotification props={notification} key={`notification-${index}`} />
         ))}
       </Box>
-      <Modal open={openLabelModal} onClose={closeLabelModal}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Typography textAlign='center' variant='body1'>
-            Labels
-          </Typography>
-          <List>
-            {person.labels.map((label) => (
-              <ListItem
-                key={`label-${label.id}`}
-                sx={{ paddingRight: 0, paddingLeft: 0 }}
-                secondaryAction={
-                  <IconButton edge='end' aria-label='delete' onClick={() => removeLabel(label.id)}>
-                    <DeleteForeverTwoToneIcon />
-                  </IconButton>
-                }
-              >
-                <ListItemIcon>
-                  <LabelTwoToneIcon />
-                </ListItemIcon>
-                <Typography variant='body1'>{label.name}</Typography>
-              </ListItem>
-            ))}
-            <TextField
-              label='New Label'
-              value={newLabelName}
-              onChange={(e) => setNewLabelName(e.target.value)}
-              variant='standard'
-              sx={{ width: '88%' }}
-              error={newLabelNameError.length !== 0}
-              helperText={newLabelNameError}
-            />
-            <Tooltip title='Save New Label'>
-              <IconButton size='large' onClick={addLabel}>
-                <SaveTwoToneIcon />
-              </IconButton>
-            </Tooltip>
-          </List>
-        </Box>
-      </Modal>
+      <AddLabelModal
+        props={{
+          openLabelModal: openLabelModal,
+          closeLabelModal: closeLabelModal,
+          removeLabel: removeLabel,
+          person: person,
+          addLabel: addLabel,
+          newLabelName: newLabelName,
+          setNewLabelName: setNewLabelName,
+          newLabelNameError: newLabelNameError,
+        }}
+      />
     </>
   );
 };

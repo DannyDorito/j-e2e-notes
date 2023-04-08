@@ -14,7 +14,11 @@ describe('When the page is rendered', () => {
       { x: 20, y: 20, z: 1, width: '100px', height: '100px' },
       [],
     );
-    render(<DraggableNote note={testNote} deleteNote={undefined} editNote={undefined} />);
+    render(
+      <DraggableNote
+        props={{ note: testNote, deleteNote: () => undefined, editNote: () => undefined }}
+      />,
+    );
 
     expect(await screen.findByText(testNote.content)).toBeInTheDocument();
   });

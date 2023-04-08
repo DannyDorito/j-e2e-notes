@@ -2,9 +2,8 @@ import Box from '@mui/material/Box/Box';
 import { white } from '../helpers/ThemeProvider';
 
 const Error = () => {
-  if (process.env.NODE_ENV !== 'production') {
-    window.localStorage.clear();
-  }
+  window.localStorage.clear();
+
   return (
     <>
       <Box
