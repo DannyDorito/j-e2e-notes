@@ -13,11 +13,14 @@ import {
   Tooltip,
   Avatar,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 
 const pages: string[] = [];
 
 const NoteMenu = () => {
+  const navigate = useNavigate();
+
   const [person] = useLocalStorage<UserClass>('user', new UserClass('', NIL_UUID, false, []));
 
   return (
@@ -54,7 +57,6 @@ const NoteMenu = () => {
             variant='h5'
             noWrap
             component='a'
-            href=''
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -74,7 +76,7 @@ const NoteMenu = () => {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title={person.name + "'s Profile"}>
-              <IconButton sx={{ p: 0 }}>
+              <IconButton sx={{ p: 0 }} onClick={() => navigate('/profile')}>
                 <Avatar alt={person.name} src='/static/images/avatar/2.jpg' />
               </IconButton>
             </Tooltip>

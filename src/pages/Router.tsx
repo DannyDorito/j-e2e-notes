@@ -3,10 +3,17 @@ import { useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
 import { UserClass } from '../classes/UserClass';
-import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
+import {
+  v4 as uuidv4,
+  version as uuidVersion,
+  validate as uuidValidate,
+  NIL as NIL_UUID,
+} from 'uuid';
 import CustomNotification from '../components/CustomNotification';
 import Login from './Login';
 import NotesBoard from './NotesBoard';
+import Profile from './Profile';
+import NoteMenu from './NoteMenu';
 
 const Router = () => {
   const navigate = useNavigate();
@@ -33,8 +40,13 @@ const Router = () => {
     navigate('/');
   };
 
+  const validUUID = (uuid: string) => {
+    return uuid !== NIL_UUID && uuidValidate(uuid) && uuidVersion(uuid) === 4;
+  };
+
   return (
     <>
+      {person.authenticated && validUUID(person.uuid) && <NoteMenu />}
       <Routes>
         <Route
           index
@@ -64,6 +76,7 @@ const Router = () => {
             />
           }
         />
+        <Route path='/profile' element={<Profile />} />
       </Routes>
       {notifications.map((notification, index) => (
         <CustomNotification props={notification} key={`notification-${index}`} />

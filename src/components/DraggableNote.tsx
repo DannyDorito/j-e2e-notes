@@ -66,7 +66,9 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
     };
     setColour(updatedColour);
     props.note.colours = updatedColour;
-    props.addNotification(new NotificationClass(5000, 'success', 'Successfully Updated Colour Pallet!'));
+    props.addNotification(
+      new NotificationClass(5000, 'success', 'Successfully Updated Colour Pallet!'),
+    );
   };
 
   const updateZIndex = () => {

@@ -7,7 +7,6 @@ import { white } from '../helpers/ThemeProvider';
 import { NotesBoardProps } from '../props/NotesBoardProps';
 import { Box } from '@mui/material';
 import DraggableNote from '../components/DraggableNote';
-import NoteMenu from './NoteMenu';
 import AddLabelModal from '../components/AddLabelModal';
 import NotesFunctionMenu from '../components/NotesFunctionMenu';
 import './css/Notes.css';
@@ -114,7 +113,6 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
 
   return (
     <>
-      <NoteMenu />
       <Box sx={{ flexGrow: 1, backgroundColor: white, height: '100vh' }}>
         {notes
           .filter((note) => !note.deletedAt)
@@ -125,7 +123,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
                 note: note,
                 deleteNote: () => deleteNote(note.id),
                 editNote: () => editNote(note.id),
-                addNotification: props.addNotification
+                addNotification: props.addNotification,
               }}
             ></DraggableNote>
           ))}

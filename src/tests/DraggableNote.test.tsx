@@ -16,7 +16,12 @@ describe('When the page is rendered', () => {
     );
     render(
       <DraggableNote
-        props={{ note: testNote, deleteNote: () => undefined, editNote: () => undefined, addNotification: () => undefined }}
+        props={{
+          note: testNote,
+          deleteNote: () => undefined,
+          editNote: () => undefined,
+          addNotification: () => undefined,
+        }}
       />,
     );
 
