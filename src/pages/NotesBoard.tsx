@@ -4,11 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
 import { white } from '../helpers/ThemeProvider';
-import { UserClass } from '../classes/UserClass';
 import { NotesBoardProps } from '../props/NotesBoardProps';
-import { NIL as NIL_UUID } from 'uuid';
 import { Box } from '@mui/material';
-import CustomNotification from '../components/CustomNotification';
 import DraggableNote from '../components/DraggableNote';
 import NoteMenu from './NoteMenu';
 import AddLabelModal from '../components/AddLabelModal';
@@ -16,23 +13,14 @@ import NotesFunctionMenu from '../components/NotesFunctionMenu';
 import './css/Notes.css';
 
 const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
-  const [person, setPerson] = useLocalStorage<UserClass>(
-    'user',
-    new UserClass('', NIL_UUID, false, []),
-  );
   const [notes, setNotes] = useLocalStorage<NoteClass[]>('notes', []);
-  const [notifications, setNotifications] = useState<NotificationClass[]>([]);
 
   const [openLabelModal, setOpenLabelModal] = useState<boolean>(false);
   const [newLabelName, setNewLabelName] = useState<string>('');
   const [newLabelNameError, setNewLabelNameError] = useState<string>('');
 
-  const addNotification = (notification: NotificationClass) => {
-    setNotifications((notifications) => [...notifications, notification]);
-  };
-
   useEffect(() => {
-    addNotification(new NotificationClass(5000, 'success', 'Successfully Logged In!'));
+    props.addNotification(new NotificationClass(5000, 'success', 'Successfully Logged In!'));
   }, []);
 
   const deleteNote = (id: string) => {
@@ -46,7 +34,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
           : note,
       ),
     );
-    addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Note!'));
+    props.addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Note!'));
   };
 
   const editNote = (id: string) => {
@@ -80,41 +68,41 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         [],
       ),
     ]);
-    addNotification(new NotificationClass(5000, 'success', 'Successfully Created Note!'));
+    props.addNotification(new NotificationClass(5000, 'success', 'Successfully Created Note!'));
   };
 
   const saveNotes = () => {
     setNotes((notes) => [...notes]);
-    addNotification(new NotificationClass(5000, 'success', 'Successfully Saved Note!'));
+    props.addNotification(new NotificationClass(5000, 'success', 'Successfully Saved Note!'));
   };
 
   const addLabel = () => {
-    if (person.labels.some((label) => label.name === newLabelName)) {
+    if (props.person.labels.some((label) => label.name === newLabelName)) {
       setNewLabelNameError('Label Already Exists!');
     } else if (newLabelName.trim().length === 0) {
       setNewLabelNameError('Label Cannot Be Blank!');
     } else {
-      const updatedPerson = person;
+      const updatedPerson = props.person;
       updatedPerson.labels.push({ name: newLabelName.trim(), id: uuidv4() });
-      setPerson(updatedPerson);
+      props.setPerson(updatedPerson);
       setNewLabelName('');
-      addNotification(new NotificationClass(5000, 'success', 'Successfully Created Label!'));
+      props.addNotification(new NotificationClass(5000, 'success', 'Successfully Created Label!'));
     }
   };
 
   const removeLabel = (id: string) => {
-    const updatedPerson = person;
+    const updatedPerson = props.person;
     const labelsInUse =
       notes.length > 0
         ? notes.map((note) => note.labels.filter((label) => label.id === id))[0]
         : [];
 
     if (labelsInUse.length > 0) {
-      addNotification(new NotificationClass(5000, 'error', 'Label Currently In Use!'));
+      props.addNotification(new NotificationClass(5000, 'error', 'Label Currently In Use!'));
     } else {
       updatedPerson.labels = updatedPerson.labels.filter((label) => label.id !== id);
-      setPerson(updatedPerson);
-      addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Label!'));
+      props.setPerson(updatedPerson);
+      props.addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Label!'));
     }
   };
 
@@ -137,6 +125,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
                 note: note,
                 deleteNote: () => deleteNote(note.id),
                 editNote: () => editNote(note.id),
+                addNotification: props.addNotification
               }}
             ></DraggableNote>
           ))}
@@ -148,16 +137,13 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
             deauthenticate: props.deauthenticate,
           }}
         />
-        {notifications.map((notification, index) => (
-          <CustomNotification props={notification} key={`notification-${index}`} />
-        ))}
       </Box>
       <AddLabelModal
         props={{
           openLabelModal: openLabelModal,
           closeLabelModal: closeLabelModal,
           removeLabel: removeLabel,
-          person: person,
+          person: props.person,
           addLabel: addLabel,
           newLabelName: newLabelName,
           setNewLabelName: setNewLabelName,

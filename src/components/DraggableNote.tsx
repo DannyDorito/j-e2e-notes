@@ -4,6 +4,7 @@ import { DraggableData, Rnd, ResizableDelta, Position, RndDragEvent } from 'reac
 import { ResizeDirection } from 're-resizable';
 import { Card, Stack, Chip, TextField, FilledInput, Box, Tooltip, IconButton } from '@mui/material';
 import { DraggableNotesProps } from '../props/DraggableNoteProps';
+import { NotificationClass } from '../classes/NotificationClass';
 import ColourPallet from './ColourPallet';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
@@ -65,6 +66,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
     };
     setColour(updatedColour);
     props.note.colours = updatedColour;
+    props.addNotification(new NotificationClass(5000, 'success', 'Successfully Updated Colour Pallet!'));
   };
 
   const updateZIndex = () => {
