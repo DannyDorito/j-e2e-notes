@@ -3,20 +3,16 @@ import { NoteClass } from '../classes/NoteClass';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
-import { primary, white } from '../helpers/ThemeProvider';
+import { white } from '../helpers/ThemeProvider';
 import { UserClass } from '../classes/UserClass';
 import { NotesBoardProps } from '../props/NotesBoardProps';
 import { NIL as NIL_UUID } from 'uuid';
-import { Box, Tooltip } from '@mui/material';
+import { Box } from '@mui/material';
 import CustomNotification from '../components/CustomNotification';
 import DraggableNote from '../components/DraggableNote';
 import NoteMenu from './NoteMenu';
 import AddLabelModal from '../components/AddLabelModal';
-import IconButton from '@mui/material/IconButton/IconButton';
-import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
-import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
-import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
-import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
+import NotesFunctionMenu from '../components/NotesFunctionMenu';
 import './css/Notes.css';
 
 const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
@@ -144,46 +140,14 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
               }}
             ></DraggableNote>
           ))}
-        <Tooltip title='Add New Note'>
-          <IconButton
-            size='large'
-            onClick={addNote}
-            sx={{ color: primary, position: 'fixed', bottom: 20, right: 20 }}
-          >
-            <AddCircleTwoToneIcon />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title='Add Label'>
-          <IconButton
-            size='large'
-            onClick={() => setOpenLabelModal(true)}
-            sx={{ color: primary, position: 'fixed', bottom: 20, right: 70 }}
-          >
-            <LabelTwoToneIcon />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title='Save Notes'>
-          <IconButton
-            size='large'
-            onClick={saveNotes}
-            sx={{ color: primary, position: 'fixed', bottom: 20, right: 120 }}
-          >
-            <SaveTwoToneIcon />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title='Logout'>
-          <IconButton
-            size='large'
-            onClick={props.deauthenticate}
-            sx={{ color: primary, position: 'fixed', bottom: 20, right: 170 }}
-          >
-            <LogoutTwoToneIcon />
-          </IconButton>
-        </Tooltip>
-
+        <NotesFunctionMenu
+          props={{
+            addNote: addNote,
+            saveNotes: saveNotes,
+            setOpenLabelModal: setOpenLabelModal,
+            deauthenticate: props.deauthenticate,
+          }}
+        />
         {notifications.map((notification, index) => (
           <CustomNotification props={notification} key={`notification-${index}`} />
         ))}
