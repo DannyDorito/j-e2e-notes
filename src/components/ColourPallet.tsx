@@ -3,10 +3,8 @@ import { ColourInterface } from '../classes/ColourInterface';
 import { useState } from 'react';
 import { black, error } from '../helpers/ThemeProvider';
 import { HexColorPicker as HexColourPicker } from 'react-colorful';
-import Box from '@mui/material/Box/Box';
-import IconButton from '@mui/material/IconButton/IconButton';
+import { Box, Tooltip, IconButton } from '@mui/material';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
-import Tooltip from '@mui/material/Tooltip/Tooltip';
 
 const ColourPallet = ({
   updateColourPallet,

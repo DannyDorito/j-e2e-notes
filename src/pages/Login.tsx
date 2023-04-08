@@ -11,17 +11,15 @@ import { UserClass } from '../classes/UserClass';
 import { useLocalStorage } from 'usehooks-ts';
 import NotesBoard from './NotesBoard';
 import CustomNotification from '../components/CustomNotification';
-import Box from '@mui/material/Box/Box';
-import IconButton from '@mui/material/IconButton/IconButton';
-import Typography from '@mui/material/Typography/Typography';
 import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
 
 import './css/Login.css';
+import { Box, IconButton, Typography } from '@mui/material';
 
 const Login = () => {
   const [person, setPerson] = useLocalStorage<UserClass>(
     'user',
-    new UserClass('', NIL_UUID, false),
+    new UserClass('', NIL_UUID, false, []),
   );
 
   const [notifications, setNotifications] = useState<NotificationClass[]>([]);
@@ -30,11 +28,11 @@ const Login = () => {
   };
 
   const authenticate = () => {
-    setPerson(new UserClass('John', uuidv4(), true));
+    setPerson(new UserClass('John', uuidv4(), true, []));
   };
 
   const deauthenticate = () => {
-    setPerson(new UserClass('', NIL_UUID, false));
+    setPerson(new UserClass('', NIL_UUID, false, []));
     addNotification(new NotificationClass(5000, 'success', 'Successfully Logged Out!'));
   };
 

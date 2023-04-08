@@ -3,21 +3,14 @@ import { NoteClass } from '../classes/NoteClass';
 import { ColourInterface } from '../classes/ColourInterface';
 import { DraggableData, Rnd, ResizableDelta, Position, RndDragEvent } from 'react-rnd';
 import { ResizeDirection } from 're-resizable';
+import { Card, Stack, Chip, TextField, FilledInput, Box, Tooltip, IconButton } from '@mui/material';
 import ColourPallet from './ColourPallet';
-import Card from '@mui/material/Card/Card';
-import Box from '@mui/material/Box/Box';
-import IconButton from '@mui/material/IconButton/IconButton';
-import TextField from '@mui/material/TextField/TextField';
-import FilledInput from '@mui/material/FilledInput';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import InvertColorsTwoToneIcon from '@mui/icons-material/InvertColorsTwoTone';
 import InvertColorsOffTwoToneIcon from '@mui/icons-material/InvertColorsOffTwoTone';
 import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
-import Tooltip from '@mui/material/Tooltip/Tooltip';
-import Chip from '@mui/material/Chip/Chip';
-import Stack from '@mui/material/Stack/Stack';
 import './css/DraggableNote.css';
 
 const DraggableNote = ({
