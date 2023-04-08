@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { UserClass } from '../classes/UserClass';
 import { NIL as NIL_UUID } from 'uuid';
