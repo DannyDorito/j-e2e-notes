@@ -5,7 +5,6 @@ import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
 import './css/Login.css';
 
 const Login = ({ props }: { props: LoginProps }) => {
-
   return (
     <Box
       sx={{

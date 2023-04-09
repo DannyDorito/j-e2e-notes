@@ -9,6 +9,7 @@ import { Box } from '@mui/material';
 import DraggableNote from '../components/DraggableNote';
 import AddLabelModal from '../components/AddLabelModal';
 import NotesFunctionMenu from '../components/NotesFunctionMenu';
+import AddNoteLabelModal from '../components/AddNoteLabelModal';
 import './css/Notes.css';
 
 const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
@@ -124,6 +125,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
                 deleteNote: () => deleteNote(note.id),
                 editNote: () => editNote(note.id),
                 addNotification: props.addNotification,
+                person: props.person,
               }}
             ></DraggableNote>
           ))}
