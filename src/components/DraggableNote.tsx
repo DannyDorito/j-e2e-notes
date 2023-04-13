@@ -218,9 +218,9 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
       </Rnd>
       <AddNoteLabelModal
         props={{
-          availableLabels: props.person.labels,
+          availableLabels: props.user.labels,
           noteLabels: props.note.labels,
-          person: props.person,
+          user: props.user,
           openAddNoteLabelModal: openNoteLabelModal,
           closeAddNoteLabelModal: closeAddNoteLabelModal,
         }}

@@ -18,10 +18,9 @@ import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 
 const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
-
   const selected = (id: string): boolean => {
     return props.noteLabels.findIndex((note) => note.id === id) === 0;
-  }
+  };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (event.target.checked) {
@@ -33,7 +32,7 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
     } else if (!event.target.checked) {
       props.noteLabels = props.noteLabels.filter((label) => label.id !== id);
     }
-  }
+  };
 
   return (
     <Modal open={props.openAddNoteLabelModal} onClose={props.closeAddNoteLabelModal}>
@@ -50,11 +49,20 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
         }}
       >
         <Typography textAlign='center' variant='body1'>
-          {`${props.person.name}'s Labels`}
+          {`${props.user.name}'s Labels`}
         </Typography>
         <FormGroup>
           {props.availableLabels.map((availableLabel) => (
-              <FormControlLabel key={`label-${availableLabel.id}`}control={<Checkbox checked={selected(availableLabel.id)} onChange={(event) => onChange(event, availableLabel.id)} />} label={availableLabel.name} />
+            <FormControlLabel
+              key={`label-${availableLabel.id}`}
+              control={
+                <Checkbox
+                  checked={selected(availableLabel.id)}
+                  onChange={(event) => onChange(event, availableLabel.id)}
+                />
+              }
+              label={availableLabel.name}
+            />
           ))}
         </FormGroup>
       </Box>

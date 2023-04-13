@@ -5,7 +5,7 @@ export interface AddLabelModalProps {
   openLabelModal: boolean;
   closeLabelModal: () => void;
   removeLabel: (id: string) => void;
-  person: UserClass;
+  user: UserClass;
   addLabel: () => void;
   newLabelName: string;
   setNewLabelName: Dispatch<SetStateAction<string>>;

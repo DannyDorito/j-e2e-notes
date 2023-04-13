@@ -1,5 +1,5 @@
 import { useLocalStorage } from 'usehooks-ts';
-import { UserClass } from '../classes/UserClass';
+import { UserClass, defaultUser } from '../classes/UserClass';
 import { NIL as NIL_UUID } from 'uuid';
 import { primary } from '../helpers/ThemeProvider';
 import {
@@ -21,7 +21,7 @@ const pages: string[] = [];
 const NoteMenu = () => {
   const navigate = useNavigate();
 
-  const [person] = useLocalStorage<UserClass>('user', new UserClass('', NIL_UUID, false, []));
+  const [user] = useLocalStorage<UserClass>('user', defaultUser);
 
   return (
     <AppBar position='static' sx={{ backgroundColor: primary }}>
@@ -31,7 +31,7 @@ const NoteMenu = () => {
             variant='h6'
             noWrap
             component='a'
-            href='/'
+            href='/notes'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -75,9 +75,9 @@ const NoteMenu = () => {
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title={person.name + "'s Profile"}>
+            <Tooltip title={user.name + "'s Profile"}>
               <IconButton sx={{ p: 0 }} onClick={() => navigate('/profile')}>
-                <Avatar alt={person.name} src='/static/images/avatar/2.jpg' />
+                <Avatar alt={user.name} src='/static/images/avatar/2.jpg' />
               </IconButton>
             </Tooltip>
           </Box>

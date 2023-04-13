@@ -8,5 +8,5 @@ export interface DraggableNotesProps {
   deleteNote: MouseEventHandler<HTMLButtonElement> | undefined;
   editNote: MouseEventHandler<HTMLButtonElement> | undefined;
   addNotification: (notification: NotificationClass) => void;
-  person: UserClass;
+  user: UserClass;
 }

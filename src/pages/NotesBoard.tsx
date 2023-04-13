@@ -9,7 +9,6 @@ import { Box } from '@mui/material';
 import DraggableNote from '../components/DraggableNote';
 import AddLabelModal from '../components/AddLabelModal';
 import NotesFunctionMenu from '../components/NotesFunctionMenu';
-import AddNoteLabelModal from '../components/AddNoteLabelModal';
 import './css/Notes.css';
 
 const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
@@ -20,7 +19,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
   const [newLabelNameError, setNewLabelNameError] = useState<string>('');
 
   useEffect(() => {
-    props.addNotification(new NotificationClass(5000, 'success', 'Successfully Logged In!'));
+    props.addNotification(new NotificationClass(props.user.options.notificationsDuration, 'success', 'Successfully Logged In!'));
   }, []);
 
   const deleteNote = (id: string) => {
@@ -34,7 +33,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
           : note,
       ),
     );
-    props.addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Note!'));
+    props.addNotification(new NotificationClass(props.user.options.notificationsDuration, 'success', 'Successfully Deleted Note!'));
   };
 
   const editNote = (id: string) => {
@@ -68,30 +67,30 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         [],
       ),
     ]);
-    props.addNotification(new NotificationClass(5000, 'success', 'Successfully Created Note!'));
+    props.addNotification(new NotificationClass(props.user.options.notificationsDuration, 'success', 'Successfully Created Note!'));
   };
 
   const saveNotes = () => {
     setNotes((notes) => [...notes]);
-    props.addNotification(new NotificationClass(5000, 'success', 'Successfully Saved Note!'));
+    props.addNotification(new NotificationClass(props.user.options.notificationsDuration, 'success', 'Successfully Saved Note!'));
   };
 
   const addLabel = () => {
-    if (props.person.labels.some((label) => label.name === newLabelName)) {
+    if (props.user.labels.some((label) => label.name === newLabelName)) {
       setNewLabelNameError('Label Already Exists!');
     } else if (newLabelName.trim().length === 0) {
       setNewLabelNameError('Label Cannot Be Blank!');
     } else {
-      const updatedPerson = props.person;
-      updatedPerson.labels.push({ name: newLabelName.trim(), id: uuidv4() });
-      props.setPerson(updatedPerson);
+      const updateduser = props.user;
+      updateduser.labels.push({ name: newLabelName.trim(), id: uuidv4() });
+      props.setUser(updateduser);
       setNewLabelName('');
-      props.addNotification(new NotificationClass(5000, 'success', 'Successfully Created Label!'));
+      props.addNotification(new NotificationClass(props.user.options.notificationsDuration, 'success', 'Successfully Created Label!'));
     }
   };
 
   const removeLabel = (id: string) => {
-    const updatedPerson = props.person;
+    const updateduser = props.user;
     const labelsInUse =
       notes.length > 0
         ? notes.map((note) => note.labels.filter((label) => label.id === id))[0]
@@ -100,8 +99,8 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
     if (labelsInUse.length > 0) {
       props.addNotification(new NotificationClass(5000, 'error', 'Label Currently In Use!'));
     } else {
-      updatedPerson.labels = updatedPerson.labels.filter((label) => label.id !== id);
-      props.setPerson(updatedPerson);
+      updateduser.labels = updateduser.labels.filter((label) => label.id !== id);
+      props.setUser(updateduser);
       props.addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Label!'));
     }
   };
@@ -125,7 +124,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
                 deleteNote: () => deleteNote(note.id),
                 editNote: () => editNote(note.id),
                 addNotification: props.addNotification,
-                person: props.person,
+                user: props.user,
               }}
             ></DraggableNote>
           ))}
@@ -143,7 +142,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
           openLabelModal: openLabelModal,
           closeLabelModal: closeLabelModal,
           removeLabel: removeLabel,
-          person: props.person,
+          user: props.user,
           addLabel: addLabel,
           newLabelName: newLabelName,
           setNewLabelName: setNewLabelName,

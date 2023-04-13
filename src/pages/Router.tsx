@@ -2,7 +2,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
-import { UserClass } from '../classes/UserClass';
+import { UserClass, defaultUser } from '../classes/UserClass';
 import {
   v4 as uuidv4,
   version as uuidVersion,
@@ -12,31 +12,33 @@ import {
 import CustomNotification from '../components/CustomNotification';
 import Login from './Login';
 import NotesBoard from './NotesBoard';
-import Profile from './Profile';
+import UserProfile from './UserProfile';
 import NoteMenu from './NoteMenu';
 
 const Router = () => {
   const navigate = useNavigate();
 
-  const [person, setPerson] = useLocalStorage<UserClass>(
+  const [user, setUser] = useLocalStorage<UserClass>(
     'user',
-    new UserClass('', NIL_UUID, false, []),
+    defaultUser
   );
 
   const [notifications, setNotifications] = useState<NotificationClass[]>([]);
 
   const addNotification = (notification: NotificationClass) => {
-    setNotifications((notifications) => [...notifications, notification]);
+    if (user.options.showNotifications) {
+      setNotifications((notifications) => [...notifications, notification]);
+    }
   };
 
   const authenticate = () => {
-    setPerson(new UserClass('John', uuidv4(), true, []));
+    setUser(new UserClass('John', uuidv4(), true, [], { showNotifications: true, notificationsDuration: 5000 }));
     navigate('/notes');
   };
 
   const deauthenticate = () => {
-    setPerson(new UserClass('', NIL_UUID, false, []));
-    addNotification(new NotificationClass(5000, 'success', 'Successfully Logged Out!'));
+    setUser(defaultUser);
+    addNotification(new NotificationClass(user.options.notificationsDuration, 'success', 'Successfully Logged Out!'));
     navigate('/');
   };
 
@@ -46,7 +48,7 @@ const Router = () => {
 
   return (
     <>
-      {person.authenticated && validUUID(person.uuid) && <NoteMenu />}
+      {user.authenticated && validUUID(user.uuid) && <NoteMenu />}
       <Routes>
         <Route
           index
@@ -56,8 +58,8 @@ const Router = () => {
               props={{
                 deauthenticate: deauthenticate,
                 authenticate: authenticate,
-                person: person,
-                setPerson: setPerson,
+                user: user,
+                setUser: setUser,
                 addNotification: addNotification,
               }}
             />
@@ -69,14 +71,14 @@ const Router = () => {
             <NotesBoard
               props={{
                 deauthenticate: deauthenticate,
-                person: person,
-                setPerson: setPerson,
+                user: user,
+                setUser: setUser,
                 addNotification: addNotification,
               }}
             />
           }
         />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile' element={<UserProfile props={{ user: user, setUser: setUser }} />} />
       </Routes>
       {notifications.map((notification, index) => (
         <CustomNotification props={notification} key={`notification-${index}`} />

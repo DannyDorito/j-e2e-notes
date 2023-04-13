@@ -4,7 +4,7 @@ import { NotificationClass } from '../classes/NotificationClass';
 
 export interface NotesBoardProps {
   deauthenticate: () => void;
-  person: UserClass;
-  setPerson: Dispatch<SetStateAction<UserClass>>;
+  user: UserClass;
+  setUser: Dispatch<SetStateAction<UserClass>>;
   addNotification: (notification: NotificationClass) => void;
 }

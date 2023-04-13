@@ -4,7 +4,7 @@ import { UserClass } from '../classes/UserClass';
 export interface AddNoteLabelModalProps {
   availableLabels: LabelInterface[];
   noteLabels: LabelInterface[];
-  person: UserClass;
+  user: UserClass;
   openAddNoteLabelModal: boolean;
   closeAddNoteLabelModal: () => void;
 }
