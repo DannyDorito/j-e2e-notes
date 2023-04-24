@@ -1,6 +1,5 @@
 import { useLocalStorage } from 'usehooks-ts';
 import { UserClass, defaultUser } from '../classes/UserClass';
-import { NIL as NIL_UUID } from 'uuid';
 import { primary } from '../helpers/ThemeProvider';
 import {
   AppBar,

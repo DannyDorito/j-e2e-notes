@@ -19,7 +19,13 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
   const [newLabelNameError, setNewLabelNameError] = useState<string>('');
 
   useEffect(() => {
-    props.addNotification(new NotificationClass(props.user.options.notificationsDuration, 'success', 'Successfully Logged In!'));
+    props.addNotification(
+      new NotificationClass(
+        props.user.options.notificationsDuration,
+        'success',
+        'Successfully Logged In!',
+      ),
+    );
   }, []);
 
   const deleteNote = (id: string) => {
@@ -33,7 +39,13 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
           : note,
       ),
     );
-    props.addNotification(new NotificationClass(props.user.options.notificationsDuration, 'success', 'Successfully Deleted Note!'));
+    props.addNotification(
+      new NotificationClass(
+        props.user.options.notificationsDuration,
+        'success',
+        'Successfully Deleted Note!',
+      ),
+    );
   };
 
   const editNote = (id: string) => {
@@ -67,12 +79,24 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         [],
       ),
     ]);
-    props.addNotification(new NotificationClass(props.user.options.notificationsDuration, 'success', 'Successfully Created Note!'));
+    props.addNotification(
+      new NotificationClass(
+        props.user.options.notificationsDuration,
+        'success',
+        'Successfully Created Note!',
+      ),
+    );
   };
 
   const saveNotes = () => {
     setNotes((notes) => [...notes]);
-    props.addNotification(new NotificationClass(props.user.options.notificationsDuration, 'success', 'Successfully Saved Note!'));
+    props.addNotification(
+      new NotificationClass(
+        props.user.options.notificationsDuration,
+        'success',
+        'Successfully Saved Note!',
+      ),
+    );
   };
 
   const addLabel = () => {
@@ -85,7 +109,13 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
       updateduser.labels.push({ name: newLabelName.trim(), id: uuidv4() });
       props.setUser(updateduser);
       setNewLabelName('');
-      props.addNotification(new NotificationClass(props.user.options.notificationsDuration, 'success', 'Successfully Created Label!'));
+      props.addNotification(
+        new NotificationClass(
+          props.user.options.notificationsDuration,
+          'success',
+          'Successfully Created Label!',
+        ),
+      );
     }
   };
 

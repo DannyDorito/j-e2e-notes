@@ -18,10 +18,7 @@ import NoteMenu from './NoteMenu';
 const Router = () => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useLocalStorage<UserClass>(
-    'user',
-    defaultUser
-  );
+  const [user, setUser] = useLocalStorage<UserClass>('user', defaultUser);
 
   const [notifications, setNotifications] = useState<NotificationClass[]>([]);
 
@@ -32,13 +29,24 @@ const Router = () => {
   };
 
   const authenticate = () => {
-    setUser(new UserClass('John', uuidv4(), true, [], { showNotifications: true, notificationsDuration: 5000 }));
+    setUser(
+      new UserClass('John', uuidv4(), true, [], {
+        showNotifications: true,
+        notificationsDuration: 5000,
+      }),
+    );
     navigate('/notes');
   };
 
   const deauthenticate = () => {
     setUser(defaultUser);
-    addNotification(new NotificationClass(user.options.notificationsDuration, 'success', 'Successfully Logged Out!'));
+    addNotification(
+      new NotificationClass(
+        user.options.notificationsDuration,
+        'success',
+        'Successfully Logged Out!',
+      ),
+    );
     navigate('/');
   };
 

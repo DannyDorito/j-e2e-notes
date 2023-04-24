@@ -5,7 +5,7 @@ import { ResizeDirection } from 're-resizable';
 import { Card, Stack, Chip, TextField, FilledInput, Box, Tooltip, IconButton } from '@mui/material';
 import { DraggableNotesProps } from '../props/DraggableNoteProps';
 import { NotificationClass } from '../classes/NotificationClass';
-import ColourPallet from './ColourPallet';
+import ColourPalletModal from './ColourPalletModal';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
@@ -17,6 +17,8 @@ import './css/DraggableNote.css';
 
 const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   let rnd: Rnd | null;
+  const [width, setWidth] = useState<string>(props.note.position.width);
+  const [height, setHeight] = useState<string>(props.note.position.height);
   const [Z, setZ] = useState<number>(props.note.position.z);
 
   const [title, setTitle] = useState<string>(props.note.title);
@@ -42,7 +44,9 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   ) => {
     rnd?.updateSize({ width: ref.style.width, height: ref.style.height, ...position });
     props.note.position.width = ref.style.width;
+    setWidth(ref.style.width);
     props.note.position.height = ref.style.height;
+    setHeight(ref.style.height);
   };
 
   const updateTitle = (title: string) => {
@@ -89,7 +93,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
 
   useEffect(() => {
     rnd?.updatePosition({ x: props.note.position.x, y: props.note.position.y });
-    rnd?.updateSize({ width: props.note.position.width, height: props.note.position.height });
+    rnd?.updateSize({ width: width, height: height });
   }, []);
 
   return (
@@ -109,7 +113,10 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
         disableDragging={props.note.edit || showColourPallet}
         style={{ zIndex: Z, borderColor: '#000fff' }}
       >
-        <Card className='draggable-card' style={{ backgroundColor: props.note.colours.primary }}>
+        <Card
+          className='draggable-card'
+          style={{ backgroundColor: props.note.colours.primary, width: width, height: height }}
+        >
           <Stack
             direction='row'
             spacing={0.5}
@@ -210,8 +217,13 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
             </Tooltip>
           </Box>
           {showColourPallet && (
-            <ColourPallet
-              props={{ updateColourPallet: updateColourPallet, currentColour: colour }}
+            <ColourPalletModal
+              props={{
+                updateColourPallet: updateColourPallet,
+                currentColour: colour,
+                showColourPallet: showColourPallet,
+                setShowColourPallet: setShowColourPallet,
+              }}
             />
           )}
         </Card>

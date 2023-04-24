@@ -2,20 +2,20 @@ import { AddNoteLabelModalProps } from '../props/AddNotelLabelModalProps';
 import {
   Box,
   Checkbox,
-  Divider,
+  // Divider,
   FormControlLabel,
   FormGroup,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
+  // IconButton,
+  // List,
+  // ListItem,
+  // ListItemIcon,
   Modal,
-  TextField,
+  // TextField,
   Typography,
 } from '@mui/material';
-import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
-import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
-import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
+// import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
+// import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
+// import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 
 const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
   const selected = (id: string): boolean => {
