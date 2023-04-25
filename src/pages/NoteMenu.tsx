@@ -38,7 +38,7 @@ const NoteMenu = () => {
               textDecoration: 'none',
             }}
           >
-            J E2E Notes App
+            John&apos;s Notes App
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -64,7 +64,7 @@ const NoteMenu = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            {user.name}&apos;s Notes App
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
