@@ -12,6 +12,7 @@ import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import InvertColorsTwoToneIcon from '@mui/icons-material/InvertColorsTwoTone';
 import InvertColorsOffTwoToneIcon from '@mui/icons-material/InvertColorsOffTwoTone';
 import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
+import PushPinTwoToneIcon from '@mui/icons-material/PushPinTwoTone';
 import AddNoteLabelModal from './AddNoteLabelModal';
 import './css/DraggableNote.css';
 
@@ -30,9 +31,11 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   const [openNoteLabelModal, setOpenNoteLabelModal] = useState<boolean>(false);
 
   const onDragStop = (_event: RndDragEvent, d: DraggableData) => {
-    rnd?.updatePosition({ x: d.lastX, y: d.lastY });
-    props.note.position.x = d.x;
-    props.note.position.y = d.y;
+    if (canMoveOrResize()) {
+      rnd?.updatePosition({ x: d.lastX, y: d.lastY });
+      props.note.position.x = d.x;
+      props.note.position.y = d.y;
+    }
   };
 
   const onResizeStop = (
@@ -42,11 +45,13 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
     _delta: ResizableDelta,
     position: Position,
   ) => {
-    rnd?.updateSize({ width: ref.style.width, height: ref.style.height, ...position });
-    props.note.position.width = ref.style.width;
-    setWidth(ref.style.width);
-    props.note.position.height = ref.style.height;
-    setHeight(ref.style.height);
+    if (canMoveOrResize()) {
+      rnd?.updateSize({ width: ref.style.width, height: ref.style.height, ...position });
+      props.note.position.width = ref.style.width;
+      setWidth(ref.style.width);
+      props.note.position.height = ref.style.height;
+      setHeight(ref.style.height);
+    }
   };
 
   const updateTitle = (title: string) => {
@@ -79,7 +84,9 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   };
 
   const updateZIndex = () => {
-    setZ(Z + 10);
+    const newZ = Z + 10;
+    setZ(newZ);
+    props.note.position.z = newZ;
   };
 
   const toggleColourPallet = () => {
@@ -89,6 +96,10 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
 
   const closeAddNoteLabelModal = () => {
     setOpenNoteLabelModal(false);
+  };
+
+  const canMoveOrResize = (): boolean => {
+    return props.note.edit || showColourPallet || props.note.pinned;
   };
 
   useEffect(() => {
@@ -110,7 +121,8 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
         ref={(c) => {
           rnd = c;
         }}
-        disableDragging={props.note.edit || showColourPallet}
+        disableDragging={canMoveOrResize()}
+        enableResizing={!canMoveOrResize()}
         style={{ zIndex: Z, borderColor: '#000fff' }}
       >
         <Card
@@ -136,7 +148,6 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
               />
             ))}
           </Stack>
-
           <TextField
             value={title}
             variant='standard'
@@ -204,6 +215,18 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
                 sx={{ color: props.note.colours.accent }}
               >
                 <LabelTwoToneIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={props.note.pinned ? 'Unpin' : 'Pin'}>
+              <IconButton
+                className='draggable-button'
+                onClick={() => props.setPinned(props.note.id)}
+                sx={{ color: props.note.colours.accent }}
+              >
+                <PushPinTwoToneIcon
+                  sx={{ rotate: props.note.pinned ? '0deg' : '20deg' }}
+                  shapeRendering='geometricPrecision'
+                />
               </IconButton>
             </Tooltip>
             <Tooltip title='Delete Note'>

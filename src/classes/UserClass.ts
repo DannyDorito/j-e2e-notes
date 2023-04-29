@@ -1,7 +1,6 @@
 import { version as uuidVersion, validate as uuidValidate, NIL as NIL_UUID } from 'uuid';
 import { LabelInterface } from './LabelInterface';
 import { OptionsInterface } from './OptionsInterface';
-import { GenerateKeys } from '../helpers/SecureContent';
 
 export class UserClass {
   name: string;
@@ -9,7 +8,6 @@ export class UserClass {
   authenticated: boolean;
   labels: LabelInterface[];
   options: OptionsInterface;
-  keys: CryptoKeyPair;
 
   constructor(
     name: string,
@@ -17,14 +15,12 @@ export class UserClass {
     authenticated: boolean,
     labels: LabelInterface[],
     options: OptionsInterface,
-    keys: CryptoKeyPair,
   ) {
     this.name = name;
     this.uuid = uuid;
     this.authenticated = authenticated;
     this.labels = labels;
     this.options = options;
-    this.keys = keys;
   }
 
   isAuthenticated = () => {
@@ -36,14 +32,7 @@ export class UserClass {
   };
 }
 
-export const defaultUser = new UserClass(
-  '',
-  NIL_UUID,
-  false,
-  [],
-  {
-    showNotifications: true,
-    notificationsDuration: 5000,
-  },
-  await GenerateKeys(),
-);
+export const defaultUser = new UserClass('', NIL_UUID, false, [], {
+  showNotifications: true,
+  notificationsDuration: 5000,
+});

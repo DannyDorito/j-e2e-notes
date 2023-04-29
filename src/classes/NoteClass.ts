@@ -12,6 +12,7 @@ export class NoteClass {
   colours: ColourInterface;
   edit: boolean;
   labels: LabelInterface[];
+  pinned: boolean;
 
   constructor(
     title: string,
@@ -20,6 +21,7 @@ export class NoteClass {
     createdAt: string,
     position: PositionInterface,
     labels: LabelInterface[],
+    pinned: boolean,
   ) {
     this.title = title;
     this.content = content;
@@ -29,5 +31,6 @@ export class NoteClass {
     this.colours = randomColour();
     this.edit = false;
     this.labels = labels;
+    this.pinned = pinned;
   }
 }

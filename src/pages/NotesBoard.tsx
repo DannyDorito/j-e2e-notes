@@ -77,6 +77,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
           height: '320px',
         },
         [],
+        false,
       ),
     ]);
     props.addNotification(
@@ -141,6 +142,19 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
     setNewLabelNameError('');
   };
 
+  const setPinned = (id: string) => {
+    setNotes(
+      notes.map((note) =>
+        note.id === id
+          ? {
+              ...note,
+              pinned: !note.pinned,
+            }
+          : note,
+      ),
+    );
+  };
+
   return (
     <>
       <Box sx={{ flexGrow: 1, backgroundColor: white, height: '100vh' }}>
@@ -155,6 +169,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
                 editNote: () => editNote(note.id),
                 addNotification: props.addNotification,
                 user: props.user,
+                setPinned: () => setPinned(note.id),
               }}
             ></DraggableNote>
           ))}
