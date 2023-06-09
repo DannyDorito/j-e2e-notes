@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
+import { AddPossesive } from '../helpers/AddPossessive';
 
 const pages: string[] = [];
 
@@ -38,7 +39,7 @@ const NoteMenu = () => {
               textDecoration: 'none',
             }}
           >
-            John&apos;s Notes App
+            {AddPossesive(user.name)} Notes App
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -64,7 +65,7 @@ const NoteMenu = () => {
               textDecoration: 'none',
             }}
           >
-            {user.name}&apos;s Notes App
+            {user.name} Notes App
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

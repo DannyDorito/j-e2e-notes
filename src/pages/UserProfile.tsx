@@ -1,6 +1,7 @@
 import {
   Box,
   IconButton,
+  InputAdornment,
   List,
   ListItem,
   ListItemIcon,
@@ -19,6 +20,7 @@ import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
 import FingerprintTwoToneIcon from '@mui/icons-material/FingerprintTwoTone';
 import TimelapseTwoToneIcon from '@mui/icons-material/TimelapseTwoTone';
+import { AddPossesive } from '../helpers/AddPossessive';
 
 const UserProfile = ({ props }: { props: ProfileProps }) => {
   const navigate = useNavigate();
@@ -73,7 +75,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
           alignItems: 'center',
         }}
       >
-        <Typography variant='body1'>{`${props.user.name}'s Profile`}</Typography>
+        <Typography variant='body1'>{`${AddPossesive(props.user.name)} Profile`}</Typography>
         <List
           sx={{
             width: '80%',
@@ -99,13 +101,14 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
             <ListItemIcon>
               <TimelapseTwoToneIcon />
             </ListItemIcon>
-            <ListItemText primary='Notification Duration (s)' />
+            <ListItemText primary='Notification Duration' />
             <TextField
               id='notification-duration'
               variant='standard'
               type='number'
+              disabled={!props.user.options.showNotifications}
               value={props.user.options.notificationsDuration / 1000} // from ms
-              InputProps={{ inputProps: { min: 1, max: Number.MAX_SAFE_INTEGER / 1000 } }}
+              InputProps={{ inputProps: { min: 1, max: Number.MAX_SAFE_INTEGER / 1000 }, endAdornment: <InputAdornment position='end'>seconds</InputAdornment>  }}
               onChange={(event) => setNumber(+event.target.value, 'notificationDuration')}
             ></TextField>
           </ListItem>
