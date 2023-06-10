@@ -8,11 +8,13 @@ import {
   ListItemIcon,
   Modal,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
+import { backgroundColour, primary, textColour } from '../helpers/ThemeProvider';
 
 const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
   return (
@@ -24,12 +26,12 @@ const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: 400,
-          bgcolor: 'background.paper',
+          bgcolor: backgroundColour,
           boxShadow: 24,
           p: 4,
         }}
       >
-        <Typography textAlign='center' variant='body1'>
+        <Typography textAlign='center' variant='h6' sx={{ color: textColour }}>
           {`${props.user.name}'s Labels`}
         </Typography>
         <List>
@@ -42,12 +44,13 @@ const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
                   edge='end'
                   aria-label='delete'
                   onClick={() => props.removeLabel(label.id)}
+                  sx={{ color: primary }}
                 >
                   <DeleteForeverTwoToneIcon />
                 </IconButton>
               }
             >
-              <ListItemIcon>
+              <ListItemIcon sx={{ color: primary }}>
                 <LabelTwoToneIcon />
               </ListItemIcon>
               <Typography variant='body1'>{label.name}</Typography>
@@ -58,12 +61,17 @@ const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
             key='label-add'
             sx={{ paddingRight: 0, paddingLeft: 0 }}
             secondaryAction={
-              <IconButton edge='end' aria-label='delete' onClick={props.addLabel}>
+              <IconButton
+                edge='end'
+                aria-label='delete'
+                onClick={props.addLabel}
+                sx={{ color: primary }}
+              >
                 <SaveTwoToneIcon />
               </IconButton>
             }
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ color: primary }}>
               <LabelTwoToneIcon />
             </ListItemIcon>
             <TextField
@@ -71,12 +79,27 @@ const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
               value={props.newLabelName}
               onChange={(e) => props.setNewLabelName(e.target.value)}
               variant='standard'
-              sx={{ width: '100%' }}
+              sx={{ input: { color: textColour } }}
               error={props.newLabelNameError.length !== 0}
               helperText={props.newLabelNameError}
             />
           </ListItem>
         </List>
+        <Box
+          sx={{
+            display: 'flex',
+            textAlign: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '32px',
+          }}
+        >
+          <Tooltip title='Save'>
+            <IconButton aria-label='Save' onClick={props.closeLabelModal}>
+              <SaveTwoToneIcon sx={{ color: primary }} />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
     </Modal>
   );

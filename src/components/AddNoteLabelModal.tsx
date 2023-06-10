@@ -1,21 +1,16 @@
+import { backgroundColour, primary, textColour } from '../helpers/ThemeProvider';
 import { AddNoteLabelModalProps } from '../props/AddNotelLabelModalProps';
 import {
   Box,
   Checkbox,
-  // Divider,
   FormControlLabel,
   FormGroup,
-  // IconButton,
-  // List,
-  // ListItem,
-  // ListItemIcon,
+  IconButton,
   Modal,
-  // TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
-// import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
-// import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
-// import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
+import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 
 const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
   const selected = (id: string): boolean => {
@@ -43,12 +38,12 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: 400,
-          bgcolor: 'background.paper',
+          bgcolor: backgroundColour,
           boxShadow: 24,
           p: 4,
         }}
       >
-        <Typography textAlign='center' variant='body1'>
+        <Typography textAlign='center' variant='h6' sx={{ color: textColour }}>
           {`${props.user.name}'s Labels`}
         </Typography>
         <FormGroup>
@@ -57,14 +52,31 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
               key={`label-${availableLabel.id}`}
               control={
                 <Checkbox
+                  sx={{ color: primary }}
                   checked={selected(availableLabel.id)}
                   onChange={(event) => onChange(event, availableLabel.id)}
                 />
               }
+              sx={{ color: textColour }}
               label={availableLabel.name}
             />
           ))}
         </FormGroup>
+        <Box
+          sx={{
+            display: 'flex',
+            textAlign: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '32px',
+          }}
+        >
+          <Tooltip title='Save'>
+            <IconButton aria-label='Save' onClick={props.closeAddNoteLabelModal}>
+              <SaveTwoToneIcon sx={{ color: primary }} />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
     </Modal>
   );

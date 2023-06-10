@@ -1,7 +1,7 @@
 import { ColourList } from '../helpers/RandomColour';
 import { ColourPalletProps } from '../props/ColourPalletProps';
 import { useState } from 'react';
-import { black, error } from '../helpers/ThemeProvider';
+import { backgroundColour, error, primary, textColour } from '../helpers/ThemeProvider';
 import { HexColorPicker as HexColourPicker } from 'react-colorful';
 import {
   Box,
@@ -44,11 +44,14 @@ const ColourPalletModal = ({ props }: { props: ColourPalletProps }) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 400,
-            bgcolor: 'background.paper',
+            bgcolor: backgroundColour,
             boxShadow: 24,
             p: 4,
           }}
         >
+          <Typography textAlign='center' variant='h6' sx={{ color: textColour }}>
+            Note Colours
+          </Typography>
           <Box
             sx={{
               display: 'flex',
@@ -94,7 +97,7 @@ const ColourPalletModal = ({ props }: { props: ColourPalletProps }) => {
                   width: 30,
                   backgroundColor: props.currentColour.isCustom
                     ? props.currentColour.primary
-                    : black,
+                    : backgroundColour,
                   border: 2.25,
                   borderColor: props.currentColour.isCustom ? error : props.currentColour.accent,
                   borderRadius: 1,
@@ -108,7 +111,7 @@ const ColourPalletModal = ({ props }: { props: ColourPalletProps }) => {
               <Box>
                 <Divider sx={{ marginBottom: '12px', marginTop: '12px' }}></Divider>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant='body1' width='50%'>
+                  <Typography variant='body1' width='50%' sx={{ color: textColour }}>
                     Primary Colour
                   </Typography>
                   <Box>
@@ -131,7 +134,7 @@ const ColourPalletModal = ({ props }: { props: ColourPalletProps }) => {
                 </Box>
                 <Divider sx={{ marginBottom: '12px', marginTop: '12px' }}></Divider>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant='body1' width='50%'>
+                  <Typography variant='body1' width='50%' sx={{ color: textColour }}>
                     Secondary Colour
                   </Typography>
                   <Box>
@@ -154,7 +157,7 @@ const ColourPalletModal = ({ props }: { props: ColourPalletProps }) => {
                 </Box>
                 <Divider sx={{ marginBottom: '12px', marginTop: '12px' }}></Divider>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant='body1' width='50%'>
+                  <Typography variant='body1' width='50%' sx={{ color: textColour }}>
                     Accent Colour
                   </Typography>
                   <Box>
@@ -175,17 +178,48 @@ const ColourPalletModal = ({ props }: { props: ColourPalletProps }) => {
                     ></TextField>
                   </Box>
                 </Box>
-                <Tooltip title='Save Custom Colour'>
-                  <IconButton
-                    className='draggable-button'
-                    onClick={saveCustomColour}
-                    sx={{ color: props.currentColour.accent }}
-                  >
-                    <SaveTwoToneIcon />
-                  </IconButton>
-                </Tooltip>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: '32px',
+                  }}
+                >
+                  <Tooltip title='Save Custom Colour'>
+                    <IconButton
+                      className='draggable-button'
+                      onClick={saveCustomColour}
+                      sx={{ color: props.currentColour.accent }}
+                    >
+                      <SaveTwoToneIcon sx={{ color: primary }} />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
               </Box>
             </>
+          )}
+          {!showCustomColourEditor && (
+            <Box
+              sx={{
+                display: 'flex',
+                textAlign: 'center',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '32px',
+              }}
+            >
+              <Tooltip title='Save'>
+                <IconButton
+                  className='draggable-button'
+                  onClick={() => props.setShowColourPallet(false)}
+                  sx={{ color: props.currentColour.accent }}
+                >
+                  <SaveTwoToneIcon sx={{ color: primary }} />
+                </IconButton>
+              </Tooltip>
+            </Box>
           )}
         </Box>
       </Modal>
