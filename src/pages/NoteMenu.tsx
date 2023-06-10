@@ -69,7 +69,7 @@ const NoteMenu = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title={user.name + "'s Profile"}>
               <IconButton sx={{ p: 0 }} onClick={() => navigate('/profile')}>
-                <Avatar alt={user.name} src='/static/images/avatar/2.jpg' />
+                <Avatar alt={user.name} src={user.avatar ?? ''} />
               </IconButton>
             </Tooltip>
           </Box>

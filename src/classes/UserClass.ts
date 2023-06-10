@@ -8,6 +8,7 @@ export class UserClass {
   authenticated: boolean;
   labels: LabelInterface[];
   options: OptionsInterface;
+  avatar?: string;
 
   constructor(
     name: string,
@@ -15,12 +16,14 @@ export class UserClass {
     authenticated: boolean,
     labels: LabelInterface[],
     options: OptionsInterface,
+    avatar?: string,
   ) {
     this.name = name;
     this.uuid = uuid;
     this.authenticated = authenticated;
     this.labels = labels;
     this.options = options;
+    this.avatar = avatar;
   }
 }
 

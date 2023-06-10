@@ -1,7 +1,9 @@
 import {
   Box,
+  Fab,
   IconButton,
   InputAdornment,
+  InputBase,
   List,
   ListItem,
   ListItemIcon,
@@ -16,15 +18,16 @@ import { backgroundColour, primary, textColour } from '../helpers/ThemeProvider'
 import { useNavigate } from 'react-router-dom';
 import { ToggleOptionEnum } from '../classes/ToggleOptionEnum';
 import { AddPossesive } from '../helpers/AddPossessive';
+import { useDarkMode } from 'usehooks-ts';
+import { NotificationClass } from '../classes/NotificationClass';
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
 import FingerprintTwoToneIcon from '@mui/icons-material/FingerprintTwoTone';
 import TimelapseTwoToneIcon from '@mui/icons-material/TimelapseTwoTone';
 import DarkModeTwoToneIcon from '@mui/icons-material/DarkModeTwoTone';
-import { useDarkMode } from 'usehooks-ts';
-import { NotificationClass } from '../classes/NotificationClass';
-
+import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
+import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
 const UserProfile = ({ props }: { props: ProfileProps }) => {
   const navigate = useNavigate();
   const { isDarkMode, toggle } = useDarkMode();
@@ -66,6 +69,19 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
     }
   };
 
+  const handleUploadClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event?.target?.files?.item(0) as File;
+    const reader = new FileReader();
+    reader.addEventListener('loadend', (event) => {
+      const updatedUser = props.user;
+      updatedUser.avatar = event?.target?.result as string;
+      props.setUser(updatedUser);
+      console.log(event);
+    });
+    reader.readAsDataURL( new Blob([file], {type : 'image/png'}));
+    console.log(event);
+  };
+
   const save = () => {
     props.addNotification(
       new NotificationClass(
@@ -104,6 +120,46 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
         >
           <ListItem>
             <ListItemIcon>
+              <BadgeTwoToneIcon sx={{ color: primary }} />
+            </ListItemIcon>
+            <ListItemText primary='Name' />
+            <Box>
+              <TextField
+                id='user-name'
+                variant='standard'
+                value={props.user.name}
+                sx={{ input: { color: textColour } }}
+                onChange={(event) => setText(event.target.value.trim(), 'name')}
+              ></TextField>
+            </Box>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <FingerprintTwoToneIcon sx={{ color: primary }} />
+            </ListItemIcon>
+            <ListItemText primary='User Id' />
+            <Box>
+              <Typography variant='body1'>{props.user.uuid}</Typography>
+            </Box>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <AccountCircleTwoToneIcon sx={{ color: primary }} />
+            </ListItemIcon>
+            <ListItemText primary='Avatar' />
+            <input
+              accept='image/*'
+              id='contained-button-file'
+              type='file'
+              onChange={handleUploadClick}
+              hidden
+            />
+            <label htmlFor='contained-button-file'>
+                <CloudUploadTwoToneIcon sx={{ color: primary, cursor: 'pointer' }}/>
+            </label>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
               <NotificationsActiveTwoToneIcon sx={{ color: primary }} />
             </ListItemIcon>
             <ListItemText primary='Show Notifications' />
@@ -133,30 +189,6 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               sx={{ input: { color: textColour } }}
               onChange={(event) => setNumber(+event.target.value, 'notificationDuration')}
             ></TextField>
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <BadgeTwoToneIcon sx={{ color: primary }} />
-            </ListItemIcon>
-            <ListItemText primary='Name' />
-            <Box>
-              <TextField
-                id='user-name'
-                variant='standard'
-                value={props.user.name}
-                sx={{ input: { color: textColour } }}
-                onChange={(event) => setText(event.target.value.trim(), 'name')}
-              ></TextField>
-            </Box>
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <FingerprintTwoToneIcon sx={{ color: primary }} />
-            </ListItemIcon>
-            <ListItemText primary='User Id' />
-            <Box>
-              <Typography variant='body1'>{props.user.uuid}</Typography>
-            </Box>
           </ListItem>
           <ListItem>
             <ListItemIcon>
