@@ -1,4 +1,4 @@
-import { primary, white } from '../helpers/ThemeProvider';
+import { backgroundColour, primary } from '../helpers/ThemeProvider';
 import { Box, IconButton, Typography } from '@mui/material';
 import { LoginProps } from '../props/LoginProps';
 import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
@@ -12,7 +12,7 @@ const Login = ({ props }: { props: LoginProps }) => {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
-        backgroundColor: white,
+        backgroundColor: backgroundColour,
       }}
       alignItems='center'
       justifyContent='center'

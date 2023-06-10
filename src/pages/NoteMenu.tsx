@@ -16,8 +16,6 @@ import { useNavigate } from 'react-router-dom';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import { AddPossesive } from '../helpers/AddPossessive';
 
-const pages: string[] = [];
-
 const NoteMenu = () => {
   const navigate = useNavigate();
 
@@ -31,13 +29,14 @@ const NoteMenu = () => {
             variant='h6'
             noWrap
             component='a'
-            href='/notes'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               color: 'inherit',
               textDecoration: 'none',
+              cursor: 'pointer',
             }}
+            onClick={() => navigate('/notes')}
           >
             {AddPossesive(user.name)} Notes App
           </Typography>
@@ -54,7 +53,7 @@ const NoteMenu = () => {
             </IconButton>
           </Box>
           <Typography
-            variant='h5'
+            variant='h1'
             noWrap
             component='a'
             sx={{
@@ -67,13 +66,7 @@ const NoteMenu = () => {
           >
             {user.name} Notes App
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button key={page} sx={{ my: 2, color: 'white', display: 'block' }}>
-                {page}
-              </Button>
-            ))}
-          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title={user.name + "'s Profile"}>
               <IconButton sx={{ p: 0 }} onClick={() => navigate('/profile')}>

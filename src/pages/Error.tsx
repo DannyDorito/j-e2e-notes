@@ -1,5 +1,5 @@
-import Box from '@mui/material/Box/Box';
-import { white } from '../helpers/ThemeProvider';
+import { Box } from '@mui/material';
+import { backgroundColour } from '../helpers/ThemeProvider';
 
 const Error = () => {
   window.localStorage.clear();
@@ -12,7 +12,7 @@ const Error = () => {
           alignItems: 'center',
           justifyContent: 'center',
           minHeight: '100vh',
-          backgroundColor: white,
+          backgroundColor: backgroundColour,
         }}
         alignItems='center'
         justifyContent='center'

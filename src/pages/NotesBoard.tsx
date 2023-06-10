@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { NoteClass } from '../classes/NoteClass';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
-import { white } from '../helpers/ThemeProvider';
+import { backgroundColour } from '../helpers/ThemeProvider';
 import { NotesBoardProps } from '../props/NotesBoardProps';
 import { Box } from '@mui/material';
 import DraggableNote from '../components/DraggableNote';
@@ -17,16 +17,6 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
   const [openLabelModal, setOpenLabelModal] = useState<boolean>(false);
   const [newLabelName, setNewLabelName] = useState<string>('');
   const [newLabelNameError, setNewLabelNameError] = useState<string>('');
-
-  useEffect(() => {
-    props.addNotification(
-      new NotificationClass(
-        props.user.options.notificationsDuration,
-        'success',
-        'Successfully Logged In!',
-      ),
-    );
-  }, []);
 
   const deleteNote = (id: string) => {
     setNotes(
@@ -70,8 +60,8 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         uuidv4(),
         new Date().toUTCString(),
         {
-          x: 20,
-          y: 20,
+          x: 84,
+          y: 84,
           z: 1,
           width: '320px',
           height: '320px',
@@ -157,7 +147,10 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, backgroundColor: white, height: '100vh' }}>
+      <Box
+        sx={{ flexGrow: 1, backgroundColor: backgroundColour, height: '100vh' }}
+        id='notes-board'
+      >
         {notes
           .filter((note) => !note.deletedAt)
           .map((note) => (

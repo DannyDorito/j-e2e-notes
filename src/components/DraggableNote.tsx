@@ -116,6 +116,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
         onResizeStop={(e, direction, ref, delta, position) =>
           onResizeStop(e, direction, ref, delta, position)
         }
+        bounds={'#notes-board'}
         resizeGrid={[0.0001, 0.0001]}
         dragGrid={[0.0001, 0.0001]}
         ref={(c) => {

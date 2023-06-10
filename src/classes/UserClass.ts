@@ -1,4 +1,4 @@
-import { version as uuidVersion, validate as uuidValidate, NIL as NIL_UUID } from 'uuid';
+import { NIL as NIL_UUID } from 'uuid';
 import { LabelInterface } from './LabelInterface';
 import { OptionsInterface } from './OptionsInterface';
 
@@ -22,14 +22,6 @@ export class UserClass {
     this.labels = labels;
     this.options = options;
   }
-
-  isAuthenticated = () => {
-    return this.authenticated && this.isValidUUID;
-  };
-
-  isValidUUID = () => {
-    return this.uuid !== NIL_UUID && uuidValidate(this.uuid) && uuidVersion(this.uuid) === 4;
-  };
 }
 
 export const defaultUser = new UserClass('', NIL_UUID, false, [], {

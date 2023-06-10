@@ -12,22 +12,26 @@ import {
   Typography,
 } from '@mui/material';
 import { ProfileProps } from '../props/ProfileProps';
-import { white } from '../helpers/ThemeProvider';
+import { backgroundColour, primary, textColour } from '../helpers/ThemeProvider';
 import { useNavigate } from 'react-router-dom';
-
+import { ToggleOptionEnum } from '../classes/ToggleOptionEnum';
+import { AddPossesive } from '../helpers/AddPossessive';
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
 import FingerprintTwoToneIcon from '@mui/icons-material/FingerprintTwoTone';
 import TimelapseTwoToneIcon from '@mui/icons-material/TimelapseTwoTone';
-import { AddPossesive } from '../helpers/AddPossessive';
+import DarkModeTwoToneIcon from '@mui/icons-material/DarkModeTwoTone';
+import { useDarkMode } from 'usehooks-ts';
+import { NotificationClass } from '../classes/NotificationClass';
 
 const UserProfile = ({ props }: { props: ProfileProps }) => {
   const navigate = useNavigate();
-  const toggleOption = (checked: boolean, option: 'showNotifications') => {
+  const { isDarkMode, toggle } = useDarkMode();
+  const toggleOption = (checked: boolean, option: ToggleOptionEnum) => {
     const updatedUser = props.user;
     switch (option) {
-      case 'showNotifications':
+      case ToggleOptionEnum.ShowNotifications:
         updatedUser.options.showNotifications = checked;
         props.setUser(updatedUser);
         break;
@@ -62,20 +66,31 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
     }
   };
 
-  const back = () => navigate(-1);
+  const save = () => {
+    props.addNotification(
+      new NotificationClass(
+        props.user.options.notificationsDuration,
+        'success',
+        'Successfully Saved Settings!',
+      ),
+    );
+    navigate(-1);
+  };
 
   return (
     <>
       <Box
         sx={{
-          backgroundColor: white,
+          backgroundColor: backgroundColour,
           height: '100vh',
           textAlign: 'center',
           justifyContent: 'center',
           alignItems: 'center',
         }}
       >
-        <Typography variant='body1'>{`${AddPossesive(props.user.name)} Profile`}</Typography>
+        <Typography variant='body1' sx={{ color: textColour }}>{`${AddPossesive(
+          props.user.name,
+        )} Profile`}</Typography>
         <List
           sx={{
             width: '80%',
@@ -84,22 +99,25 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
             flexDirection: 'column',
             alignItems: 'center',
             maxWidth: 720,
+            color: textColour,
           }}
         >
           <ListItem>
             <ListItemIcon>
-              <NotificationsActiveTwoToneIcon />
+              <NotificationsActiveTwoToneIcon sx={{ color: primary }} />
             </ListItemIcon>
             <ListItemText primary='Show Notifications' />
             <Switch
               edge='end'
-              onChange={(event) => toggleOption(event.target.checked, 'showNotifications')}
+              onChange={(event) =>
+                toggleOption(event.target.checked, ToggleOptionEnum.ShowNotifications)
+              }
               checked={props.user.options.showNotifications}
             />
           </ListItem>
           <ListItem>
             <ListItemIcon>
-              <TimelapseTwoToneIcon />
+              <TimelapseTwoToneIcon sx={{ color: primary }} />
             </ListItemIcon>
             <ListItemText primary='Notification Duration' />
             <TextField
@@ -108,13 +126,17 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               type='number'
               disabled={!props.user.options.showNotifications}
               value={props.user.options.notificationsDuration / 1000} // from ms
-              InputProps={{ inputProps: { min: 1, max: Number.MAX_SAFE_INTEGER / 1000 }, endAdornment: <InputAdornment position='end'>seconds</InputAdornment>  }}
+              InputProps={{
+                inputProps: { min: 1, max: Number.MAX_SAFE_INTEGER / 1000 },
+                endAdornment: <InputAdornment position='end'>seconds</InputAdornment>,
+              }}
+              sx={{ input: { color: textColour } }}
               onChange={(event) => setNumber(+event.target.value, 'notificationDuration')}
             ></TextField>
           </ListItem>
           <ListItem>
             <ListItemIcon>
-              <BadgeTwoToneIcon />
+              <BadgeTwoToneIcon sx={{ color: primary }} />
             </ListItemIcon>
             <ListItemText primary='Name' />
             <Box>
@@ -122,23 +144,31 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
                 id='user-name'
                 variant='standard'
                 value={props.user.name}
+                sx={{ input: { color: textColour } }}
                 onChange={(event) => setText(event.target.value.trim(), 'name')}
               ></TextField>
             </Box>
           </ListItem>
           <ListItem>
             <ListItemIcon>
-              <FingerprintTwoToneIcon />
+              <FingerprintTwoToneIcon sx={{ color: primary }} />
             </ListItemIcon>
             <ListItemText primary='User Id' />
             <Box>
               <Typography variant='body1'>{props.user.uuid}</Typography>
             </Box>
           </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <DarkModeTwoToneIcon sx={{ color: primary }} />
+            </ListItemIcon>
+            <ListItemText primary='Dark Mode' />
+            <Switch edge='end' onChange={toggle} checked={isDarkMode} />
+          </ListItem>
         </List>
-        <Tooltip title='Back'>
-          <IconButton aria-label='Save' onClick={back}>
-            <SaveTwoToneIcon />
+        <Tooltip title='Save'>
+          <IconButton aria-label='Save' onClick={save}>
+            <SaveTwoToneIcon sx={{ color: primary }} />
           </IconButton>
         </Tooltip>
       </Box>

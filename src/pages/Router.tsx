@@ -35,6 +35,13 @@ const Router = () => {
         notificationsDuration: 5000,
       }),
     );
+    addNotification(
+      new NotificationClass(
+        user.options.notificationsDuration,
+        'success',
+        'Successfully Logged In!',
+      ),
+    );
     navigate('/notes');
   };
 
@@ -86,7 +93,14 @@ const Router = () => {
             />
           }
         />
-        <Route path='/profile' element={<UserProfile props={{ user: user, setUser: setUser }} />} />
+        <Route
+          path='/profile'
+          element={
+            <UserProfile
+              props={{ user: user, setUser: setUser, addNotification: addNotification }}
+            />
+          }
+        />
       </Routes>
       {notifications.map((notification, index) => (
         <CustomNotification props={notification} key={`notification-${index}`} />
