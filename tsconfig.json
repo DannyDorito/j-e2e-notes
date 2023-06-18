@@ -18,6 +18,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "noImplicitAny": true,
+    "allowUnusedLabels": false,
+    "noUnusedLocals": true,
     "jsx": "react-jsx",
     "strictNullChecks": true
   },
