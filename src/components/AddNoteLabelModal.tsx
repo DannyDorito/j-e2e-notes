@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
-import { LabelInterface } from '../classes/LabelInterface';
+import { LabelInterface } from '../interfaces/LabelInterface';
 
 const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
   const selected = (id: string): boolean => {
