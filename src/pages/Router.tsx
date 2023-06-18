@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
@@ -58,13 +58,21 @@ const Router = () => {
     navigate('/');
   };
 
+  const authenticated = (): boolean => {
+    if (user === undefined || user?.authenticated === undefined) {
+      return false;
+    } else {
+      return user?.authenticated && validUUID(user.uuid);
+    }
+  };
+
   const validUUID = (uuid: string) => {
     return uuid !== NIL_UUID && uuidValidate(uuid) && uuidVersion(uuid) === 4;
   };
 
   return (
     <>
-      {user?.authenticated && validUUID(user.uuid) && <NoteMenu />}
+      {authenticated() && <NoteMenu />}
       <Routes>
         <Route
           index
@@ -84,22 +92,30 @@ const Router = () => {
         <Route
           path='/notes'
           element={
-            <NotesBoard
-              props={{
-                deauthenticate: deauthenticate,
-                user: user,
-                setUser: setUser,
-                addNotification: addNotification,
-              }}
-            />
+            authenticated() ? (
+              <NotesBoard
+                props={{
+                  deauthenticate: deauthenticate,
+                  user: user,
+                  setUser: setUser,
+                  addNotification: addNotification,
+                }}
+              />
+            ) : (
+              <Navigate to='/' />
+            )
           }
         />
         <Route
           path='/profile'
           element={
-            <UserProfile
-              props={{ user: user, setUser: setUser, addNotification: addNotification }}
-            />
+            authenticated() ? (
+              <UserProfile
+                props={{ user: user, setUser: setUser, addNotification: addNotification }}
+              />
+            ) : (
+              <Navigate to='/' />
+            )
           }
         />
         <Route path='*' element={<Error />} />
