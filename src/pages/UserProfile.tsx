@@ -26,6 +26,8 @@ import TimelapseTwoToneIcon from '@mui/icons-material/TimelapseTwoTone';
 import DarkModeTwoToneIcon from '@mui/icons-material/DarkModeTwoTone';
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
+import { SetTextEnum } from '../classes/SetTextEnum';
+import { SetNumberEnum } from '../classes/SetNumberEnum';
 
 const UserProfile = ({ props }: { props: ProfileProps }) => {
   const navigate = useNavigate();
@@ -47,13 +49,13 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
     }
   };
 
-  const setText = (text: string, option: 'name') => {
+  const setText = (text: string, option: SetTextEnum) => {
     const updatedUser = props.user;
     if (updatedUser === undefined) {
       return;
     }
     switch (option) {
-      case 'name':
+      case SetTextEnum.Name:
         updatedUser.name = text.trim();
         props.setUser(updatedUser);
         break;
@@ -63,13 +65,13 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
     }
   };
 
-  const setNumber = (number: number, options: 'notificationDuration') => {
+  const setNumber = (number: number, options: SetNumberEnum) => {
     const updatedUser = props.user;
     if (updatedUser === undefined) {
       return;
     }
     switch (options) {
-      case 'notificationDuration':
+      case SetNumberEnum.NotificationDuration:
         updatedUser.options.notificationsDuration = number * 1000; //to ms
         props.setUser(updatedUser);
         break;
@@ -144,7 +146,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
                 variant='standard'
                 value={props.user?.name}
                 sx={{ input: { color: textColour } }}
-                onChange={(event) => setText(event.target.value.trim(), 'name')}
+                onChange={(event) => setText(event.target.value.trim(), SetTextEnum.Name)}
               ></TextField>
             </Box>
           </ListItem>
@@ -206,7 +208,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
                 endAdornment: <InputAdornment position='end'>seconds</InputAdornment>,
               }}
               sx={{ input: { color: textColour } }}
-              onChange={(event) => setNumber(+event.target.value, 'notificationDuration')}
+              onChange={(event) => setNumber(+event.target.value, SetNumberEnum.NotificationDuration)}
             ></TextField>
           </ListItem>
           <ListItem>
