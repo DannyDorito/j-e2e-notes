@@ -15,7 +15,7 @@ import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
 import PushPinTwoToneIcon from '@mui/icons-material/PushPinTwoTone';
 import AddNoteLabelModal from './AddNoteLabelModal';
 import './css/DraggableNote.css';
-import { LabelInterface } from '../classes/LabelInterface';
+import { LabelInterface } from '../interfaces/LabelInterface';
 
 const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   let rnd: Rnd | null;
