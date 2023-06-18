@@ -31,7 +31,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
   const { isDarkMode, toggle } = useDarkMode();
   const toggleOption = (checked: boolean, option: ToggleOptionEnum) => {
     const updatedUser = props.user;
-    if (updatedUser === undefined){
+    if (updatedUser === undefined) {
       return;
     }
     switch (option) {
@@ -47,7 +47,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
 
   const setText = (text: string, option: 'name') => {
     const updatedUser = props.user;
-    if (updatedUser === undefined){
+    if (updatedUser === undefined) {
       return;
     }
     switch (option) {
@@ -63,7 +63,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
 
   const setNumber = (number: number, options: 'notificationDuration') => {
     const updatedUser = props.user;
-    if (updatedUser === undefined){
+    if (updatedUser === undefined) {
       return;
     }
     switch (options) {
@@ -162,7 +162,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               hidden
             />
             <label htmlFor='contained-button-file'>
-                <CloudUploadTwoToneIcon sx={{ color: primary, cursor: 'pointer' }}/>
+              <CloudUploadTwoToneIcon sx={{ color: primary, cursor: 'pointer' }} />
             </label>
           </ListItem>
           <ListItem>
@@ -188,7 +188,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               variant='standard'
               type='number'
               disabled={!props.user?.options.showNotifications}
-              value={props.user?.options?.notificationsDuration as number / 1000} // from ms
+              value={(props.user?.options?.notificationsDuration as number) / 1000} // from ms
               InputProps={{
                 inputProps: { min: 1, max: Number.MAX_SAFE_INTEGER / 1000 },
                 endAdornment: <InputAdornment position='end'>seconds</InputAdornment>,

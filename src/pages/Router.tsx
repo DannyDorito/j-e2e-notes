@@ -2,7 +2,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
-import { UserClass} from '../classes/UserClass';
+import { UserClass } from '../classes/UserClass';
 import {
   v4 as uuidv4,
   version as uuidVersion,
@@ -14,6 +14,7 @@ import Login from './Login';
 import NotesBoard from './NotesBoard';
 import UserProfile from './UserProfile';
 import NoteMenu from './NoteMenu';
+import Error from './Error';
 
 const Router = () => {
   const navigate = useNavigate();
@@ -101,6 +102,7 @@ const Router = () => {
             />
           }
         />
+        <Route path='*' element={<Error />} />
       </Routes>
       {notifications.map((notification, index) => (
         <CustomNotification props={notification} key={`notification-${index}`} />

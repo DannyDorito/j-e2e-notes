@@ -56,7 +56,9 @@ const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
               <Typography variant='body1'>{label.name}</Typography>
             </ListItem>
           ))}
-          {props.user?.labels.length as number > 0 && <Divider sx={{ marginBottom: '12px' }}></Divider>}
+          {(props.user?.labels.length as number) > 0 && (
+            <Divider sx={{ marginBottom: '12px' }}></Divider>
+          )}
           <ListItem
             key='label-add'
             sx={{ paddingRight: 0, paddingLeft: 0 }}
