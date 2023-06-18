@@ -76,7 +76,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
     }
   };
 
-  const handleUploadClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadClick = () => {
     // const file = event?.target?.files?.item(0) as File;
     // const reader = new FileReader();
     // reader.addEventListener('loadend', (event) => {
