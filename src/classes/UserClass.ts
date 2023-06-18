@@ -1,6 +1,6 @@
 import { NIL as NIL_UUID } from 'uuid';
-import { LabelInterface } from './LabelInterface';
-import { OptionsInterface } from './OptionsInterface';
+import { LabelInterface } from '../interfaces/LabelInterface';
+import { OptionsInterface } from '../interfaces/OptionsInterface';
 
 export class UserClass {
   name: string;

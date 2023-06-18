@@ -14,7 +14,6 @@ import {
 import { ProfileProps } from '../props/ProfileProps';
 import { backgroundColour, primary, textColour } from '../helpers/ThemeProvider';
 import { useNavigate } from 'react-router-dom';
-import { ToggleOptionEnum } from '../classes/ToggleOptionEnum';
 import { AddPossesive } from '../helpers/AddPossessive';
 import { useDarkMode } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
@@ -26,8 +25,9 @@ import TimelapseTwoToneIcon from '@mui/icons-material/TimelapseTwoTone';
 import DarkModeTwoToneIcon from '@mui/icons-material/DarkModeTwoTone';
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
-import { SetTextEnum } from '../classes/SetTextEnum';
-import { SetNumberEnum } from '../classes/SetNumberEnum';
+import { SetTextEnum } from '../enums/SetTextEnum';
+import { ToggleOptionEnum } from '../enums/ToggleOptionEnum';
+import { SetNumberEnum } from '../enums/SetNumberEnum';
 
 const UserProfile = ({ props }: { props: ProfileProps }) => {
   const navigate = useNavigate();
@@ -208,7 +208,9 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
                 endAdornment: <InputAdornment position='end'>seconds</InputAdornment>,
               }}
               sx={{ input: { color: textColour } }}
-              onChange={(event) => setNumber(+event.target.value, SetNumberEnum.NotificationDuration)}
+              onChange={(event) =>
+                setNumber(+event.target.value, SetNumberEnum.NotificationDuration)
+              }
             ></TextField>
           </ListItem>
           <ListItem>

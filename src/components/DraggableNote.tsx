@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ColourInterface } from '../classes/ColourInterface';
+import { ColourInterface } from '../interfaces/ColourInterface';
 import { DraggableData, Rnd, ResizableDelta, Position, RndDragEvent } from 'react-rnd';
 import { ResizeDirection } from 're-resizable';
 import { Card, Stack, Chip, TextField, FilledInput, Box, Tooltip, IconButton } from '@mui/material';

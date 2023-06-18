@@ -1,4 +1,4 @@
-import { ColourInterface } from '../classes/ColourInterface';
+import { ColourInterface } from '../interfaces/ColourInterface';
 import { black, white } from './ThemeProvider';
 
 export const ColourList: ColourInterface[] = [

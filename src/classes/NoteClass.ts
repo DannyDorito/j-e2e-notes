@@ -1,7 +1,8 @@
 import { randomColour } from '../helpers/RandomColour';
-import { ColourInterface } from './ColourInterface';
-import { LabelInterface } from './LabelInterface';
-import { PositionInterface } from './PositionInterface';
+import { ColourInterface } from '../interfaces/ColourInterface';
+import { LabelInterface } from '../interfaces/LabelInterface';
+import { PositionInterface } from '../interfaces/PositionInterface';
+
 export class NoteClass {
   title: string;
   content: string;

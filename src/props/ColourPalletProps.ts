@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { ColourInterface } from '../classes/ColourInterface';
+import { ColourInterface } from '../interfaces/ColourInterface';
 export interface ColourPalletProps {
   updateColourPallet: (
     primary: string,
