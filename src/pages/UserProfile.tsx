@@ -31,6 +31,9 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
   const { isDarkMode, toggle } = useDarkMode();
   const toggleOption = (checked: boolean, option: ToggleOptionEnum) => {
     const updatedUser = props.user;
+    if (updatedUser === undefined){
+      return;
+    }
     switch (option) {
       case ToggleOptionEnum.ShowNotifications:
         updatedUser.options.showNotifications = checked;
@@ -44,6 +47,9 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
 
   const setText = (text: string, option: 'name') => {
     const updatedUser = props.user;
+    if (updatedUser === undefined){
+      return;
+    }
     switch (option) {
       case 'name':
         updatedUser.name = text.trim();
@@ -57,6 +63,9 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
 
   const setNumber = (number: number, options: 'notificationDuration') => {
     const updatedUser = props.user;
+    if (updatedUser === undefined){
+      return;
+    }
     switch (options) {
       case 'notificationDuration':
         updatedUser.options.notificationsDuration = number * 1000; //to ms
@@ -68,22 +77,22 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
   };
 
   const handleUploadClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event?.target?.files?.item(0) as File;
-    const reader = new FileReader();
-    reader.addEventListener('loadend', (event) => {
-      const updatedUser = props.user;
-      updatedUser.avatar = event?.target?.result as string;
-      props.setUser(updatedUser);
-      console.log(event);
-    });
-    reader.readAsDataURL( new Blob([file], {type : 'image/png'}));
-    console.log(event);
+    // const file = event?.target?.files?.item(0) as File;
+    // const reader = new FileReader();
+    // reader.addEventListener('loadend', (event) => {
+    //   const updatedUser = props.user;
+    //   updatedUser?.avatar = event?.target?.result as string;
+    //   props.setUser(updatedUser);
+    //   console.log(event);
+    // });
+    // reader.readAsDataURL( new Blob([file], {type : 'image/png'}));
+    // console.log(event);
   };
 
   const save = () => {
     props.addNotification(
       new NotificationClass(
-        props.user.options.notificationsDuration,
+        props.user?.options.notificationsDuration,
         'success',
         'Successfully Saved Settings!',
       ),
@@ -103,7 +112,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
         }}
       >
         <Typography variant='body1' sx={{ color: textColour }}>{`${AddPossesive(
-          props.user.name,
+          props.user?.name as string,
         )} Profile`}</Typography>
         <List
           sx={{
@@ -125,7 +134,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               <TextField
                 id='user-name'
                 variant='standard'
-                value={props.user.name}
+                value={props.user?.name}
                 sx={{ input: { color: textColour } }}
                 onChange={(event) => setText(event.target.value.trim(), 'name')}
               ></TextField>
@@ -137,7 +146,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
             </ListItemIcon>
             <ListItemText primary='User Id' />
             <Box>
-              <Typography variant='body1'>{props.user.uuid}</Typography>
+              <Typography variant='body1'>{props.user?.uuid}</Typography>
             </Box>
           </ListItem>
           <ListItem>
@@ -166,7 +175,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               onChange={(event) =>
                 toggleOption(event.target.checked, ToggleOptionEnum.ShowNotifications)
               }
-              checked={props.user.options.showNotifications}
+              checked={props.user?.options.showNotifications}
             />
           </ListItem>
           <ListItem>
@@ -178,8 +187,8 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               id='notification-duration'
               variant='standard'
               type='number'
-              disabled={!props.user.options.showNotifications}
-              value={props.user.options.notificationsDuration / 1000} // from ms
+              disabled={!props.user?.options.showNotifications}
+              value={props.user?.options?.notificationsDuration as number / 1000} // from ms
               InputProps={{
                 inputProps: { min: 1, max: Number.MAX_SAFE_INTEGER / 1000 },
                 endAdornment: <InputAdornment position='end'>seconds</InputAdornment>,

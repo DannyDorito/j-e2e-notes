@@ -5,7 +5,7 @@ import { NotificationClass } from '../classes/NotificationClass';
 export interface LoginProps {
   deauthenticate: () => void;
   authenticate: () => void;
-  user: UserClass;
-  setUser: Dispatch<SetStateAction<UserClass>>;
+  user: UserClass | undefined;
+  setUser: Dispatch<SetStateAction<UserClass | undefined>>;
   addNotification: (notification: NotificationClass) => void;
 }

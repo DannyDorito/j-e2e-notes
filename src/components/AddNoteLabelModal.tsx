@@ -44,7 +44,7 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
         }}
       >
         <Typography textAlign='center' variant='h6' sx={{ color: textColour }}>
-          {`${props.user.name}'s Labels`}
+          {`${props.user?.name as string}'s Labels`}
         </Typography>
         <FormGroup>
           {props.availableLabels.map((availableLabel) => (

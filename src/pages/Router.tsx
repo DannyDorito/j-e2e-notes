@@ -2,7 +2,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { NotificationClass } from '../classes/NotificationClass';
-import { UserClass, defaultUser } from '../classes/UserClass';
+import { UserClass} from '../classes/UserClass';
 import {
   v4 as uuidv4,
   version as uuidVersion,
@@ -18,12 +18,12 @@ import NoteMenu from './NoteMenu';
 const Router = () => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useLocalStorage<UserClass>('user', defaultUser);
+  const [user, setUser] = useLocalStorage<UserClass | undefined>('user', undefined);
 
   const [notifications, setNotifications] = useState<NotificationClass[]>([]);
 
   const addNotification = (notification: NotificationClass) => {
-    if (user.options.showNotifications) {
+    if (user?.options.showNotifications) {
       setNotifications((notifications) => [...notifications, notification]);
     }
   };
@@ -37,7 +37,7 @@ const Router = () => {
     );
     addNotification(
       new NotificationClass(
-        user.options.notificationsDuration,
+        user?.options.notificationsDuration,
         'success',
         'Successfully Logged In!',
       ),
@@ -46,10 +46,10 @@ const Router = () => {
   };
 
   const deauthenticate = () => {
-    setUser(defaultUser);
+    setUser(undefined);
     addNotification(
       new NotificationClass(
-        user.options.notificationsDuration,
+        user?.options.notificationsDuration,
         'success',
         'Successfully Logged Out!',
       ),
@@ -63,7 +63,7 @@ const Router = () => {
 
   return (
     <>
-      {user.authenticated && validUUID(user.uuid) && <NoteMenu />}
+      {user?.authenticated && validUUID(user.uuid) && <NoteMenu />}
       <Routes>
         <Route
           index

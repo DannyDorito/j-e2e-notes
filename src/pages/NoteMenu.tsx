@@ -23,7 +23,7 @@ const NoteMenu = () => {
   return (
     <AppBar position='static' sx={{ backgroundColor: primary }}>
       <Container maxWidth='xl'>
-        <Toolbar>
+        <Toolbar id="notes-toolbar">
           <Typography
             variant='h6'
             noWrap
@@ -67,11 +67,12 @@ const NoteMenu = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title={user.name + "'s Profile"}>
+            {user !== undefined && <Tooltip title={user.name + "'s Profile"}>
               <IconButton sx={{ p: 0 }} onClick={() => navigate('/profile')}>
                 <Avatar alt={user.name} src={user.avatar ?? ''} />
               </IconButton>
-            </Tooltip>
+            </Tooltip>}
+
           </Box>
         </Toolbar>
       </Container>

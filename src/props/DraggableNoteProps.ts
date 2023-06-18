@@ -9,5 +9,5 @@ export interface DraggableNotesProps {
   editNote: MouseEventHandler<HTMLButtonElement> | undefined;
   addNotification: (notification: NotificationClass) => void;
   setPinned: (id: string) => void;
-  user: UserClass;
+  user: UserClass | undefined;
 }

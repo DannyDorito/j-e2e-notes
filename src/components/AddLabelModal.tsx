@@ -32,10 +32,10 @@ const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
         }}
       >
         <Typography textAlign='center' variant='h6' sx={{ color: textColour }}>
-          {`${props.user.name}'s Labels`}
+          {`${props.user?.name}'s Labels`}
         </Typography>
         <List>
-          {props.user.labels.map((label) => (
+          {props.user?.labels.map((label) => (
             <ListItem
               key={`label-${label.id}`}
               sx={{ paddingRight: 0, paddingLeft: 0 }}
@@ -56,7 +56,7 @@ const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
               <Typography variant='body1'>{label.name}</Typography>
             </ListItem>
           ))}
-          {props.user.labels.length > 0 && <Divider sx={{ marginBottom: '12px' }}></Divider>}
+          {props.user?.labels.length as number > 0 && <Divider sx={{ marginBottom: '12px' }}></Divider>}
           <ListItem
             key='label-add'
             sx={{ paddingRight: 0, paddingLeft: 0 }}

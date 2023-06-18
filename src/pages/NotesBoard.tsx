@@ -11,48 +11,52 @@ import AddLabelModal from '../components/AddLabelModal';
 import NotesFunctionMenu from '../components/NotesFunctionMenu';
 import './css/Notes.css';
 
-const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
-  const [notes, setNotes] = useLocalStorage<NoteClass[]>('notes', []);
+const NotesBoard = ( { props }: { props: NotesBoardProps } ) =>
+{
+  const [ notes, setNotes ] = useLocalStorage<NoteClass[]>( 'notes', [] );
 
-  const [openLabelModal, setOpenLabelModal] = useState<boolean>(false);
-  const [newLabelName, setNewLabelName] = useState<string>('');
-  const [newLabelNameError, setNewLabelNameError] = useState<string>('');
+  const [ openLabelModal, setOpenLabelModal ] = useState<boolean>( false );
+  const [ newLabelName, setNewLabelName ] = useState<string>( '' );
+  const [ newLabelNameError, setNewLabelNameError ] = useState<string>( '' );
 
-  const deleteNote = (id: string) => {
+  const deleteNote = ( id: string ) =>
+  {
     setNotes(
-      notes.map((note) =>
+      notes.map( ( note ) =>
         note.id === id
           ? {
-              ...note,
-              deletedAt: new Date().toUTCString(),
-            }
+            ...note,
+            deletedAt: new Date().toUTCString(),
+          }
           : note,
       ),
     );
     props.addNotification(
       new NotificationClass(
-        props.user.options.notificationsDuration,
+        props.user?.options.notificationsDuration as number,
         'success',
         'Successfully Deleted Note!',
       ),
     );
   };
 
-  const editNote = (id: string) => {
+  const editNote = ( id: string ) =>
+  {
     setNotes(
-      notes.map((note) =>
+      notes.map( ( note ) =>
         note.id === id
           ? {
-              ...note,
-              edit: !note.edit,
-            }
+            ...note,
+            edit: !note.edit,
+          }
           : note,
       ),
     );
   };
 
-  const addNote = () => {
-    setNotes((notes) => [
+  const addNote = () =>
+  {
+    setNotes( ( notes ) => [
       ...notes,
       new NoteClass(
         '',
@@ -69,40 +73,49 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         [],
         false,
       ),
-    ]);
+    ] );
     props.addNotification(
       new NotificationClass(
-        props.user.options.notificationsDuration,
+        props.user?.options.notificationsDuration as number,
         'success',
         'Successfully Created Note!',
       ),
     );
   };
 
-  const saveNotes = () => {
-    setNotes((notes) => [...notes]);
+  const saveNotes = () =>
+  {
+    setNotes( ( notes ) => [ ...notes ] );
     props.addNotification(
       new NotificationClass(
-        props.user.options.notificationsDuration,
+        props.user?.options.notificationsDuration as number,
         'success',
         'Successfully Saved Note!',
       ),
     );
   };
 
-  const addLabel = () => {
-    if (props.user.labels.some((label) => label.name === newLabelName)) {
-      setNewLabelNameError('Label Already Exists!');
-    } else if (newLabelName.trim().length === 0) {
-      setNewLabelNameError('Label Cannot Be Blank!');
-    } else {
-      const updateduser = props.user;
-      updateduser.labels.push({ name: newLabelName.trim(), id: uuidv4() });
-      props.setUser(updateduser);
-      setNewLabelName('');
+  const addLabel = () =>
+  {
+    if ( props.user?.labels.some( ( label ) => label.name === newLabelName ) )
+    {
+      setNewLabelNameError( 'Label Already Exists!' );
+    } else if ( newLabelName.trim().length === 0 )
+    {
+      setNewLabelNameError( 'Label Cannot Be Blank!' );
+    } else
+    {
+      const updatedUser = props.user;
+      if ( updatedUser === undefined )
+      {
+        return;
+      }
+      updatedUser.labels.push( { name: newLabelName.trim(), id: uuidv4() } );
+      props.setUser( updatedUser );
+      setNewLabelName( '' );
       props.addNotification(
         new NotificationClass(
-          props.user.options.notificationsDuration,
+          props.user?.options.notificationsDuration as number,
           'success',
           'Successfully Created Label!',
         ),
@@ -110,36 +123,45 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
     }
   };
 
-  const removeLabel = (id: string) => {
-    const updateduser = props.user;
+  const removeLabel = ( id: string ) =>
+  {
+    const updatedUser = props.user;
+    if ( updatedUser === undefined )
+    {
+      return;
+    }
     const labelsInUse =
       notes.length > 0
-        ? notes.map((note) => note.labels.filter((label) => label.id === id))[0]
+        ? notes.map( ( note ) => note.labels.filter( ( label ) => label.id === id ) )[ 0 ]
         : [];
 
-    if (labelsInUse.length > 0) {
-      props.addNotification(new NotificationClass(5000, 'error', 'Label Currently In Use!'));
-    } else {
-      updateduser.labels = updateduser.labels.filter((label) => label.id !== id);
-      props.setUser(updateduser);
-      props.addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Label!'));
+    if ( labelsInUse.length > 0 )
+    {
+      props.addNotification( new NotificationClass( 5000, 'error', 'Label Currently In Use!' ) );
+    } else
+    {
+      updatedUser.labels = updatedUser.labels.filter( ( label ) => label.id !== id );
+      props.setUser( updatedUser );
+      props.addNotification( new NotificationClass( 5000, 'success', 'Successfully Deleted Label!' ) );
     }
   };
 
-  const closeLabelModal = () => {
-    setOpenLabelModal(false);
-    setNewLabelName('');
-    setNewLabelNameError('');
+  const closeLabelModal = () =>
+  {
+    setOpenLabelModal( false );
+    setNewLabelName( '' );
+    setNewLabelNameError( '' );
   };
 
-  const setPinned = (id: string) => {
+  const setPinned = ( id: string ) =>
+  {
     setNotes(
-      notes.map((note) =>
+      notes.map( ( note ) =>
         note.id === id
           ? {
-              ...note,
-              pinned: !note.pinned,
-            }
+            ...note,
+            pinned: !note.pinned,
+          }
           : note,
       ),
     );
@@ -148,24 +170,24 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
   return (
     <>
       <Box
-        sx={{ flexGrow: 1, backgroundColor: backgroundColour, height: '100vh' }}
+        sx={{ flexGrow: 1, backgroundColor: backgroundColour, height: 'calc(100vh - 64px)' }}
         id='notes-board'
       >
         {notes
-          .filter((note) => !note.deletedAt)
-          .map((note) => (
+          .filter( ( note ) => !note.deletedAt )
+          .map( ( note ) => (
             <DraggableNote
               key={note.id}
               props={{
                 note: note,
-                deleteNote: () => deleteNote(note.id),
-                editNote: () => editNote(note.id),
+                deleteNote: () => deleteNote( note.id ),
+                editNote: () => editNote( note.id ),
                 addNotification: props.addNotification,
                 user: props.user,
-                setPinned: () => setPinned(note.id),
+                setPinned: () => setPinned( note.id ),
               }}
             ></DraggableNote>
-          ))}
+          ) )}
         <NotesFunctionMenu
           props={{
             addNote: addNote,
