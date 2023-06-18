@@ -8,26 +8,26 @@ export class UserClass {
   authenticated: boolean;
   labels: LabelInterface[];
   options: OptionsInterface;
-  avatar?: string;
+  avatar: string;
 
   constructor(
     name: string,
     uuid: string,
     authenticated: boolean,
     labels: LabelInterface[],
+    avatar: string,
     options: OptionsInterface,
-    avatar?: string,
   ) {
     this.name = name;
     this.uuid = uuid;
     this.authenticated = authenticated;
     this.labels = labels;
-    this.options = options;
     this.avatar = avatar;
+    this.options = options;
   }
 }
 
-export const defaultUser = new UserClass('', NIL_UUID, false, [], {
+export const defaultUser = new UserClass('', NIL_UUID, false, [], '', {
   showNotifications: true,
   notificationsDuration: 5000,
 });

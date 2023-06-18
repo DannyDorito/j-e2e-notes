@@ -26,9 +26,11 @@ import TimelapseTwoToneIcon from '@mui/icons-material/TimelapseTwoTone';
 import DarkModeTwoToneIcon from '@mui/icons-material/DarkModeTwoTone';
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
+
 const UserProfile = ({ props }: { props: ProfileProps }) => {
   const navigate = useNavigate();
   const { isDarkMode, toggle } = useDarkMode();
+
   const toggleOption = (checked: boolean, option: ToggleOptionEnum) => {
     const updatedUser = props.user;
     if (updatedUser === undefined) {
@@ -76,17 +78,23 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
     }
   };
 
-  const handleUploadClick = () => {
-    // const file = event?.target?.files?.item(0) as File;
-    // const reader = new FileReader();
-    // reader.addEventListener('loadend', (event) => {
-    //   const updatedUser = props.user;
-    //   updatedUser?.avatar = event?.target?.result as string;
-    //   props.setUser(updatedUser);
-    //   console.log(event);
-    // });
-    // reader.readAsDataURL( new Blob([file], {type : 'image/png'}));
-    // console.log(event);
+  const handleUploadClick = (event: { target: HTMLInputElement }) => {
+    if (event.target.files === null) {
+      return;
+    }
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      if (props.user === undefined) {
+        return;
+      }
+      const updatedUser = props.user;
+      updatedUser.avatar = reader.result as string;
+      props.setUser(updatedUser);
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const save = () => {

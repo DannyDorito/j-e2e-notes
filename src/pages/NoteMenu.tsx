@@ -70,7 +70,7 @@ const NoteMenu = () => {
             {user !== undefined && (
               <Tooltip title={user.name + "'s Profile"}>
                 <IconButton sx={{ p: 0 }} onClick={() => navigate('/profile')}>
-                  <Avatar alt={user.name} src={user.avatar ?? ''} />
+                  <Avatar alt={user.name} src={user.avatar} />
                 </IconButton>
               </Tooltip>
             )}

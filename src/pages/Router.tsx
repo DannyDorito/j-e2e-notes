@@ -31,7 +31,7 @@ const Router = () => {
 
   const authenticate = () => {
     setUser(
-      new UserClass('John', uuidv4(), true, [], {
+      new UserClass('John', uuidv4(), true, [], '', {
         showNotifications: true,
         notificationsDuration: 5000,
       }),
