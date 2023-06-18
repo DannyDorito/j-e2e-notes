@@ -196,7 +196,11 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               variant='standard'
               type='number'
               disabled={!props.user?.options.showNotifications}
-              value={(props.user?.options?.notificationsDuration as number) / 1000} // from ms
+              value={
+                (props.user?.options?.notificationsDuration
+                  ? props.user?.options?.notificationsDuration
+                  : 0) / 1000
+              } // from ms
               InputProps={{
                 inputProps: { min: 1, max: Number.MAX_SAFE_INTEGER / 1000 },
                 endAdornment: <InputAdornment position='end'>seconds</InputAdornment>,

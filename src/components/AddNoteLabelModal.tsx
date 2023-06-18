@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
+import { LabelInterface } from '../classes/LabelInterface';
 
 const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
   const selected = (id: string): boolean => {
@@ -19,10 +20,12 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (event.target.checked) {
-      const labelIndex = props.availableLabels.findIndex((n) => n.id === id);
+      const labelIndex = props.availableLabels?.findIndex((n) => n.id === id);
 
-      if (labelIndex > -1) {
-        props.noteLabels.push(props.availableLabels[labelIndex]);
+      if (labelIndex !== undefined && labelIndex > -1) {
+        props.noteLabels.push(
+          props.availableLabels?.filter((al, index) => index === labelIndex)[0] as LabelInterface,
+        );
       }
     } else if (!event.target.checked) {
       props.noteLabels = props.noteLabels.filter((label) => label.id !== id);
@@ -47,7 +50,7 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
           {`${props.user?.name as string}'s Labels`}
         </Typography>
         <FormGroup>
-          {props.availableLabels.map((availableLabel) => (
+          {props.availableLabels?.map((availableLabel) => (
             <FormControlLabel
               key={`label-${availableLabel.id}`}
               control={
