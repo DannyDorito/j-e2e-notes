@@ -18,7 +18,7 @@ export const NotesFunctionMenu = ({ props }: { props: NotesFunctionMenuProps }) 
         </IconButton>
       </Tooltip>
 
-      <Tooltip title='Add Label'>
+      <Tooltip title='Edit Labels'>
         <IconButton
           size='large'
           onClick={() => props.setOpenLabelModal(true)}

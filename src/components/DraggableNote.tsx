@@ -212,7 +212,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
                 {props.note.edit ? <SaveTwoToneIcon /> : <EditTwoToneIcon />}
               </IconButton>
             </Tooltip>
-            <Tooltip title='Add Label'>
+            <Tooltip title='Edit Labels'>
               <IconButton
                 className='draggable-button'
                 onClick={() => setOpenNoteLabelModal(true)}
