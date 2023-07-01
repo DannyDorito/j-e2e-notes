@@ -102,7 +102,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   };
 
   const canMoveOrResize = (): boolean => {
-    return props.note.edit || showColourPallet || props.note.pinned;
+    return props.note.edit === false && showColourPallet === false && props.note.pinned === false;
   };
 
   useEffect(() => {
@@ -125,9 +125,9 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
         ref={(c) => {
           rnd = c;
         }}
-        disableDragging={canMoveOrResize()}
-        enableResizing={!canMoveOrResize()}
-        style={{ zIndex: Z, borderColor: '#000fff' }}
+        disableDragging={!canMoveOrResize()}
+        enableResizing={canMoveOrResize()}
+        style={{ zIndex: Z }}
       >
         <Card
           className='draggable-card'
@@ -179,7 +179,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
             fullWidth={true}
             placeholder='Contents'
             type='text'
-            minRows={10}
+            minRows={1}
             onChange={(event) => updateContent(event.target.value)}
             sx={{
               display: 'flex',
