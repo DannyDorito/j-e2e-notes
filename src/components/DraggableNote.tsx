@@ -105,10 +105,15 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
     return props.note.edit === false && showColourPallet === false && props.note.pinned === false;
   };
 
+  const minRows = (): number => {
+    const heightNum = parseInt(height.replace('px', ''));
+    return Math.floor((heightNum - 84) / 23);
+  }
+
   useEffect(() => {
     rnd?.updatePosition({ x: props.note.position.x, y: props.note.position.y });
     rnd?.updateSize({ width: width, height: height });
-  }, [props.note.position.x, props.note.position.y, width, height]);
+  }, [width, height]);
 
   return (
     <>
@@ -179,7 +184,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
             fullWidth={true}
             placeholder='Contents'
             type='text'
-            minRows={1}
+            minRows={minRows()}
             onChange={(event) => updateContent(event.target.value)}
             sx={{
               display: 'flex',
