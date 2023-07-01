@@ -1,11 +1,11 @@
 import { IconButton, Tooltip } from '@mui/material';
 import { primary } from '../helpers/ThemeProvider';
-import { NotesFunctionMenuInterface } from '../props/NotesFunctionMenuInterface';
+import { NotesFunctionMenuProps } from '../props/NotesFunctionMenuProps';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
-export const NotesFunctionMenu = ({ props }: { props: NotesFunctionMenuInterface }) => {
+export const NotesFunctionMenu = ({ props }: { props: NotesFunctionMenuProps }) => {
   return (
     <>
       <Tooltip title='Add New Note'>

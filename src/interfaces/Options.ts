@@ -1,4 +1,4 @@
-export interface OptionsInterface {
+export interface Options {
   showNotifications: boolean;
   notificationsDuration: number;
 }

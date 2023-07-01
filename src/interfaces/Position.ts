@@ -1,4 +1,4 @@
-export interface PositionInterface {
+export interface Position {
   x: number;
   y: number;
   z: number;

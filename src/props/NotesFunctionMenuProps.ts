@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export interface NotesFunctionMenuInterface {
+export interface NotesFunctionMenuProps {
   addNote: () => void;
   saveNotes: () => void;
   setOpenLabelModal: Dispatch<SetStateAction<boolean>>;

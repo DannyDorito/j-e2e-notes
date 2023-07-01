@@ -1,5 +1,5 @@
 import { useLocalStorage } from 'usehooks-ts';
-import { UserClass, defaultUser } from '../classes/UserClass';
+import { User } from '../interfaces/User';
 import { primary } from '../helpers/ThemeProvider';
 import {
   AppBar,
@@ -17,8 +17,7 @@ import { AddPossesive } from '../helpers/AddPossessive';
 
 const NoteMenu = () => {
   const navigate = useNavigate();
-
-  const [user] = useLocalStorage<UserClass>('user', defaultUser);
+  const [user] = useLocalStorage<User | undefined>('user', undefined);
 
   return (
     <AppBar position='static' sx={{ backgroundColor: primary }}>
@@ -37,7 +36,7 @@ const NoteMenu = () => {
             }}
             onClick={() => navigate('/notes')}
           >
-            {AddPossesive(user.name)} Notes App
+            {AddPossesive(user?.name)} Notes App
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -63,12 +62,12 @@ const NoteMenu = () => {
               textDecoration: 'none',
             }}
           >
-            {user.name} Notes App
+            {AddPossesive(user?.name)} Notes App
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
           <Box sx={{ flexGrow: 0 }}>
             {user !== undefined && (
-              <Tooltip title={user.name + "'s Profile"}>
+              <Tooltip title={AddPossesive(user?.name) + ' Profile'}>
                 <IconButton sx={{ p: 0 }} onClick={() => navigate('/profile')}>
                   <Avatar alt={user.name} src={user.avatar} />
                 </IconButton>

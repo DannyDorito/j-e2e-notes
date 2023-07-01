@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { ColourInterface } from '../interfaces/ColourInterface';
+import { Colour } from '../interfaces/Colour';
 import { DraggableData, Rnd, ResizableDelta, Position, RndDragEvent } from 'react-rnd';
 import { ResizeDirection } from 're-resizable';
 import { Card, Stack, Chip, TextField, FilledInput, Box, Tooltip, IconButton } from '@mui/material';
 import { DraggableNotesProps } from '../props/DraggableNoteProps';
-import { NotificationClass } from '../classes/NotificationClass';
 import ColourPalletModal from './ColourPalletModal';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
@@ -15,7 +14,7 @@ import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
 import PushPinTwoToneIcon from '@mui/icons-material/PushPinTwoTone';
 import AddNoteLabelModal from './AddNoteLabelModal';
 import './css/DraggableNote.css';
-import { LabelInterface } from '../interfaces/LabelInterface';
+import { Label } from '../interfaces/Label';
 
 const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   let rnd: Rnd | null;
@@ -26,7 +25,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   const [title, setTitle] = useState<string>(props.note.title);
   const [content, setContent] = useState<string>(props.note.content);
 
-  const [colour, setColour] = useState<ColourInterface>(props.note.colours);
+  const [colour, setColour] = useState<Colour>(props.note.colours);
   const [showColourPallet, setShowColourPallet] = useState<boolean>(false);
 
   const [openNoteLabelModal, setOpenNoteLabelModal] = useState<boolean>(false);
@@ -71,7 +70,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
     accent: string,
     isCustom: boolean,
   ) => {
-    const updatedColour: ColourInterface = {
+    const updatedColour: Colour = {
       primary: primary,
       secondary: secondary,
       accent: accent,
@@ -79,9 +78,12 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
     };
     setColour(updatedColour);
     props.note.colours = updatedColour;
-    props.addNotification(
-      new NotificationClass(5000, 'success', 'Successfully Updated Colour Pallet!'),
-    );
+    props.addNotification({
+      open: true,
+      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      severity: 'success',
+      content: 'Successfully Updated Colour Pallet!',
+    });
   };
 
   const updateZIndex = () => {
@@ -106,7 +108,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   useEffect(() => {
     rnd?.updatePosition({ x: props.note.position.x, y: props.note.position.y });
     rnd?.updateSize({ width: width, height: height });
-  }, []);
+  }, [props.note.position.x, props.note.position.y, width, height]);
 
   return (
     <>
@@ -255,7 +257,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
       </Rnd>
       <AddNoteLabelModal
         props={{
-          availableLabels: props.user?.labels as LabelInterface[],
+          availableLabels: props.user?.labels as Label[],
           noteLabels: props.note.labels,
           user: props.user,
           openAddNoteLabelModal: openNoteLabelModal,

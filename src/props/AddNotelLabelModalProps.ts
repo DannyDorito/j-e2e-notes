@@ -1,10 +1,10 @@
-import { UserClass } from '../classes/UserClass';
-import { LabelInterface } from '../interfaces/LabelInterface';
+import { User } from '../interfaces/User';
+import { Label } from '../interfaces/Label';
 
 export interface AddNoteLabelModalProps {
-  availableLabels: LabelInterface[] | undefined;
-  noteLabels: LabelInterface[];
-  user: UserClass | undefined;
+  availableLabels: Label[] | undefined;
+  noteLabels: Label[];
+  user: User | undefined;
   openAddNoteLabelModal: boolean;
   closeAddNoteLabelModal: () => void;
 }

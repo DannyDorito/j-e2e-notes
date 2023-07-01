@@ -1,7 +1,7 @@
-import { ColourInterface } from '../interfaces/ColourInterface';
+import { Colour } from '../interfaces/Colour';
 import { black, white } from './ThemeProvider';
 
-export const ColourList: ColourInterface[] = [
+export const ColourList: Colour[] = [
   { primary: '#E9B44C', secondary: '#e9b54c', accent: black, isCustom: false },
   { primary: '#C6DEA6', secondary: '#afd182', accent: black, isCustom: false },
   { primary: '#4d725e', secondary: '#456252', accent: white, isCustom: false },

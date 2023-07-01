@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction } from 'react';
-import { UserClass } from '../classes/UserClass';
+import { User } from '../interfaces/User';
 
 export interface AddLabelModalProps {
   openLabelModal: boolean;
   closeLabelModal: () => void;
   removeLabel: (id: string) => void;
-  user: UserClass | undefined;
+  user: User | undefined;
   addLabel: () => void;
   newLabelName: string;
   setNewLabelName: Dispatch<SetStateAction<string>>;

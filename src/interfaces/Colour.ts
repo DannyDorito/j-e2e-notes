@@ -1,4 +1,4 @@
-export interface ColourInterface {
+export interface Colour {
   primary: string;
   secondary: string;
   accent: string;

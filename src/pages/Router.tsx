@@ -1,8 +1,8 @@
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { NotificationClass } from '../classes/NotificationClass';
-import { UserClass } from '../classes/UserClass';
+import { Notification } from '../interfaces/Notification';
+import { User } from '../interfaces/User';
 import {
   v4 as uuidv4,
   version as uuidVersion,
@@ -19,42 +19,46 @@ import Error from './Error';
 const Router = () => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useLocalStorage<UserClass | undefined>('user', undefined);
+  const [user, setUser] = useLocalStorage<User | undefined>('user', undefined);
 
-  const [notifications, setNotifications] = useState<NotificationClass[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const addNotification = (notification: NotificationClass) => {
+  const addNotification = (notification: Notification) => {
     if (user?.options.showNotifications) {
       setNotifications((notifications) => [...notifications, notification]);
     }
   };
 
   const authenticate = () => {
-    setUser(
-      new UserClass('John', uuidv4(), true, [], '', {
+    setUser({
+      name: 'John',
+      uuid: uuidv4(),
+      authenticated: true,
+      labels: [],
+      options: {
         showNotifications: true,
         notificationsDuration: 5000,
-      }),
-    );
-    addNotification(
-      new NotificationClass(
-        user?.options.notificationsDuration,
-        'success',
-        'Successfully Logged In!',
-      ),
-    );
+      },
+      avatar: '',
+      notes: [],
+    });
+    addNotification({
+      open: true,
+      autoHideDuration: user?.options.notificationsDuration ?? 5000,
+      severity: 'success',
+      content: 'Successfully Logged In!',
+    });
     navigate('/notes');
   };
 
   const deauthenticate = () => {
     setUser(undefined);
-    addNotification(
-      new NotificationClass(
-        user?.options.notificationsDuration,
-        'success',
-        'Successfully Logged Out!',
-      ),
-    );
+    addNotification({
+      open: true,
+      autoHideDuration: user?.options.notificationsDuration ?? 5000,
+      severity: 'success',
+      content: 'Successfully Logged Out!',
+    });
     navigate('/');
   };
 

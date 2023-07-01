@@ -16,7 +16,6 @@ import { backgroundColour, primary, textColour } from '../helpers/ThemeProvider'
 import { useNavigate } from 'react-router-dom';
 import { AddPossesive } from '../helpers/AddPossessive';
 import { useDarkMode } from 'usehooks-ts';
-import { NotificationClass } from '../classes/NotificationClass';
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
@@ -100,14 +99,13 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
   };
 
   const save = () => {
-    props.addNotification(
-      new NotificationClass(
-        props.user?.options.notificationsDuration,
-        'success',
-        'Successfully Saved Settings!',
-      ),
-    );
-    navigate(-1);
+    props.addNotification({
+      open: true,
+      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      severity: 'success',
+      content: 'Successfully Saved Settings!',
+    });
+    navigate('/notes');
   };
 
   return (

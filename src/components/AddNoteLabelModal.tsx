@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
-import { LabelInterface } from '../interfaces/LabelInterface';
+import { Label } from '../interfaces/Label';
 
 const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
   const selected = (id: string): boolean => {
@@ -24,7 +24,7 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
 
       if (labelIndex !== undefined && labelIndex > -1) {
         props.noteLabels.push(
-          props.availableLabels?.filter((al, index) => index === labelIndex)[0] as LabelInterface,
+          props.availableLabels?.filter((al, index) => index === labelIndex)[0] as Label,
         );
       }
     } else if (!event.target.checked) {

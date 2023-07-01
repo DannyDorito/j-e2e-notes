@@ -1,13 +1,13 @@
 import { MouseEventHandler } from 'react';
-import { NoteClass } from '../classes/NoteClass';
-import { NotificationClass } from '../classes/NotificationClass';
-import { UserClass } from '../classes/UserClass';
+import { Note } from '../interfaces/Note';
+import { Notification } from '../interfaces/Notification';
+import { User } from '../interfaces/User';
 
 export interface DraggableNotesProps {
-  note: NoteClass;
+  note: Note;
   deleteNote: MouseEventHandler<HTMLButtonElement> | undefined;
   editNote: MouseEventHandler<HTMLButtonElement> | undefined;
-  addNotification: (notification: NotificationClass) => void;
+  addNotification: (notification: Notification) => void;
   setPinned: (id: string) => void;
-  user: UserClass | undefined;
+  user: User | undefined;
 }

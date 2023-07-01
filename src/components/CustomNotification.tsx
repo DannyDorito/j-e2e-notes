@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { NotificationClass } from '../classes/NotificationClass';
+import { Notification } from '../interfaces/Notification';
 import Alert from '@mui/material/Alert/Alert';
 import Snackbar from '@mui/material/Snackbar/Snackbar';
 
-const CustomNotification = ({ props }: { props: NotificationClass }) => {
+const CustomNotification = ({ props }: { props: Notification }) => {
   const [notificationOpen, setNotificationOpen] = useState<boolean>(props.open);
   const [notificationAutoHideDuration] = useState<number>(props.autoHideDuration);
   const [notificationSeverity] = useState<'error' | 'warning' | 'info' | 'success'>(props.severity);

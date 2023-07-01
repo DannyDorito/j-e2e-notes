@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { NoteClass } from '../classes/NoteClass';
+import { Note } from '../interfaces/Note';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from 'usehooks-ts';
-import { NotificationClass } from '../classes/NotificationClass';
 import { backgroundColour } from '../helpers/ThemeProvider';
 import { NotesBoardProps } from '../props/NotesBoardProps';
+import { randomColour } from '../helpers/RandomColour';
 import { Box } from '@mui/material';
 import DraggableNote from '../components/DraggableNote';
 import AddLabelModal from '../components/AddLabelModal';
@@ -12,7 +12,7 @@ import NotesFunctionMenu from '../components/NotesFunctionMenu';
 import './css/Notes.css';
 
 const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
-  const [notes, setNotes] = useLocalStorage<NoteClass[]>('notes', []);
+  const [notes, setNotes] = useLocalStorage<Note[]>('notes', []);
 
   const [openLabelModal, setOpenLabelModal] = useState<boolean>(false);
   const [newLabelName, setNewLabelName] = useState<string>('');
@@ -29,13 +29,12 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
           : note,
       ),
     );
-    props.addNotification(
-      new NotificationClass(
-        props.user?.options.notificationsDuration as number,
-        'success',
-        'Successfully Deleted Note!',
-      ),
-    );
+    props.addNotification({
+      open: true,
+      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      severity: 'success',
+      content: 'Successfully Deleted Note!',
+    });
   };
 
   const editNote = (id: string) => {
@@ -54,40 +53,41 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
   const addNote = () => {
     setNotes((notes) => [
       ...notes,
-      new NoteClass(
-        '',
-        '',
-        uuidv4(),
-        new Date().toUTCString(),
-        {
+      {
+        title: '',
+        content: '',
+        id: uuidv4(),
+        deletedAt: undefined,
+        createdAt: new Date().toUTCString(),
+        position: {
           x: 84,
           y: 84,
           z: 1,
           width: '320px',
           height: '320px',
         },
-        [],
-        false,
-      ),
+        colours: randomColour(),
+        edit: false,
+        labels: [],
+        pinned: false,
+      },
     ]);
-    props.addNotification(
-      new NotificationClass(
-        props.user?.options.notificationsDuration as number,
-        'success',
-        'Successfully Created Note!',
-      ),
-    );
+    props.addNotification({
+      open: true,
+      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      severity: 'success',
+      content: 'Successfully Created Note!',
+    });
   };
 
   const saveNotes = () => {
     setNotes((notes) => [...notes]);
-    props.addNotification(
-      new NotificationClass(
-        props.user?.options.notificationsDuration as number,
-        'success',
-        'Successfully Saved Note!',
-      ),
-    );
+    props.addNotification({
+      open: true,
+      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      severity: 'success',
+      content: 'Successfully Saved Note!',
+    });
   };
 
   const addLabel = () => {
@@ -103,13 +103,12 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
       updatedUser.labels.push({ name: newLabelName.trim(), id: uuidv4() });
       props.setUser(updatedUser);
       setNewLabelName('');
-      props.addNotification(
-        new NotificationClass(
-          props.user?.options.notificationsDuration as number,
-          'success',
-          'Successfully Created Label!',
-        ),
-      );
+      props.addNotification({
+        open: true,
+        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        severity: 'success',
+        content: 'Successfully Created Label!',
+      });
     }
   };
 
@@ -124,11 +123,21 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         : [];
 
     if (labelsInUse.length > 0) {
-      props.addNotification(new NotificationClass(5000, 'error', 'Label Currently In Use!'));
+      props.addNotification({
+        open: true,
+        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        severity: 'error',
+        content: 'Label Currently In Use!',
+      });
     } else {
       updatedUser.labels = updatedUser.labels.filter((label) => label.id !== id);
       props.setUser(updatedUser);
-      props.addNotification(new NotificationClass(5000, 'success', 'Successfully Deleted Label!'));
+      props.addNotification({
+        open: true,
+        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        severity: 'success',
+        content: 'Successfully Deleted Label!',
+      });
     }
   };
 

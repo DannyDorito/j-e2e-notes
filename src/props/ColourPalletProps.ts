@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { ColourInterface } from '../interfaces/ColourInterface';
+import { Colour } from '../interfaces/Colour';
 export interface ColourPalletProps {
   updateColourPallet: (
     primary: string,
@@ -7,7 +7,7 @@ export interface ColourPalletProps {
     accent: string,
     isCustom: boolean,
   ) => void;
-  currentColour: ColourInterface;
+  currentColour: Colour;
   showColourPallet: boolean;
   setShowColourPallet: Dispatch<SetStateAction<boolean>>;
 }
