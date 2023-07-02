@@ -14,7 +14,6 @@ import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
 import PushPinTwoToneIcon from '@mui/icons-material/PushPinTwoTone';
 import AddNoteLabelModal from './AddNoteLabelModal';
 import './css/DraggableNote.css';
-import { Label } from '../interfaces/Label';
 
 const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   let rnd: Rnd | null;
@@ -108,7 +107,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   const minRows = (): number => {
     const heightNum = parseInt(height.replace('px', ''));
     return Math.floor((heightNum - 84) / 23);
-  }
+  };
 
   useEffect(() => {
     rnd?.updatePosition({ x: props.note.position.x, y: props.note.position.y });
@@ -262,7 +261,6 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
       </Rnd>
       <AddNoteLabelModal
         props={{
-          availableLabels: props.user?.labels as Label[],
           noteLabels: props.note.labels,
           user: props.user,
           openAddNoteLabelModal: openNoteLabelModal,

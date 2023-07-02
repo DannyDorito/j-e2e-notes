@@ -11,6 +11,5 @@ describe('When the page is rendered', () => {
     );
 
     expect(await screen.findByText('404 Not Found!')).toBeInTheDocument();
-
   });
 });

@@ -12,23 +12,28 @@ import {
 } from '@mui/material';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import { Label } from '../interfaces/Label';
+import { useState } from 'react';
 
 const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
+  const [availableLabels] = useState<Label[] | undefined>(props.user?.labels);
+  const [noteLabels, setNoteLabels] = useState<Label[]>(props.noteLabels);
   const selected = (id: string): boolean => {
-    return props.noteLabels.findIndex((note) => note.id === id) === 0;
+    return noteLabels.findIndex((note) => note.id === id) === 0;
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (event.target.checked) {
-      const labelIndex = props.availableLabels?.findIndex((n) => n.id === id);
+      const labelIndex = availableLabels?.findIndex((n) => n.id === id);
 
       if (labelIndex !== undefined && labelIndex > -1) {
-        props.noteLabels.push(
-          props.availableLabels?.filter((al, index) => index === labelIndex)[0] as Label,
-        );
+        const labelToAdd = availableLabels?.filter(
+          (_al, index) => index === labelIndex,
+        )[0] as Label;
+        setNoteLabels((noteLabels) => [...noteLabels, labelToAdd]);
       }
     } else if (!event.target.checked) {
-      props.noteLabels = props.noteLabels.filter((label) => label.id !== id);
+      const updatedLabels = props.noteLabels.filter((label) => label.id !== id);
+      setNoteLabels(updatedLabels);
     }
   };
 
@@ -50,7 +55,7 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
           {`${props.user?.name as string}'s Labels`}
         </Typography>
         <FormGroup>
-          {props.availableLabels?.map((availableLabel) => (
+          {availableLabels?.map((availableLabel) => (
             <FormControlLabel
               key={`label-${availableLabel.id}`}
               control={
