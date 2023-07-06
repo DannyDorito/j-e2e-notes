@@ -5,8 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.13.6",
+    "@mui/icons-material": "^5.13.7",
+    "@mui/material": "^5.13.7",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
@@ -55,16 +55,16 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^20.3.3",
+    "@types/node": "^20.4.0",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@types/uuid": "^9.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.0",
     "uuid": "^9.0.0",
     "yaml": "^2.3.1"
   }
