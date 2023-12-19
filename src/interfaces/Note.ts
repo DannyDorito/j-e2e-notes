@@ -13,4 +13,5 @@ export interface Note {
   edit: boolean;
   labels: Label[];
   pinned: boolean;
+  image: string | ArrayBuffer | null;
 }

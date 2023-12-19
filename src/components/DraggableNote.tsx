@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Colour } from '../interfaces/Colour';
 import { DraggableData, Rnd, ResizableDelta, Position, RndDragEvent } from 'react-rnd';
 import { ResizeDirection } from 're-resizable';
@@ -12,6 +12,8 @@ import InvertColorsTwoToneIcon from '@mui/icons-material/InvertColorsTwoTone';
 import InvertColorsOffTwoToneIcon from '@mui/icons-material/InvertColorsOffTwoTone';
 import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
 import PushPinTwoToneIcon from '@mui/icons-material/PushPinTwoTone';
+import InsertPhotoTwoToneIcon from '@mui/icons-material/InsertPhotoTwoTone';
+import AddPhotoAlternateTwoToneIcon from '@mui/icons-material/AddPhotoAlternateTwoTone';
 import AddNoteLabelModal from './AddNoteLabelModal';
 import './css/DraggableNote.css';
 
@@ -23,11 +25,14 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
 
   const [title, setTitle] = useState<string>(props.note.title);
   const [content, setContent] = useState<string>(props.note.content);
+  const [image, setImage] = useState<string | ArrayBuffer | null>(props.note.image);
 
   const [colour, setColour] = useState<Colour>(props.note.colours);
   const [showColourPallet, setShowColourPallet] = useState<boolean>(false);
 
   const [openNoteLabelModal, setOpenNoteLabelModal] = useState<boolean>(false);
+
+  const inputFile = useRef<HTMLInputElement>(null);
 
   const onDragStop = (_event: RndDragEvent, d: DraggableData) => {
     if (canMoveOrResize()) {
@@ -61,6 +66,11 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   const updateContent = (content: string) => {
     setContent(content);
     props.note.content = content;
+  };
+
+  const updateImage = (image: string | ArrayBuffer | null) => {
+    setImage(image);
+    props.note.image = image;
   };
 
   const updateColourPallet = (
@@ -107,6 +117,17 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   const minRows = (): number => {
     const heightNum = parseInt(height.replace('px', ''));
     return Math.floor((heightNum - 84) / 23);
+  };
+
+  const handleUploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.item(0);
+    const reader = new FileReader();
+    reader.readAsDataURL(file as Blob);
+    reader.onloadend = () => {
+      if (reader.result !== null) {
+        updateImage(reader.result);
+      }
+    };
   };
 
   useEffect(() => {
@@ -175,28 +196,31 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
               WebkitTextFillColor: props.note.colours.accent,
             }}
           />
-          <FilledInput
-            value={content}
-            margin='none'
-            multiline={true}
-            disabled={!props.note.edit}
-            fullWidth={true}
-            placeholder='Contents'
-            type='text'
-            minRows={minRows()}
-            onChange={(event) => updateContent(event.target.value)}
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              '& .MuiInputBase-input.Mui-disabled': {
+          {!props.note.image && (
+            <FilledInput
+              value={content}
+              margin='none'
+              multiline={true}
+              disabled={!props.note.edit}
+              fullWidth={true}
+              placeholder='Contents'
+              type='text'
+              minRows={minRows()}
+              onChange={(event) => updateContent(event.target.value)}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                '& .MuiInputBase-input.Mui-disabled': {
+                  WebkitTextFillColor: props.note.colours.accent,
+                  backgroundColor: props.note.colours.primary,
+                },
                 WebkitTextFillColor: props.note.colours.accent,
+                padding: 0,
                 backgroundColor: props.note.colours.primary,
-              },
-              WebkitTextFillColor: props.note.colours.accent,
-              padding: 0,
-              backgroundColor: props.note.colours.primary,
-            }}
-          />
+              }}
+            />
+          )}
+          {props.note.image && <img width='100%' src={image as string} />}
           <Box className='draggable-box' sx={{ marginTop: 1 }}>
             <Tooltip title={showColourPallet ? 'Save Colour Change' : 'Change Note Colour'}>
               <IconButton
@@ -214,6 +238,24 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
                 sx={{ color: props.note.colours.accent }}
               >
                 {props.note.edit ? <SaveTwoToneIcon /> : <EditTwoToneIcon />}
+              </IconButton>
+            </Tooltip>
+            <Tooltip title='Add Image'>
+              <IconButton
+                className='draggable-button'
+                sx={{ color: props.note.colours.accent }}
+                onClick={() => inputFile.current?.click()}
+              >
+                {props.note.image ? <InsertPhotoTwoToneIcon /> : <AddPhotoAlternateTwoToneIcon />}
+                <input
+                  accept='image/*'
+                  style={{ display: 'none' }}
+                  id='image-file'
+                  ref={inputFile}
+                  multiple
+                  type='file'
+                  onChange={(event) => handleUploadImage(event)}
+                />
               </IconButton>
             </Tooltip>
             <Tooltip title='Edit Labels'>

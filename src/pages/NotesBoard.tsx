@@ -70,6 +70,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         edit: false,
         labels: [],
         pinned: false,
+        image: null,
       },
     ]);
     props.addNotification({
