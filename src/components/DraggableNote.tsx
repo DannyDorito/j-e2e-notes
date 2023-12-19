@@ -183,7 +183,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
             margin='none'
             multiline={false}
             disabled={!props.note.edit || showColourPallet}
-            fullWidth={true}
+            fullWidth
             placeholder='Title'
             type='text'
             onChange={(event) => updateTitle(event.target.value)}
@@ -202,7 +202,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
               margin='none'
               multiline={true}
               disabled={!props.note.edit}
-              fullWidth={true}
+              fullWidth
               placeholder='Contents'
               type='text'
               minRows={minRows()}
