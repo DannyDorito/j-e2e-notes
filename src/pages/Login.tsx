@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
+import { useDarkMode, useLocalStorage } from 'usehooks-ts';
 import {
   backgroundColour,
   invertedBackgroundColour,
@@ -10,7 +10,9 @@ import {
   Avatar,
   Box,
   Checkbox,
+  FormControl,
   FormControlLabel,
+  FormHelperText,
   Grid,
   IconButton,
   InputAdornment,
@@ -25,6 +27,7 @@ import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import PersonAddTwoToneIcon from '@mui/icons-material/PersonAddTwoTone';
 import LockPersonTwoToneIcon from '@mui/icons-material/LockPersonTwoTone';
 import './css/Login.css';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 const Login = ({ props }: { props: LoginProps }) => {
   const [rememberMe, setRememberMe] = useLocalStorage<boolean>('rememberMe', false);
@@ -43,8 +46,15 @@ const Login = ({ props }: { props: LoginProps }) => {
   const [passwordError, setPasswordError] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
+  const [showTurnstileCaptcha, setShowTurnstileCaptcha] = useState<boolean>(false);
+  const [turnstileCaptchaComplete, setTurnstileCaptchaComplete] = useState<boolean>(false);
+  const [turnstileCaptchaError, setTurnstileCaptchaError] = useState<string>('');
+
+  const [turnstileSiteKey] = useState<string>(process.env.TURNSTILE_SITE_KEY || '');
+  const { isDarkMode } = useDarkMode();
+
   const updateUsername = (username: string) => {
-    if (username === '') {
+    if (!username) {
       setUsernameError('Error: Please enter a username.');
     } else {
       setUsernameError('');
@@ -56,7 +66,7 @@ const Login = ({ props }: { props: LoginProps }) => {
   };
 
   const updatePassword = (password: string) => {
-    if (password === '') {
+    if (!password) {
       setPasswordError('Error: Please enter a password.');
     } else {
       setPasswordError('');
@@ -65,15 +75,31 @@ const Login = ({ props }: { props: LoginProps }) => {
   };
 
   const login = () => {
-    if (username === '') {
-      setUsernameError('Error: Please enter a username.');
+    if (!turnstileCaptchaComplete) {
+      setShowTurnstileCaptcha(true);
       return;
     }
-    if (password === '') {
-      setPasswordError('Error: Please enter a password.');
+    if (!username) {
+      setUsernameError('Error: Please enter a username!');
+      return;
+    }
+    if (!password) {
+      setPasswordError('Error: Please enter a password!');
       return;
     }
     props.authenticate();
+  };
+
+  const turnstileSuccess = () => {
+    setTurnstileCaptchaComplete(true);
+  };
+
+  const turnstileExpire = () => {
+    setTurnstileCaptchaError('Error: Captcha Expired, please try again!');
+  };
+
+  const turnstileError = () => {
+    setTurnstileCaptchaError('Error: Captcha Error, please try again!');
   };
 
   return (
@@ -160,6 +186,24 @@ const Login = ({ props }: { props: LoginProps }) => {
                 ),
               }}
             />
+            {showTurnstileCaptcha ? (
+              <FormControl>
+                <Turnstile
+                  siteKey={turnstileSiteKey}
+                  onSuccess={turnstileSuccess}
+                  onError={turnstileError}
+                  onExpire={turnstileExpire}
+                  options={{
+                    theme: isDarkMode ? 'dark' : 'light',
+                  }}
+                />
+                {turnstileCaptchaError.length !== 0 && (
+                  <FormHelperText>{turnstileCaptchaError}</FormHelperText>
+                )}
+              </FormControl>
+            ) : (
+              <div></div>
+            )}
           </form>
           <FormControlLabel
             control={
