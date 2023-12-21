@@ -3,14 +3,29 @@ import { primary } from '../helpers/ThemeProvider';
 
 const Copyright = () => {
   return (
-    <Typography variant='body2' align='center' sx={{ color: primary }}>
-      {'Copyright © '}
-      <Link color='inherit' href='https://jallison.co.uk' target='_blank' rel='noopener noreferrer'>
-        John Allison
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <>
+      <Typography variant='body2' align='center' sx={{ color: primary, paddingTop: '50px' }}>
+        <Link
+          color='inherit'
+          href='https://jallison.co.uk'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          John&nbsp;Allison
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {','}&nbsp;
+        <Link
+          color='inherit'
+          href='https://github.com/DannyDorito/j-e2e-notes'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          GitHub Repo
+        </Link>
+        {'.'}
+      </Typography>
+    </>
   );
 };
 

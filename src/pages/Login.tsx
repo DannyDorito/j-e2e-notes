@@ -1,30 +1,79 @@
 import { useState } from 'react';
-import { backgroundColour, primary } from '../helpers/ThemeProvider';
+import { useLocalStorage } from 'usehooks-ts';
 import {
+  backgroundColour,
+  invertedBackgroundColour,
+  invertedTextColour,
+  primary,
+} from '../helpers/ThemeProvider';
+import {
+  Avatar,
+  Box,
+  Checkbox,
   FormControlLabel,
   Grid,
   IconButton,
-  Link,
-  Switch,
+  InputAdornment,
   TextField,
   Typography,
 } from '@mui/material';
-import { useLocalStorage } from 'usehooks-ts';
 import { LoginProps } from '../props/LoginProps';
-import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
-import './css/Login.css';
 import Copyright from '../components/Copyright';
+import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
+import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
+import PersonAddTwoToneIcon from '@mui/icons-material/PersonAddTwoTone';
+import LockPersonTwoToneIcon from '@mui/icons-material/LockPersonTwoTone';
+import './css/Login.css';
 
 const Login = ({ props }: { props: LoginProps }) => {
-  const [username, setUsername] = useLocalStorage('username', '');
+  const [rememberMe, setRememberMe] = useLocalStorage<boolean>('rememberMe', false);
+
+  const [username, setUsername] = useState<string>(() => {
+    if (rememberMe) {
+      const savedUsername = localStorage.getItem('username');
+      return savedUsername || '';
+    } else {
+      return '';
+    }
+  });
+  const [usernameError, setUsernameError] = useState<string>('');
+
   const [password, setPassword] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+
+  const updateUsername = (username: string) => {
+    if (username === '') {
+      setUsernameError('Error: Please enter a username.');
+    } else {
+      setUsernameError('');
+      setUsername(username);
+      if (rememberMe) {
+        localStorage.setItem('username', username);
+      }
+    }
+  };
+
+  const updatePassword = (password: string) => {
+    if (password === '') {
+      setPasswordError('Error: Please enter a password.');
+    } else {
+      setPasswordError('');
+      setPassword(password);
+    }
+  };
 
   const login = () => {
-    if (username === '' || password === '') {
+    if (username === '') {
+      setUsernameError('Error: Please enter a username.');
       return;
-    } else {
-      props.authenticate();
     }
+    if (password === '') {
+      setPasswordError('Error: Please enter a password.');
+      return;
+    }
+    props.authenticate();
   };
 
   return (
@@ -40,66 +89,103 @@ const Login = ({ props }: { props: LoginProps }) => {
           minHeight: '100vh',
           backgroundColor: backgroundColour,
         }}
-        alignItems='center'
-        justifyContent='center'
       >
-        <form noValidate>
-          <TextField
-            onChange={(event) => setUsername(event.target.value)}
-            variant='standard'
-            margin='normal'
-            multiline={false}
-            required
-            fullWidth
-            id='username'
-            label='Username'
-            name='username'
-            autoFocus
-            sx={{
-              '& .MuiInputBase-input.Mui-disabled': {
-                WebkitTextFillColor: primary,
-              },
-              WebkitTextFillColor: primary,
-            }}
-          />
-          <TextField
-            onChange={(event) => setPassword(event.target.value)}
-            variant='standard'
-            margin='normal'
-            multiline={false}
-            required
-            fullWidth
-            name='password'
-            label='Password'
-            type='password'
-            id='password'
-            autoComplete='current-password'
-            sx={{
-              '& .MuiInputBase-input.Mui-disabled': {
-                WebkitTextFillColor: primary,
-              },
-              WebkitTextFillColor: primary,
-            }}
-          />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            backgroundColor: invertedBackgroundColour,
+            border: '50px solid',
+            borderColor: invertedBackgroundColour,
+          }}
+        >
+          <Avatar sx={{ backgroundColor: primary }}>
+            <LockPersonTwoToneIcon />
+          </Avatar>
+          <Typography component='h1' variant='h5'>
+            Sign in
+          </Typography>
+          <form noValidate>
+            <TextField
+              onChange={(event) => updateUsername(event.target.value)}
+              variant='standard'
+              margin='normal'
+              multiline={false}
+              required
+              fullWidth
+              id='username'
+              label='Username'
+              name='username'
+              autoFocus
+              value={username}
+              error={usernameError.length !== 0}
+              helperText={usernameError}
+              sx={{
+                WebkitTextFillColor: invertedTextColour,
+              }}
+            />
+            <TextField
+              onChange={(event) => updatePassword(event.target.value)}
+              variant='standard'
+              margin='normal'
+              multiline={false}
+              required
+              fullWidth
+              name='password'
+              label='Password'
+              type={passwordVisible ? 'text' : 'password'}
+              id='password'
+              autoComplete='current-password'
+              value={password}
+              error={passwordError.length !== 0}
+              helperText={passwordError}
+              sx={{
+                WebkitTextFillColor: invertedTextColour,
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton
+                      size='large'
+                      sx={{ color: primary }}
+                      aria-label='toggle password visibility'
+                      onClick={() => setPasswordVisible(!passwordVisible)}
+                      onMouseDown={() => setPasswordVisible(!passwordVisible)}
+                    >
+                      {passwordVisible ? <VisibilityTwoToneIcon /> : <VisibilityOffTwoToneIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </form>
           <FormControlLabel
-            control={<Switch edge='end' />}
+            control={
+              <Checkbox
+                id='rememberMe'
+                value='rememberMe'
+                checked={rememberMe}
+                onChange={(_, checked) => setRememberMe(checked)}
+              />
+            }
             label='Remember me'
-            sx={{
-              '& .MuiInputBase-input.Mui-disabled': {
-                WebkitTextFillColor: primary,
-              },
-              WebkitTextFillColor: primary,
-            }}
           />
-        </form>
-        <Link href='#' variant='body2' sx={{ color: primary }}>
-          {"Don't have an account? Sign Up"}
-        </Link>
-        <IconButton size='large' sx={{ color: primary }} onClick={login}>
-          <LoginTwoToneIcon />
-          <Typography variant='body1'>Sign In</Typography>
-        </IconButton>
-        <Copyright />
+          <IconButton size='large' sx={{ color: primary }} onClick={login}>
+            <LoginTwoToneIcon />
+            <Typography variant='body1' sx={{ color: invertedTextColour }}>
+              Sign In
+            </Typography>
+          </IconButton>
+          <IconButton size='large' sx={{ color: primary }} onClick={login}>
+            <PersonAddTwoToneIcon />
+            <Typography variant='body1' sx={{ color: invertedTextColour }}>
+              Sign Up
+            </Typography>
+          </IconButton>
+          <Copyright />
+        </Box>
       </Grid>
     </>
   );
