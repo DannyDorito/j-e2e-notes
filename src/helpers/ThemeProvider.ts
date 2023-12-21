@@ -11,7 +11,17 @@ export const backgroundColour = (): string => {
   return isDarkMode ? black : white;
 };
 
+export const invertedBackgroundColour = (): string => {
+  const { isDarkMode } = useDarkMode();
+  return isDarkMode ? white : black;
+};
+
 export const textColour = (): string => {
   const { isDarkMode } = useDarkMode();
   return isDarkMode ? white : black;
+};
+
+export const invertedTextColour = (): string => {
+  const { isDarkMode } = useDarkMode();
+  return isDarkMode ? black : white;
 };
