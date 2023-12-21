@@ -19,6 +19,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { LoginProps } from '../props/LoginProps';
 import Copyright from '../components/Copyright';
 import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
@@ -27,7 +28,6 @@ import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import PersonAddTwoToneIcon from '@mui/icons-material/PersonAddTwoTone';
 import LockPersonTwoToneIcon from '@mui/icons-material/LockPersonTwoTone';
 import './css/Login.css';
-import { Turnstile } from '@marsidev/react-turnstile';
 
 const Login = ({ props }: { props: LoginProps }) => {
   const [rememberMe, setRememberMe] = useLocalStorage<boolean>('rememberMe', false);
@@ -50,7 +50,7 @@ const Login = ({ props }: { props: LoginProps }) => {
   const [turnstileCaptchaComplete, setTurnstileCaptchaComplete] = useState<boolean>(false);
   const [turnstileCaptchaError, setTurnstileCaptchaError] = useState<string>('');
 
-  const [turnstileSiteKey] = useState<string>(process.env.TURNSTILE_SITE_KEY || '');
+  const [turnstileSiteKey] = useState<string>(process.env.REACT_APP_TURNSTILE_SITE_KEY || '');
   const { isDarkMode } = useDarkMode();
 
   const updateUsername = (username: string) => {
@@ -75,10 +75,6 @@ const Login = ({ props }: { props: LoginProps }) => {
   };
 
   const login = () => {
-    if (!turnstileCaptchaComplete) {
-      setShowTurnstileCaptcha(true);
-      return;
-    }
     if (!username) {
       setUsernameError('Error: Please enter a username!');
       return;
@@ -87,11 +83,16 @@ const Login = ({ props }: { props: LoginProps }) => {
       setPasswordError('Error: Please enter a password!');
       return;
     }
+    if (!turnstileCaptchaComplete) {
+      setShowTurnstileCaptcha(true);
+      return;
+    }
     props.authenticate();
   };
 
   const turnstileSuccess = () => {
     setTurnstileCaptchaComplete(true);
+    props.authenticate();
   };
 
   const turnstileExpire = () => {
@@ -125,12 +126,15 @@ const Login = ({ props }: { props: LoginProps }) => {
             backgroundColor: invertedBackgroundColour,
             border: '50px solid',
             borderColor: invertedBackgroundColour,
+            maxWidth: '450px',
           }}
         >
           <Avatar sx={{ backgroundColor: primary }}>
             <LockPersonTwoToneIcon />
           </Avatar>
-          <Typography component='h1' variant='h5'>
+          <Typography component='h1' variant='h5'               sx={{
+                WebkitTextFillColor: invertedTextColour,
+              }}>
             Sign in
           </Typography>
           <form noValidate>
@@ -187,7 +191,14 @@ const Login = ({ props }: { props: LoginProps }) => {
               }}
             />
             {showTurnstileCaptcha ? (
-              <FormControl>
+              <FormControl
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                }}
+              >
                 <Turnstile
                   siteKey={turnstileSiteKey}
                   onSuccess={turnstileSuccess}
@@ -214,7 +225,7 @@ const Login = ({ props }: { props: LoginProps }) => {
                 onChange={(_, checked) => setRememberMe(checked)}
               />
             }
-            label='Remember me'
+            label={<Typography variant='body1' sx={{ color: invertedTextColour }}>Remember Me</Typography>}
           />
           <IconButton size='large' sx={{ color: primary }} onClick={login}>
             <LoginTwoToneIcon />
