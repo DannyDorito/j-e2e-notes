@@ -41,6 +41,13 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
       case ToggleOptionEnum.ShowNotifications:
         updatedUser.options.showNotifications = checked;
         props.setUser(updatedUser);
+        props.addNotification({
+          open: true,
+          autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+          severity: 'success',
+          content: `Notifications are now ${checked ? 'enabled' : 'disabled'}!`,
+          created: new Date(),
+        });
         break;
 
       default:
@@ -57,6 +64,13 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
       case SetTextEnum.Name:
         updatedUser.name = text.trim();
         props.setUser(updatedUser);
+        props.addNotification({
+          open: true,
+          autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+          severity: 'success',
+          content: `Name updated to ${props.user?.name}!`,
+          created: new Date(),
+        });
         break;
 
       default:
@@ -93,6 +107,13 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
       const updatedUser = props.user;
       updatedUser.avatar = reader.result as string;
       props.setUser(updatedUser);
+      props.addNotification({
+        open: true,
+        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        severity: 'success',
+        content: 'Avatar successfully updated!',
+        created: new Date(),
+      });
     };
 
     reader.readAsDataURL(file);

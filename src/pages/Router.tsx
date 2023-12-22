@@ -36,7 +36,7 @@ const Router = () => {
         object.splice(index, 1);
       }
     });
-  }, [notifications])
+  }, [notifications]);
 
   const authenticate = () => {
     setUser({

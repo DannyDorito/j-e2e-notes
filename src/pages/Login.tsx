@@ -118,10 +118,24 @@ const Login = ({ props }: { props: LoginProps }) => {
 
   const turnstileExpire = () => {
     setTurnstileCaptchaError('Error: Captcha Expired, please try again!');
+    props.addNotification({
+      open: true,
+      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      severity: 'error',
+      content: 'Error: Captcha Expired, please try again!',
+      created: new Date(),
+    });
   };
 
   const turnstileError = () => {
     setTurnstileCaptchaError('Error: Captcha Error, please try again!');
+    props.addNotification({
+      open: true,
+      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      severity: 'error',
+      content: 'Error: Captcha Error, please try again!',
+      created: new Date(),
+    });
   };
 
   return (
@@ -153,9 +167,7 @@ const Login = ({ props }: { props: LoginProps }) => {
           <Avatar sx={{ backgroundColor: primary }}>
             <LockPersonTwoToneIcon />
           </Avatar>
-          <Typography component='h1' variant='h5'               sx={{
-                WebkitTextFillColor: invertedTextColour,
-              }}>
+          <Typography component='h1' variant='h5' sx={{ WebkitTextFillColor: invertedTextColour }}>
             Sign in
           </Typography>
           <form noValidate>
@@ -246,7 +258,11 @@ const Login = ({ props }: { props: LoginProps }) => {
                 onChange={(_, checked) => setRememberMe(checked)}
               />
             }
-            label={<Typography variant='body1' sx={{ color: invertedTextColour }}>Remember Me</Typography>}
+            label={
+              <Typography variant='body1' sx={{ color: invertedTextColour }}>
+                Remember Me
+              </Typography>
+            }
           />
           <IconButton size='large' sx={{ color: primary }} onClick={login}>
             <LoginTwoToneIcon />
