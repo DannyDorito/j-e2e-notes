@@ -238,7 +238,7 @@ const Login = ({ props }: { props: LoginProps }) => {
                   onError={turnstileError}
                   onExpire={turnstileExpire}
                   options={{
-                    theme: isDarkMode ? 'dark' : 'light',
+                    theme: isDarkMode ? 'light' : 'dark',
                   }}
                 />
                 {turnstileCaptchaError.length !== 0 && (
