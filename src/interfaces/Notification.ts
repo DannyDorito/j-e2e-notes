@@ -3,4 +3,5 @@ export interface Notification {
   autoHideDuration: number;
   severity: 'error' | 'warning' | 'info' | 'success';
   content: string;
+  created: Date;
 }

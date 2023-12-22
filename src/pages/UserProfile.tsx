@@ -104,6 +104,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
       autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Saved Settings!',
+      created: new Date(),
     });
     navigate('/notes');
   };

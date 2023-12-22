@@ -1,5 +1,5 @@
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { Notification } from '../interfaces/Notification';
 import { User } from '../interfaces/User';
@@ -29,6 +29,15 @@ const Router = () => {
     }
   };
 
+  useEffect(() => {
+    notifications.forEach((notification, index, object) => {
+      const expiry = new Date(notification.created.getTime() + notification.autoHideDuration);
+      if (expiry < new Date() || !notification.open) {
+        object.splice(index, 1);
+      }
+    });
+  }, [notifications])
+
   const authenticate = () => {
     setUser({
       name: 'John',
@@ -47,6 +56,7 @@ const Router = () => {
       autoHideDuration: user?.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Logged In!',
+      created: new Date(),
     });
     navigate('/notes');
   };
@@ -58,6 +68,7 @@ const Router = () => {
       autoHideDuration: user?.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Logged Out!',
+      created: new Date(),
     });
     navigate('/');
   };

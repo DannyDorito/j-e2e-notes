@@ -34,6 +34,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
       autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Deleted Note!',
+      created: new Date(),
     });
   };
 
@@ -78,6 +79,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
       autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Created Note!',
+      created: new Date(),
     });
   };
 
@@ -88,6 +90,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
       autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Saved Note!',
+      created: new Date(),
     });
   };
 
@@ -109,6 +112,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
         severity: 'success',
         content: 'Successfully Created Label!',
+        created: new Date(),
       });
     }
   };
@@ -129,6 +133,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
         severity: 'error',
         content: 'Label Currently In Use!',
+        created: new Date(),
       });
     } else {
       updatedUser.labels = updatedUser.labels.filter((label) => label.id !== id);
@@ -138,6 +143,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
         severity: 'success',
         content: 'Successfully Deleted Label!',
+        created: new Date(),
       });
     }
   };

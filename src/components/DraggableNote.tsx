@@ -92,6 +92,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
       autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Updated Colour Pallet!',
+      created: new Date(),
     });
   };
 

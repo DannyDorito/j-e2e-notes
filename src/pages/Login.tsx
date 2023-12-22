@@ -67,7 +67,14 @@ const Login = ({ props }: { props: LoginProps }) => {
 
   const updatePassword = (password: string) => {
     if (!password) {
-      setPasswordError('Error: Please enter a password.');
+      setPasswordError('Error: Please enter a password!');
+      props.addNotification({
+        open: true,
+        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        severity: 'error',
+        content: 'Error: Please enter a password!',
+        created: new Date(),
+      });
     } else {
       setPasswordError('');
       setPassword(password);
@@ -77,10 +84,24 @@ const Login = ({ props }: { props: LoginProps }) => {
   const login = () => {
     if (!username) {
       setUsernameError('Error: Please enter a username!');
+      props.addNotification({
+        open: true,
+        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        severity: 'error',
+        content: 'Error: Please enter a username!',
+        created: new Date(),
+      });
       return;
     }
     if (!password) {
       setPasswordError('Error: Please enter a password!');
+      props.addNotification({
+        open: true,
+        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        severity: 'error',
+        content: 'Error: Please enter a password!',
+        created: new Date(),
+      });
       return;
     }
     if (!turnstileCaptchaComplete) {
