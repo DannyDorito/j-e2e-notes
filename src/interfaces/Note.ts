@@ -7,6 +7,7 @@ export interface Note {
   content: string;
   id: string;
   deletedAt: string | undefined;
+  archivedAt: string | undefined;
   createdAt: string;
   position: Position;
   colours: Colour;

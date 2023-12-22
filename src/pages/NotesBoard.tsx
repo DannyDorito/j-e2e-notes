@@ -38,6 +38,26 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
     });
   };
 
+  const archiveNote = (id: string) => {
+    setNotes(
+      notes.map((note) =>
+        note.id === id
+          ? {
+              ...note,
+              archivedAt: new Date().toUTCString(),
+            }
+          : note,
+      ),
+    );
+    props.addNotification({
+      open: true,
+      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      severity: 'success',
+      content: 'Successfully Archived Note!',
+      created: new Date(),
+    });
+  };
+
   const editNote = (id: string) => {
     setNotes(
       notes.map((note) =>
@@ -59,6 +79,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         content: '',
         id: uuidv4(),
         deletedAt: undefined,
+        archivedAt: undefined,
         createdAt: new Date().toUTCString(),
         position: {
           x: 84,
@@ -174,13 +195,14 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         id='notes-board'
       >
         {notes
-          .filter((note) => !note.deletedAt)
+          .filter((note) => !note.deletedAt && !note.archivedAt)
           .map((note) => (
             <DraggableNote
               key={note.id}
               props={{
                 note: note,
                 deleteNote: () => deleteNote(note.id),
+                archiveNote: () => archiveNote(note.id),
                 editNote: () => editNote(note.id),
                 addNotification: props.addNotification,
                 user: props.user,

@@ -1,5 +1,6 @@
 import {
   Box,
+  Grid,
   IconButton,
   InputAdornment,
   List,
@@ -16,17 +17,18 @@ import { backgroundColour, primary, textColour } from '../helpers/ThemeProvider'
 import { useNavigate } from 'react-router-dom';
 import { AddPossesive } from '../helpers/AddPossessive';
 import { useDarkMode } from 'usehooks-ts';
+import { SetTextEnum } from '../enums/SetTextEnum';
+import { ToggleOptionEnum } from '../enums/ToggleOptionEnum';
+import { SetNumberEnum } from '../enums/SetNumberEnum';
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
 import FingerprintTwoToneIcon from '@mui/icons-material/FingerprintTwoTone';
-import TimelapseTwoToneIcon from '@mui/icons-material/TimelapseTwoTone';
+import SnoozeTwoToneIcon from '@mui/icons-material/SnoozeTwoTone';
 import DarkModeTwoToneIcon from '@mui/icons-material/DarkModeTwoTone';
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
-import { SetTextEnum } from '../enums/SetTextEnum';
-import { ToggleOptionEnum } from '../enums/ToggleOptionEnum';
-import { SetNumberEnum } from '../enums/SetNumberEnum';
+import TimerTwoToneIcon from '@mui/icons-material/TimerTwoTone';
 
 const UserProfile = ({ props }: { props: ProfileProps }) => {
   const navigate = useNavigate();
@@ -88,6 +90,10 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
         updatedUser.options.notificationsDuration = number * 1000; //to ms
         props.setUser(updatedUser);
         break;
+      case SetNumberEnum.ArchiveDuration:
+        updatedUser.options.archiveDuration = number; //days
+        props.setUser(updatedUser);
+        break;
       default:
         break;
     }
@@ -132,16 +138,19 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
 
   return (
     <>
-      <Box
+      <Grid
+        container
+        component='main'
         sx={{
-          backgroundColor: backgroundColour,
-          height: '100vh',
-          textAlign: 'center',
-          justifyContent: 'center',
+          display: 'flex',
           alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          minHeight: '100vh',
+          backgroundColor: backgroundColour,
         }}
       >
-        <Typography variant='body1' sx={{ color: textColour }}>{`${AddPossesive(
+        <Typography variant='h6' sx={{ color: textColour }}>{`${AddPossesive(
           props.user?.name as string,
         )} Profile`}</Typography>
         <List
@@ -210,7 +219,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
           </ListItem>
           <ListItem>
             <ListItemIcon>
-              <TimelapseTwoToneIcon sx={{ color: primary }} />
+              <TimerTwoToneIcon sx={{ color: primary }} />
             </ListItemIcon>
             <ListItemText primary='Notification Duration' />
             <TextField
@@ -235,6 +244,26 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
           </ListItem>
           <ListItem>
             <ListItemIcon>
+              <SnoozeTwoToneIcon sx={{ color: primary }} />
+            </ListItemIcon>
+            <ListItemText primary='Archive Duration' />
+            <TextField
+              id='archive-duration'
+              variant='standard'
+              type='number'
+              value={
+                props.user?.options?.archiveDuration ? props.user?.options?.archiveDuration : 0
+              } // from ms
+              InputProps={{
+                inputProps: { min: 1, max: Number.MAX_SAFE_INTEGER },
+                endAdornment: <InputAdornment position='end'>days</InputAdornment>,
+              }}
+              sx={{ input: { color: textColour } }}
+              onChange={(event) => setNumber(+event.target.value, SetNumberEnum.ArchiveDuration)}
+            ></TextField>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
               <DarkModeTwoToneIcon sx={{ color: primary }} />
             </ListItemIcon>
             <ListItemText primary='Dark Mode' />
@@ -246,7 +275,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
             <SaveTwoToneIcon sx={{ color: primary }} />
           </IconButton>
         </Tooltip>
-      </Box>
+      </Grid>
     </>
   );
 };

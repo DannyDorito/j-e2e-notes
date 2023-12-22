@@ -14,6 +14,7 @@ import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
 import PushPinTwoToneIcon from '@mui/icons-material/PushPinTwoTone';
 import InsertPhotoTwoToneIcon from '@mui/icons-material/InsertPhotoTwoTone';
 import AddPhotoAlternateTwoToneIcon from '@mui/icons-material/AddPhotoAlternateTwoTone';
+import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveTwoTone';
 import AddNoteLabelModal from './AddNoteLabelModal';
 import './css/DraggableNote.css';
 
@@ -278,6 +279,15 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
                   sx={{ rotate: props.note.pinned ? '0deg' : '20deg' }}
                   shapeRendering='geometricPrecision'
                 />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title='Archive Note'>
+              <IconButton
+                className='draggable-button'
+                onClick={props.archiveNote}
+                sx={{ color: props.note.colours.accent }}
+              >
+                <ArchiveTwoToneIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title='Delete Note'>

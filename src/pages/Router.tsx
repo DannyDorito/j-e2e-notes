@@ -47,6 +47,7 @@ const Router = () => {
       options: {
         showNotifications: true,
         notificationsDuration: 5000,
+        archiveDuration: 30, //days
       },
       avatar: '',
       notes: [],
