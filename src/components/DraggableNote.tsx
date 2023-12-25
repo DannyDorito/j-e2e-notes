@@ -228,7 +228,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
               <IconButton
                 className='draggable-button'
                 onClick={toggleColourPallet}
-                sx={{ color: props.note.colours.accent }}
+                sx={{ color: props.note.colours.accent, cursor: 'pointer' }}
               >
                 {showColourPallet ? <InvertColorsOffTwoToneIcon /> : <InvertColorsTwoToneIcon />}
               </IconButton>
@@ -237,7 +237,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
               <IconButton
                 className='draggable-button'
                 onClick={props.editNote}
-                sx={{ color: props.note.colours.accent }}
+                sx={{ color: props.note.colours.accent, cursor: 'pointer' }}
               >
                 {props.note.edit ? <SaveTwoToneIcon /> : <EditTwoToneIcon />}
               </IconButton>
@@ -245,7 +245,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
             <Tooltip title='Add Image'>
               <IconButton
                 className='draggable-button'
-                sx={{ color: props.note.colours.accent }}
+                sx={{ color: props.note.colours.accent, cursor: 'pointer' }}
                 onClick={() => inputFile.current?.click()}
               >
                 {props.note.image ? <InsertPhotoTwoToneIcon /> : <AddPhotoAlternateTwoToneIcon />}
@@ -264,7 +264,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
               <IconButton
                 className='draggable-button'
                 onClick={() => setOpenNoteLabelModal(true)}
-                sx={{ color: props.note.colours.accent }}
+                sx={{ color: props.note.colours.accent, cursor: 'pointer' }}
               >
                 <LabelTwoToneIcon />
               </IconButton>
@@ -276,7 +276,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
                 sx={{ color: props.note.colours.accent }}
               >
                 <PushPinTwoToneIcon
-                  sx={{ rotate: props.note.pinned ? '0deg' : '20deg' }}
+                  sx={{ rotate: props.note.pinned ? '0deg' : '20deg', cursor: 'pointer' }}
                   shapeRendering='geometricPrecision'
                 />
               </IconButton>
@@ -285,7 +285,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
               <IconButton
                 className='draggable-button'
                 onClick={props.archiveNote}
-                sx={{ color: props.note.colours.accent }}
+                sx={{ color: props.note.colours.accent, cursor: 'pointer' }}
               >
                 <ArchiveTwoToneIcon />
               </IconButton>
@@ -294,7 +294,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
               <IconButton
                 className='draggable-button'
                 onClick={props.deleteNote}
-                sx={{ color: props.note.colours.accent }}
+                sx={{ color: props.note.colours.accent, cursor: 'pointer' }}
               >
                 <DeleteForeverTwoToneIcon />
               </IconButton>
