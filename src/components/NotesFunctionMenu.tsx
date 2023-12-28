@@ -2,7 +2,6 @@ import { IconButton, Tooltip } from '@mui/material';
 import { primary } from '../helpers/ThemeProvider';
 import { NotesFunctionMenuProps } from '../props/NotesFunctionMenuProps';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
-import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
 export const NotesFunctionMenu = ({ props }: { props: NotesFunctionMenuProps }) => {
@@ -25,16 +24,6 @@ export const NotesFunctionMenu = ({ props }: { props: NotesFunctionMenuProps }) 
           sx={{ color: primary, position: 'fixed', bottom: 20, right: 70 }}
         >
           <LabelTwoToneIcon />
-        </IconButton>
-      </Tooltip>
-
-      <Tooltip title='Save Notes'>
-        <IconButton
-          size='large'
-          onClick={props.saveNotes}
-          sx={{ color: primary, position: 'fixed', bottom: 20, right: 120 }}
-        >
-          <SaveTwoToneIcon />
         </IconButton>
       </Tooltip>
 

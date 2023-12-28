@@ -110,17 +110,6 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
     });
   };
 
-  const saveNotes = () => {
-    setNotes([...notes]);
-    props.addNotification({
-      open: true,
-      autoHideDuration: props.user.options.notificationsDuration ?? 5000,
-      severity: 'success',
-      content: 'Successfully Saved Note!',
-      created: new Date(),
-    });
-  };
-
   const addLabel = () => {
     if (props.user.labels.some((label) => label.name === newLabelName)) {
       setNewLabelNameError('Label Already Exists!');
@@ -219,7 +208,6 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
         <NotesFunctionMenu
           props={{
             addNote: addNote,
-            saveNotes: saveNotes,
             setOpenLabelModal: setOpenLabelModal,
             deauthenticate: props.deauthenticate,
           }}
