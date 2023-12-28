@@ -13,17 +13,19 @@ const Error = () => {
           alignItems: 'center',
           justifyContent: 'center',
           minHeight: '100vh',
+          flexDirection: 'column',
           backgroundColor: backgroundColour,
         }}
-        alignItems='center'
-        justifyContent='center'
       >
         <Typography textAlign='center' variant='h4' sx={{ color: textColour }}>
           404 Not Found!
         </Typography>
         <Tooltip title='Return'>
           <IconButton className='error-return' onClick={() => navigate('/')}>
-            <ArrowBackIosNewTwoToneIcon sx={{ color: primary }} />
+            <ArrowBackIosNewTwoToneIcon sx={{ color: primary }} />{' '}
+            <Typography textAlign='center' variant='body1' sx={{ color: textColour }}>
+              Go Back
+            </Typography>
           </IconButton>
         </Tooltip>
       </Box>

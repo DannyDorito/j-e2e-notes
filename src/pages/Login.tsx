@@ -66,27 +66,17 @@ const Login = ({ props }: { props: LoginProps }) => {
   };
 
   const updatePassword = (password: string) => {
-    if (props.user !== undefined) {
-      if (!password) {
-        setPasswordError('Error: Please enter a password!');
-        props.addNotification({
-          open: true,
-          autoHideDuration: props.user.options.notificationsDuration ?? 5000,
-          severity: 'error',
-          content: 'Error: Please enter a password!',
-          created: new Date(),
-        });
-      } else {
-        setPasswordError('');
-        setPassword(password);
-      }
+    if (!password) {
+      setPasswordError('Error: Please enter a password!');
+    } else {
+      setPasswordError('');
+      setPassword(password);
     }
   };
 
   const login = () => {
     if (!username) {
       setUsernameError('Error: Please enter a username!');
-
       return;
     }
     if (!password) {
@@ -231,6 +221,11 @@ const Login = ({ props }: { props: LoginProps }) => {
                 value='rememberMe'
                 checked={rememberMe}
                 onChange={(_, checked) => setRememberMe(checked)}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  color: invertedTextColour,
+                }}
               />
             }
             label={
@@ -245,7 +240,7 @@ const Login = ({ props }: { props: LoginProps }) => {
               Sign In
             </Typography>
           </IconButton>
-          <IconButton size='large' sx={{ color: primary }} onClick={login}>
+          <IconButton size='large' sx={{ color: primary }} onClick={() => console.log('sign up')}>
             <PersonAddTwoToneIcon />
             <Typography variant='body1' sx={{ color: invertedTextColour }}>
               Sign Up

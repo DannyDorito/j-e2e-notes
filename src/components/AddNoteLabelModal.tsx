@@ -67,7 +67,11 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
                 />
               }
               sx={{ color: textColour }}
-              label={availableLabel.name}
+              label={
+                <Typography variant='body2' sx={{ WebkitTextFillColor: textColour }}>
+                  {availableLabel.name}
+                </Typography>
+              }
             />
           ))}
         </FormGroup>
@@ -77,7 +81,6 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
             textAlign: 'center',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: '32px',
           }}
         >
           <Tooltip title='Save'>

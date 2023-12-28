@@ -14,7 +14,12 @@ import {
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import LabelTwoToneIcon from '@mui/icons-material/LabelTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
-import { backgroundColour, primary, textColour } from '../helpers/ThemeProvider';
+import {
+  backgroundColour,
+  invertedBackgroundColour,
+  primary,
+  textColour,
+} from '../helpers/ThemeProvider';
 
 const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
   return (
@@ -53,11 +58,15 @@ const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
               <ListItemIcon sx={{ color: primary }}>
                 <LabelTwoToneIcon />
               </ListItemIcon>
-              <Typography variant='body1'>{label.name}</Typography>
+              <Typography variant='body1' sx={{ WebkitTextFillColor: textColour }}>
+                {label.name}
+              </Typography>
             </ListItem>
           ))}
           {(props.user.labels.length as number) > 0 && (
-            <Divider sx={{ marginBottom: '12px' }}></Divider>
+            <Divider
+              sx={{ marginBottom: '12px', backgroundColor: invertedBackgroundColour }}
+            ></Divider>
           )}
           <ListItem
             key='label-add'
@@ -77,7 +86,11 @@ const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
               <LabelTwoToneIcon />
             </ListItemIcon>
             <TextField
-              label='New Label'
+              label={
+                <Typography variant='body2' sx={{ WebkitTextFillColor: textColour }}>
+                  New Label
+                </Typography>
+              }
               value={props.newLabelName}
               onChange={(e) => props.setNewLabelName(e.target.value)}
               variant='standard'
@@ -93,7 +106,6 @@ const AddLabelModal = ({ props }: { props: AddLabelModalProps }) => {
             textAlign: 'center',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: '32px',
           }}
         >
           <Tooltip title='Save'>

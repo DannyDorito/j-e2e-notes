@@ -180,8 +180,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
             direction='row'
             spacing={0.5}
             justifyContent='space-evenly'
-            alignItems='center'
-            sx={{ flexWrap: 'wrap' }}
+            sx={{ flexWrap: 'wrap', alignItems: 'center' }}
           >
             {labels.map((label, index) => (
               <Chip
@@ -276,15 +275,17 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
                 />
               </IconButton>
             </Tooltip>
-            <Tooltip title='Edit Labels'>
-              <IconButton
-                className='draggable-button'
-                onClick={() => setOpenNoteLabelModal(true)}
-                sx={{ color: props.note.colours.accent, cursor: 'pointer' }}
-              >
-                <LabelTwoToneIcon />
-              </IconButton>
-            </Tooltip>
+            {props.note.labels.length > 0 && (
+              <Tooltip title='Edit Labels'>
+                <IconButton
+                  className='draggable-button'
+                  onClick={() => setOpenNoteLabelModal(true)}
+                  sx={{ color: props.note.colours.accent, cursor: 'pointer' }}
+                >
+                  <LabelTwoToneIcon />
+                </IconButton>
+              </Tooltip>
+            )}
             <Tooltip title={props.note.pinned ? 'Unpin' : 'Pin'}>
               <IconButton
                 className='draggable-button'
