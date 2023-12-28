@@ -45,7 +45,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
         props.setUser(updatedUser);
         props.addNotification({
           open: true,
-          autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+          autoHideDuration: props.user.options.notificationsDuration ?? 5000,
           severity: 'success',
           content: `Notifications are now ${checked ? 'enabled' : 'disabled'}!`,
           created: new Date(),
@@ -68,9 +68,9 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
         props.setUser(updatedUser);
         props.addNotification({
           open: true,
-          autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+          autoHideDuration: props.user.options.notificationsDuration ?? 5000,
           severity: 'success',
-          content: `Name updated to ${props.user?.name}!`,
+          content: `Name updated to ${props.user.name}!`,
           created: new Date(),
         });
         break;
@@ -115,7 +115,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
       props.setUser(updatedUser);
       props.addNotification({
         open: true,
-        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        autoHideDuration: props.user.options.notificationsDuration ?? 5000,
         severity: 'success',
         content: 'Avatar successfully updated!',
         created: new Date(),
@@ -128,7 +128,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
   const save = () => {
     props.addNotification({
       open: true,
-      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      autoHideDuration: props.user.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Saved Settings!',
       created: new Date(),
@@ -151,7 +151,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
         }}
       >
         <Typography variant='h6' sx={{ color: textColour }}>{`${AddPossesive(
-          props.user?.name as string,
+          props.user.name as string,
         )} Profile`}</Typography>
         <List
           sx={{
@@ -173,7 +173,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               <TextField
                 id='user-name'
                 variant='standard'
-                value={props.user?.name}
+                value={props.user.name}
                 sx={{ input: { color: textColour } }}
                 onChange={(event) => setText(event.target.value.trim(), SetTextEnum.Name)}
               ></TextField>
@@ -185,7 +185,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
             </ListItemIcon>
             <ListItemText primary='User Id' />
             <Box>
-              <Typography variant='body1'>{props.user?.uuid}</Typography>
+              <Typography variant='body1'>{props.user.uuid}</Typography>
             </Box>
           </ListItem>
           <ListItem>
@@ -214,7 +214,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               onChange={(event) =>
                 toggleOption(event.target.checked, ToggleOptionEnum.ShowNotifications)
               }
-              checked={props.user?.options.showNotifications}
+              checked={props.user.options.showNotifications}
             />
           </ListItem>
           <ListItem>
@@ -226,10 +226,10 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               id='notification-duration'
               variant='standard'
               type='number'
-              disabled={!props.user?.options.showNotifications}
+              disabled={!props.user.options.showNotifications}
               value={
-                (props.user?.options?.notificationsDuration
-                  ? props.user?.options?.notificationsDuration
+                (props.user.options?.notificationsDuration
+                  ? props.user.options?.notificationsDuration
                   : 0) / 1000
               } // from ms
               InputProps={{
@@ -251,9 +251,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               id='archive-duration'
               variant='standard'
               type='number'
-              value={
-                props.user?.options?.archiveDuration ? props.user?.options?.archiveDuration : 0
-              } // from ms
+              value={props.user.options?.archiveDuration ? props.user.options?.archiveDuration : 0} // from ms
               InputProps={{
                 inputProps: { min: 1, max: Number.MAX_SAFE_INTEGER },
                 endAdornment: <InputAdornment position='end'>days</InputAdornment>,

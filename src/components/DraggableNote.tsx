@@ -4,6 +4,7 @@ import { DraggableData, Rnd, ResizableDelta, Position, RndDragEvent } from 'reac
 import { ResizeDirection } from 're-resizable';
 import { Card, Stack, Chip, TextField, FilledInput, Box, Tooltip, IconButton } from '@mui/material';
 import { DraggableNotesProps } from '../props/DraggableNoteProps';
+import { Label } from '../interfaces/Label';
 import ColourPalletModal from './ColourPalletModal';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
@@ -30,6 +31,8 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
 
   const [colour, setColour] = useState<Colour>(props.note.colours);
   const [showColourPallet, setShowColourPallet] = useState<boolean>(false);
+
+  const [labels, setNoteLabels] = useState<Label[]>(props.note.labels);
 
   const [openNoteLabelModal, setOpenNoteLabelModal] = useState<boolean>(false);
 
@@ -90,7 +93,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
     props.note.colours = updatedColour;
     props.addNotification({
       open: true,
-      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      autoHideDuration: props.user.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Updated Colour Pallet!',
       created: new Date(),
@@ -132,6 +135,19 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
     };
   };
 
+  const removeLabel = (id: string) => {
+    const updatedLabels = props.note.labels.filter((label) => label.id !== id);
+    props.note.labels = updatedLabels;
+    setNoteLabels(updatedLabels);
+    props.addNotification({
+      open: true,
+      autoHideDuration: props.user.options.notificationsDuration ?? 5000,
+      severity: 'success',
+      content: 'Successfully Removed Label!',
+      created: new Date(),
+    });
+  };
+
   useEffect(() => {
     rnd?.updatePosition({ x: props.note.position.x, y: props.note.position.y });
     rnd?.updateSize({ width: width, height: height });
@@ -167,11 +183,11 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
             alignItems='center'
             sx={{ flexWrap: 'wrap' }}
           >
-            {props.note.labels.map((label, index) => (
+            {labels.map((label, index) => (
               <Chip
                 label={label.name}
                 key={`label-${index}`}
-                onDelete={() => console.log('delete label')}
+                onDelete={() => removeLabel(label.id)}
                 sx={{
                   backgroundColor: props.note.colours.secondary,
                   color: props.note.colours.accent,
@@ -314,7 +330,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
       </Rnd>
       <AddNoteLabelModal
         props={{
-          noteLabels: props.note.labels,
+          note: props.note,
           user: props.user,
           openAddNoteLabelModal: openNoteLabelModal,
           closeAddNoteLabelModal: closeAddNoteLabelModal,

@@ -15,8 +15,8 @@ import { Label } from '../interfaces/Label';
 import { useState } from 'react';
 
 const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
-  const [availableLabels] = useState<Label[] | undefined>(props.user?.labels);
-  const [noteLabels, setNoteLabels] = useState<Label[]>(props.noteLabels);
+  const [availableLabels] = useState<Label[]>(props.user.labels);
+  const [noteLabels, setNoteLabels] = useState<Label[]>(props.note.labels);
   const selected = (id: string): boolean => {
     return noteLabels.findIndex((note) => note.id === id) === 0;
   };
@@ -24,16 +24,17 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (event.target.checked) {
       const labelIndex = availableLabels?.findIndex((n) => n.id === id);
-
       if (labelIndex !== undefined && labelIndex > -1) {
         const labelToAdd = availableLabels?.filter(
           (_al, index) => index === labelIndex,
         )[0] as Label;
         setNoteLabels((noteLabels) => [...noteLabels, labelToAdd]);
+        props.note.labels = [...noteLabels, labelToAdd];
       }
     } else if (!event.target.checked) {
-      const updatedLabels = props.noteLabels.filter((label) => label.id !== id);
+      const updatedLabels = props.note.labels.filter((label) => label.id !== id);
       setNoteLabels(updatedLabels);
+      props.note.labels = updatedLabels;
     }
   };
 
@@ -52,7 +53,7 @@ const AddNoteLabelModal = ({ props }: { props: AddNoteLabelModalProps }) => {
         }}
       >
         <Typography textAlign='center' variant='h6' sx={{ color: textColour }}>
-          {`${props.user?.name as string}'s Labels`}
+          {`${props.user.name as string}'s Labels`}
         </Typography>
         <FormGroup>
           {availableLabels?.map((availableLabel) => (

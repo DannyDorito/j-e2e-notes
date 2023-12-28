@@ -24,7 +24,7 @@ const Router = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const addNotification = (notification: Notification) => {
-    if (user?.options.showNotifications) {
+    if (user !== undefined && user.options.showNotifications) {
       setNotifications((notifications) => [...notifications, notification]);
     }
   };
@@ -39,19 +39,23 @@ const Router = () => {
   }, [notifications]);
 
   const authenticate = () => {
-    setUser({
-      name: 'John',
-      uuid: uuidv4(),
-      authenticated: true,
-      labels: [],
-      options: {
-        showNotifications: true,
-        notificationsDuration: 5000,
-        archiveDuration: 30, //days
-      },
-      avatar: '',
-      notes: [],
-    });
+    if (user === undefined) {
+      setUser({
+        name: 'John',
+        uuid: uuidv4(),
+        authenticated: true,
+        labels: [],
+        options: {
+          showNotifications: true,
+          notificationsDuration: 5000,
+          archiveDuration: 30, //days
+        },
+        avatar: '',
+        notes: [],
+      });
+    } else {
+      setUser({ ...user, authenticated: true });
+    }
     addNotification({
       open: true,
       autoHideDuration: user?.options.notificationsDuration ?? 5000,
@@ -63,22 +67,24 @@ const Router = () => {
   };
 
   const deauthenticate = () => {
-    setUser(undefined);
-    addNotification({
-      open: true,
-      autoHideDuration: user?.options.notificationsDuration ?? 5000,
-      severity: 'success',
-      content: 'Successfully Logged Out!',
-      created: new Date(),
-    });
-    navigate('/');
+    if (user !== undefined) {
+      setUser({ ...user, authenticated: false });
+      addNotification({
+        open: true,
+        autoHideDuration: user.options.notificationsDuration ?? 5000,
+        severity: 'success',
+        content: 'Successfully Logged Out!',
+        created: new Date(),
+      });
+      navigate('/');
+    }
   };
 
   const authenticated = (): boolean => {
-    if (user === undefined || user?.authenticated === undefined) {
+    if (user === undefined || user.authenticated === undefined) {
       return false;
     } else {
-      return user?.authenticated && validUUID(user.uuid);
+      return user.authenticated && validUUID(user.uuid);
     }
   };
 
@@ -88,7 +94,7 @@ const Router = () => {
 
   return (
     <>
-      {authenticated() && <NoteMenu />}
+      {authenticated() && user !== undefined && <NoteMenu props={{ user }} />}
       <Routes>
         <Route
           index
@@ -108,7 +114,7 @@ const Router = () => {
         <Route
           path='/notes'
           element={
-            authenticated() ? (
+            authenticated() && user !== undefined ? (
               <NotesBoard
                 props={{
                   deauthenticate: deauthenticate,
@@ -125,7 +131,7 @@ const Router = () => {
         <Route
           path='/profile'
           element={
-            authenticated() ? (
+            authenticated() && user !== undefined ? (
               <UserProfile
                 props={{ user: user, setUser: setUser, addNotification: addNotification }}
               />

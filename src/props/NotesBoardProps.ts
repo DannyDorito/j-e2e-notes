@@ -4,7 +4,7 @@ import { Notification } from '../interfaces/Notification';
 
 export interface NotesBoardProps {
   deauthenticate: () => void;
-  user: User | undefined;
+  user: User;
   setUser: Dispatch<SetStateAction<User | undefined>>;
   addNotification: (notification: Notification) => void;
 }

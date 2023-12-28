@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Note } from '../interfaces/Note';
 import { v4 as uuidv4 } from 'uuid';
-import { useLocalStorage } from 'usehooks-ts';
 import { backgroundColour } from '../helpers/ThemeProvider';
 import { NotesBoardProps } from '../props/NotesBoardProps';
 import { randomColour } from '../helpers/RandomColour';
@@ -12,7 +11,14 @@ import NotesFunctionMenu from '../components/NotesFunctionMenu';
 import './css/Notes.css';
 
 const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
-  const [notes, setNotes] = useLocalStorage<Note[]>('notes', []);
+  const [notes, _setNotes] = useState<Note[]>(props.user.notes ?? []);
+
+  const setNotes = (notes: Note[]) => {
+    if (props.user !== undefined) {
+      props.setUser({ ...props.user, notes: notes });
+      _setNotes(notes);
+    }
+  };
 
   const [openLabelModal, setOpenLabelModal] = useState<boolean>(false);
   const [newLabelName, setNewLabelName] = useState<string>('');
@@ -31,7 +37,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
     );
     props.addNotification({
       open: true,
-      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      autoHideDuration: props.user.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Deleted Note!',
       created: new Date(),
@@ -51,7 +57,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
     );
     props.addNotification({
       open: true,
-      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      autoHideDuration: props.user.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Archived Note!',
       created: new Date(),
@@ -72,7 +78,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
   };
 
   const addNote = () => {
-    setNotes((notes) => [
+    setNotes([
       ...notes,
       {
         title: '',
@@ -97,7 +103,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
     ]);
     props.addNotification({
       open: true,
-      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      autoHideDuration: props.user.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Created Note!',
       created: new Date(),
@@ -105,10 +111,10 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
   };
 
   const saveNotes = () => {
-    setNotes((notes) => [...notes]);
+    setNotes([...notes]);
     props.addNotification({
       open: true,
-      autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+      autoHideDuration: props.user.options.notificationsDuration ?? 5000,
       severity: 'success',
       content: 'Successfully Saved Note!',
       created: new Date(),
@@ -116,7 +122,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
   };
 
   const addLabel = () => {
-    if (props.user?.labels.some((label) => label.name === newLabelName)) {
+    if (props.user.labels.some((label) => label.name === newLabelName)) {
       setNewLabelNameError('Label Already Exists!');
     } else if (newLabelName.trim().length === 0) {
       setNewLabelNameError('Label Cannot Be Blank!');
@@ -130,7 +136,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
       setNewLabelName('');
       props.addNotification({
         open: true,
-        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        autoHideDuration: props.user.options.notificationsDuration ?? 5000,
         severity: 'success',
         content: 'Successfully Created Label!',
         created: new Date(),
@@ -151,7 +157,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
     if (labelsInUse.length > 0) {
       props.addNotification({
         open: true,
-        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        autoHideDuration: props.user.options.notificationsDuration ?? 5000,
         severity: 'error',
         content: 'Label Currently In Use!',
         created: new Date(),
@@ -161,7 +167,7 @@ const NotesBoard = ({ props }: { props: NotesBoardProps }) => {
       props.setUser(updatedUser);
       props.addNotification({
         open: true,
-        autoHideDuration: props.user?.options.notificationsDuration ?? 5000,
+        autoHideDuration: props.user.options.notificationsDuration ?? 5000,
         severity: 'success',
         content: 'Successfully Deleted Label!',
         created: new Date(),

@@ -1,9 +1,9 @@
 import { User } from '../interfaces/User';
-import { Label } from '../interfaces/Label';
+import { Note } from '../interfaces/Note';
 
 export interface AddNoteLabelModalProps {
-  noteLabels: Label[];
-  user: User | undefined;
+  note: Note;
+  user: User;
   openAddNoteLabelModal: boolean;
   closeAddNoteLabelModal: () => void;
 }
