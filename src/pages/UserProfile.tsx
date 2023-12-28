@@ -246,7 +246,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
                 hidden
               />
               <label htmlFor='contained-button-file'>
-                  <CloudUploadTwoToneIcon sx={{ color: primary, cursor: 'pointer' }} />
+                <CloudUploadTwoToneIcon sx={{ color: primary, cursor: 'pointer' }} />
               </label>
             </ListItem>
             <ListItem>

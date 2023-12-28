@@ -15,6 +15,8 @@ import NotesBoard from './NotesBoard';
 import UserProfile from './UserProfile';
 import NoteMenu from './NoteMenu';
 import Error from './Error';
+import DeletedArchivedNotes from './DeletedArchivedNotes';
+import { DeletedArchivedEnum } from '../enums/DeletedArchivedEnum';
 
 const Router = () => {
   const navigate = useNavigate();
@@ -135,6 +137,26 @@ const Router = () => {
               <UserProfile
                 props={{ user: user, setUser: setUser, addNotification: addNotification }}
               />
+            ) : (
+              <Navigate to='/' />
+            )
+          }
+        />
+        <Route
+          path='/archived'
+          element={
+            authenticated() && user !== undefined ? (
+              <DeletedArchivedNotes props={{ type: DeletedArchivedEnum.Archived }} />
+            ) : (
+              <Navigate to='/' />
+            )
+          }
+        />
+        <Route
+          path='/deleted'
+          element={
+            authenticated() && user !== undefined ? (
+              <DeletedArchivedNotes props={{ type: DeletedArchivedEnum.Deleted }} />
             ) : (
               <Navigate to='/' />
             )
