@@ -31,7 +31,7 @@ export const NotesFunctionMenu = ({ props }: { props: NotesFunctionMenuProps }) 
         <IconButton
           size='large'
           onClick={props.deauthenticate}
-          sx={{ color: primary, position: 'fixed', bottom: 20, right: 170 }}
+          sx={{ color: primary, position: 'fixed', bottom: 20, right: 120 }}
         >
           <LogoutTwoToneIcon />
         </IconButton>
