@@ -4,7 +4,6 @@ import { DraggableData, Rnd, ResizableDelta, Position, RndDragEvent } from 'reac
 import { ResizeDirection } from 're-resizable';
 import { Card, Stack, Chip, TextField, FilledInput, Box, Tooltip, IconButton } from '@mui/material';
 import { DraggableNotesProps } from '../props/DraggableNoteProps';
-import { Label } from '../interfaces/Label';
 import ColourPalletModal from './ColourPalletModal';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
@@ -31,8 +30,6 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
 
   const [colour, setColour] = useState<Colour>(props.note.colours);
   const [showColourPallet, setShowColourPallet] = useState<boolean>(false);
-
-  const [labels, setNoteLabels] = useState<Label[]>(props.note.labels);
 
   const [openNoteLabelModal, setOpenNoteLabelModal] = useState<boolean>(false);
 
@@ -138,7 +135,6 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   const removeLabel = (id: string) => {
     const updatedLabels = props.note.labels.filter((label) => label.id !== id);
     props.note.labels = updatedLabels;
-    setNoteLabels(updatedLabels);
     props.addNotification({
       open: true,
       autoHideDuration: props.user.options.notificationsDuration ?? 5000,
@@ -182,7 +178,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
             justifyContent='space-evenly'
             sx={{ flexWrap: 'wrap', alignItems: 'center' }}
           >
-            {labels.map((label, index) => (
+            {props.note.labels.map((label, index) => (
               <Chip
                 label={label.name}
                 key={`label-${index}`}
@@ -275,7 +271,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
                 />
               </IconButton>
             </Tooltip>
-            {props.note.labels.length > 0 && (
+            {props.user.labels.length > 0 && (
               <Tooltip title='Edit Labels'>
                 <IconButton
                   className='draggable-button'
