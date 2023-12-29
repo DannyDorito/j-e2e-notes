@@ -5,7 +5,6 @@ import { Note } from './Note';
 export interface User {
   name: string;
   uuid: string;
-  authenticated: boolean;
   labels: Label[];
   options: Options;
   avatar: string;

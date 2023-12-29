@@ -22,6 +22,7 @@ const Router = () => {
   const navigate = useNavigate();
 
   const [user, setUser] = useLocalStorage<User | undefined>('user', undefined);
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
@@ -42,10 +43,10 @@ const Router = () => {
 
   const authenticate = () => {
     if (user === undefined) {
+      setAuthenticated(true);
       setUser({
         name: 'John',
         uuid: uuidv4(),
-        authenticated: true,
         labels: [],
         options: {
           showNotifications: true,
@@ -56,7 +57,7 @@ const Router = () => {
         notes: [],
       });
     } else {
-      setUser({ ...user, authenticated: true });
+      setAuthenticated(true);
     }
     addNotification({
       open: true,
@@ -70,7 +71,7 @@ const Router = () => {
 
   const deauthenticate = () => {
     if (user !== undefined) {
-      setUser({ ...user, authenticated: false });
+      setUser({ ...user });
       addNotification({
         open: true,
         autoHideDuration: user.options.notificationsDuration ?? 5000,
@@ -82,11 +83,11 @@ const Router = () => {
     }
   };
 
-  const authenticated = (): boolean => {
-    if (user === undefined || user.authenticated === undefined) {
+  const isAuthenticated = (): boolean => {
+    if (user === undefined || !authenticated) {
       return false;
     } else {
-      return user.authenticated && validUUID(user.uuid);
+      return authenticated && validUUID(user.uuid);
     }
   };
 
@@ -96,7 +97,7 @@ const Router = () => {
 
   return (
     <>
-      {authenticated() && user !== undefined && <NoteMenu props={{ user }} />}
+      {isAuthenticated() && user !== undefined && <NoteMenu props={{ user }} />}
       <Routes>
         <Route
           index
@@ -116,7 +117,7 @@ const Router = () => {
         <Route
           path='/notes'
           element={
-            authenticated() && user !== undefined ? (
+            isAuthenticated() && user !== undefined ? (
               <NotesBoard
                 props={{
                   deauthenticate: deauthenticate,
@@ -133,7 +134,7 @@ const Router = () => {
         <Route
           path='/profile'
           element={
-            authenticated() && user !== undefined ? (
+            isAuthenticated() && user !== undefined ? (
               <UserProfile
                 props={{ user: user, setUser: setUser, addNotification: addNotification }}
               />
@@ -145,7 +146,7 @@ const Router = () => {
         <Route
           path='/archived'
           element={
-            authenticated() && user !== undefined ? (
+            isAuthenticated() && user !== undefined ? (
               <DeletedArchivedNotes props={{ type: DeletedArchivedEnum.Archived }} />
             ) : (
               <Navigate to='/' />
@@ -155,7 +156,7 @@ const Router = () => {
         <Route
           path='/deleted'
           element={
-            authenticated() && user !== undefined ? (
+            isAuthenticated() && user !== undefined ? (
               <DeletedArchivedNotes props={{ type: DeletedArchivedEnum.Deleted }} />
             ) : (
               <Navigate to='/' />
