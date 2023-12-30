@@ -217,6 +217,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               <Box>
                 <TextField
                   id='user-name'
+                  aria-label='Username'
                   variant='standard'
                   value={props.user.name}
                   sx={{ input: { color: invertedTextColour } }}
@@ -240,12 +241,13 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               <ListItemText primary='Avatar' />
               <input
                 accept='image/*'
-                id='contained-button-file'
+                id='upload-avatar'
                 type='file'
+                aria-label='Upload Avatar'
                 onChange={handleUploadClick}
                 hidden
               />
-              <label htmlFor='contained-button-file'>
+              <label htmlFor='upload-avatar'>
                 <CloudUploadTwoToneIcon sx={{ color: primary, cursor: 'pointer' }} />
               </label>
             </ListItem>
@@ -256,6 +258,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
               <ListItemText primary='Show Notifications' />
               <Switch
                 edge='end'
+                aria-label='Show Notifications'
                 onChange={(event) =>
                   toggleOption(event.target.checked, ToggleOptionEnum.ShowNotifications)
                 }
@@ -271,6 +274,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
                 id='notification-duration'
                 variant='standard'
                 type='number'
+                aria-label='Notification Duration'
                 disabled={!props.user.options.showNotifications}
                 value={
                   (props.user.options?.notificationsDuration
@@ -296,6 +300,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
                 id='archive-duration'
                 variant='standard'
                 type='number'
+                aria-label='Archive Duration'
                 value={
                   props.user.options?.archiveDuration ? props.user.options?.archiveDuration : 0
                 } // from ms
@@ -312,7 +317,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
                 <DarkModeTwoToneIcon sx={{ color: primary }} />
               </ListItemIcon>
               <ListItemText primary='Dark Mode' />
-              <Switch edge='end' onChange={toggle} checked={isDarkMode} />
+              <Switch edge='end' aria-label={`Switch to ${isDarkMode ? 'dark' : 'light'} mode`} onChange={toggle} checked={isDarkMode} />
             </ListItem>
             <ListItem>
               <ListItemIcon>
@@ -325,7 +330,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
                 size='small'
                 sx={{ padding: '0' }}
               >
-                <DeleteForeverTwoToneIcon sx={{ color: primary, cursor: 'pointer' }} />
+                <DeleteForeverTwoToneIcon aria-label='Delete All Notes' sx={{ color: primary, cursor: 'pointer' }} />
               </IconButton>
             </ListItem>
             <ListItem>
@@ -339,7 +344,7 @@ const UserProfile = ({ props }: { props: ProfileProps }) => {
                 size='small'
                 sx={{ padding: '0' }}
               >
-                <DeleteForeverTwoToneIcon sx={{ color: primary, cursor: 'pointer' }} />
+                <DeleteForeverTwoToneIcon aria-label='Delete All Labels'sx={{ color: primary, cursor: 'pointer' }} />
               </IconButton>
             </ListItem>
           </List>

@@ -1,10 +1,10 @@
 import { Link, Typography } from '@mui/material';
-import { primary } from '../helpers/ThemeProvider';
+import {  invertedTextColour } from '../helpers/ThemeProvider';
 
 const Copyright = () => {
   return (
     <>
-      <Typography variant='body2' align='center' sx={{ color: primary, paddingTop: '50px' }}>
+      <Typography variant='body2' align='center' sx={{ color: invertedTextColour, paddingTop: '50px' }}>
         <Link
           color='inherit'
           href='https://jallison.co.uk'

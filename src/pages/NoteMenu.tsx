@@ -1,4 +1,4 @@
-import { primary } from '../helpers/ThemeProvider';
+import { invertedTextColour, primary } from '../helpers/ThemeProvider';
 import {
   AppBar,
   Container,
@@ -28,9 +28,9 @@ const NoteMenu = ({ props }: { props: NoteMenuProps }) => {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              color: 'inherit',
               textDecoration: 'none',
               cursor: 'pointer',
+              color: invertedTextColour,
             }}
             onClick={() => navigate('/notes')}
           >
