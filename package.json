@@ -10,7 +10,7 @@
     "@mui/material": "^5.15.1",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
-    "@testing-library/user-event": "^14.5.1",
+    "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.11",
     "re-resizable": "^6.9.11",
     "react": "^18.2.0",
