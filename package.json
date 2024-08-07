@@ -1,6 +1,6 @@
 {
   "name": "j-e2e-notes",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.0",
@@ -17,14 +17,14 @@
     "react-colorful": "^5.6.1",
     "react-dom": "^18.3.1",
     "react-rnd": "^10.4.12",
-    "react-router-dom": "^6.25.1",
+    "react-router-dom": "^6.26.0",
     "react-scripts": "^5.0.1",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.4",
     "usehooks-ts": "^3.1.0",
-    "web-vitals": "^4.2.2"
+    "web-vitals": "^4.2.3"
   },
   "overrides": {
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -60,17 +60,17 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/uuid": "^10.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.34.4",
+    "eslint-plugin-react": "^7.35.0",
     "prettier": "^3.3.3",
     "uuid": "^10.0.0",
     "yaml": "^2.5.0"
   },
   "resolutions":
   {
-    "postcss": "^8.2.10"
+    "postcss": "^8.4.31"
   }
 }
