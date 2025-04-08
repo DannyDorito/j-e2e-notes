@@ -35,14 +35,14 @@ const Login = ({ props }: { props: LoginProps }) => {
   const [username, setUsername] = useState<string>(() => {
     if (rememberMe) {
       const savedUsername = localStorage.getItem('username');
-      return savedUsername || '';
+      return savedUsername || 'admin';
     } else {
-      return '';
+      return 'admin';
     }
   });
   const [usernameError, setUsernameError] = useState<string>('');
 
-  const [password, setPassword] = useState<string>('');
+  const [password, setPassword] = useState<string>('admin');
   const [passwordError, setPasswordError] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
