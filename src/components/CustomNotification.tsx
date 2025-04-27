@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Notification } from '../interfaces/Notification';
-import Alert from '@mui/material/Alert/Alert';
-import Snackbar from '@mui/material/Snackbar/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const CustomNotification = ({ props }: { props: Notification }) => {
   const [notificationOpen, setNotificationOpen] = useState<boolean>(props.open);

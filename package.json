@@ -39,7 +39,6 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
       "react-app/jest"
     ]
   },
@@ -69,8 +68,7 @@
     "uuid": "^11.1.0",
     "yaml": "^2.7.1"
   },
-  "resolutions":
-  {
+  "resolutions": {
     "postcss": "^8.4.31"
   }
 }
