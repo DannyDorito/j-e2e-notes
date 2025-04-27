@@ -37,11 +37,6 @@
     "update": "npm install --save-dev @types/react@latest @types/react-dom@latest && npm install react-router-dom && npm install react-scripts",
     "outdated": "npm outdated --depth=10"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
