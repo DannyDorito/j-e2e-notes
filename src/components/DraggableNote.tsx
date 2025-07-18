@@ -104,7 +104,7 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
   };
 
   const toggleColourPallet = () => {
-    updateZIndex;
+    updateZIndex();
     setShowColourPallet(!showColourPallet);
   };
 
@@ -178,10 +178,10 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
             justifyContent='space-evenly'
             sx={{ flexWrap: 'wrap', alignItems: 'center' }}
           >
-            {props.note.labels.map((label, index) => (
+            {props.note.labels.map((label) => (
               <Chip
                 label={label.name}
-                key={`label-${index}`}
+                key={label.id}
                 onDelete={() => removeLabel(label.id)}
                 sx={{
                   backgroundColor: props.note.colours.secondary,
@@ -233,7 +233,9 @@ const DraggableNote = ({ props }: { props: DraggableNotesProps }) => {
               }}
             />
           )}
-          {props.note.image && <img width='100%' src={image as string} />}
+          {props.note.image && typeof image === 'string' && image.startsWith('data:image/') && (
+            <img width='100%' src={image} alt='Note' />
+          )}
           <Box className='draggable-box' sx={{ marginTop: 1 }}>
             <Tooltip title={showColourPallet ? 'Save Colour Change' : 'Change Note Colour'}>
               <IconButton
