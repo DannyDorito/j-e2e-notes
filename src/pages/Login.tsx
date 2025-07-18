@@ -50,7 +50,7 @@ const Login = ({ props }: { props: LoginProps }) => {
   const [turnstileCaptchaComplete, setTurnstileCaptchaComplete] = useState<boolean>(false);
   const [turnstileCaptchaError, setTurnstileCaptchaError] = useState<string>('');
 
-  const [turnstileSiteKey] = useState<string>(process.env.REACT_APP_TURNSTILE_SITE_KEY || '');
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
   const { isDarkMode } = useDarkMode();
 
   const updateUsername = (username: string) => {
@@ -104,75 +104,75 @@ const Login = ({ props }: { props: LoginProps }) => {
   };
 
   return (
-    <>
-      <Grid
-        container
-        component='main'
+    <Grid
+      container
+      component='main'
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        backgroundColor: backgroundColour,
+      }}
+    >
+      <Box
         sx={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'column',
-          minHeight: '100vh',
-          backgroundColor: backgroundColour,
+          backgroundColor: invertedBackgroundColour,
+          border: '50px solid',
+          borderColor: invertedBackgroundColour,
+          maxWidth: '450px',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            backgroundColor: invertedBackgroundColour,
-            border: '50px solid',
-            borderColor: invertedBackgroundColour,
-            maxWidth: '450px',
-          }}
-        >
-          <Avatar sx={{ backgroundColor: primary }}>
-            <LockPersonTwoToneIcon />
-          </Avatar>
-          <Typography component='h1' variant='h5' sx={{ WebkitTextFillColor: invertedTextColour }}>
-            Sign in
-          </Typography>
-          <form noValidate>
-            <TextField
-              onChange={(event) => updateUsername(event.target.value)}
-              variant='standard'
-              margin='normal'
-              multiline={false}
-              required
-              fullWidth
-              id='username'
-              label='Username'
-              name='username'
-              autoFocus
-              value={username}
-              error={usernameError.length !== 0}
-              helperText={usernameError}
-              sx={{
-                WebkitTextFillColor: invertedTextColour,
-              }}
-            />
-            <TextField
-              onChange={(event) => updatePassword(event.target.value)}
-              variant='standard'
-              margin='normal'
-              multiline={false}
-              required
-              fullWidth
-              name='password'
-              label='Password'
-              type={passwordVisible ? 'text' : 'password'}
-              id='password'
-              autoComplete='current-password'
-              value={password}
-              error={passwordError.length !== 0}
-              helperText={passwordError}
-              sx={{
-                WebkitTextFillColor: invertedTextColour,
-              }}
-              InputProps={{
+        <Avatar sx={{ backgroundColor: primary }}>
+          <LockPersonTwoToneIcon />
+        </Avatar>
+        <Typography component='h1' variant='h5' sx={{ WebkitTextFillColor: invertedTextColour }}>
+          Sign in
+        </Typography>
+        <form noValidate>
+          <TextField
+            onChange={(event) => updateUsername(event.target.value)}
+            variant='standard'
+            margin='normal'
+            multiline={false}
+            required
+            fullWidth
+            id='username'
+            label='Username'
+            name='username'
+            autoFocus
+            value={username}
+            error={usernameError.length !== 0}
+            helperText={usernameError}
+            sx={{
+              WebkitTextFillColor: invertedTextColour,
+            }}
+          />
+          <TextField
+            onChange={(event) => updatePassword(event.target.value)}
+            variant='standard'
+            margin='normal'
+            multiline={false}
+            required
+            fullWidth
+            name='password'
+            label='Password'
+            type={passwordVisible ? 'text' : 'password'}
+            id='password'
+            autoComplete='current-password'
+            value={password}
+            error={passwordError.length !== 0}
+            helperText={passwordError}
+            sx={{
+              WebkitTextFillColor: invertedTextColour,
+            }}
+            slotProps={{
+              input: {
                 endAdornment: (
                   <InputAdornment position='end'>
                     <IconButton
@@ -186,70 +186,70 @@ const Login = ({ props }: { props: LoginProps }) => {
                     </IconButton>
                   </InputAdornment>
                 ),
+              },
+            }}
+          />
+          {showTurnstileCaptcha ? (
+            <FormControl
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
               }}
-            />
-            {showTurnstileCaptcha ? (
-              <FormControl
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                }}
-              >
-                <Turnstile
-                  siteKey={turnstileSiteKey}
-                  onSuccess={turnstileSuccess}
-                  onError={turnstileError}
-                  onExpire={turnstileExpire}
-                  options={{
-                    theme: isDarkMode ? 'light' : 'dark',
-                  }}
-                />
-                {turnstileCaptchaError.length !== 0 && (
-                  <FormHelperText>{turnstileCaptchaError}</FormHelperText>
-                )}
-              </FormControl>
-            ) : (
-              <div></div>
-            )}
-          </form>
-          <FormControlLabel
-            control={
-              <Checkbox
-                id='rememberMe'
-                value='rememberMe'
-                checked={rememberMe}
-                onChange={(_, checked) => setRememberMe(checked)}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  color: invertedTextColour,
+            >
+              <Turnstile
+                siteKey={turnstileSiteKey}
+                onSuccess={turnstileSuccess}
+                onError={turnstileError}
+                onExpire={turnstileExpire}
+                options={{
+                  theme: isDarkMode ? 'light' : 'dark',
                 }}
               />
-            }
-            label={
-              <Typography variant='body1' sx={{ color: invertedTextColour }}>
-                Remember Me
-              </Typography>
-            }
-          />
-          <IconButton size='large' sx={{ color: primary }} onClick={login}>
-            <LoginTwoToneIcon />
+              {turnstileCaptchaError.length !== 0 && (
+                <FormHelperText>{turnstileCaptchaError}</FormHelperText>
+              )}
+            </FormControl>
+          ) : (
+            <div></div>
+          )}
+        </form>
+        <FormControlLabel
+          control={
+            <Checkbox
+              id='rememberMe'
+              value='rememberMe'
+              checked={rememberMe}
+              onChange={(_, checked) => setRememberMe(checked)}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                color: invertedTextColour,
+              }}
+            />
+          }
+          label={
             <Typography variant='body1' sx={{ color: invertedTextColour }}>
-              Sign In
+              Remember Me
             </Typography>
-          </IconButton>
-          <IconButton size='large' sx={{ color: primary }} onClick={() => console.log('sign up')}>
-            <PersonAddTwoToneIcon />
-            <Typography variant='body1' sx={{ color: invertedTextColour }}>
-              Sign Up
-            </Typography>
-          </IconButton>
-          <Copyright />
-        </Box>
-      </Grid>
-    </>
+          }
+        />
+        <IconButton size='large' sx={{ color: primary }} onClick={login}>
+          <LoginTwoToneIcon />
+          <Typography variant='body1' sx={{ color: invertedTextColour }}>
+            Sign In
+          </Typography>
+        </IconButton>
+        <IconButton size='large' sx={{ color: primary }} onClick={() => console.log('sign up')}>
+          <PersonAddTwoToneIcon />
+          <Typography variant='body1' sx={{ color: invertedTextColour }}>
+            Sign Up
+          </Typography>
+        </IconButton>
+        <Copyright />
+      </Box>
+    </Grid>
   );
 };
 
